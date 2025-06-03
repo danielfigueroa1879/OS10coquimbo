@@ -210,8 +210,8 @@
             border: 1px solid #e9ecef;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: grid;
-            grid-template-columns: 70px 1fr 180px 280px;
-            gap: 18px;
+            grid-template-columns: 70px 1fr 180px 300px;
+            gap: 20px;
             align-items: center;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
@@ -258,7 +258,7 @@
         }
 
         .btn-estado {
-            padding: 8px 14px;
+            padding: 8px 12px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -269,6 +269,7 @@
             font-family: 'Poppins', sans-serif;
             position: relative;
             overflow: hidden;
+            max-width: 100px;
         }
 
         .btn-estado::before {
@@ -447,7 +448,7 @@
             }
             
             .action-buttons, .btn-estado {
-                display: none !important;
+                display: none;
             }
             
             .observacion-input {
@@ -462,18 +463,17 @@
             
             .header-requisitos-desktop {
                 display: grid !important;
-                grid-template-columns: 40px 1fr 80px 120px;
-                font-size: 10px;
-                padding: 6px;
-                background: #333 !important;
+                grid-template-columns: 40px 1fr 100px 150px;
+                font-size: 11px;
+                padding: 8px;
             }
             
             .requisito-item {
                 display: grid !important;
-                grid-template-columns: 40px 1fr 80px 120px;
-                gap: 6px;
-                padding: 6px;
-                margin-bottom: 3px;
+                grid-template-columns: 40px 1fr 100px 150px;
+                gap: 8px;
+                padding: 8px;
+                margin-bottom: 5px;
                 border: 1px solid #ccc;
                 break-inside: avoid;
             }
@@ -483,14 +483,12 @@
             }
             
             .requisito-numero {
-                font-size: 9px;
-                padding: 3px 6px;
-                background: #333 !important;
-                color: white !important;
+                font-size: 10px;
+                padding: 4px 8px;
             }
             
             .requisito-titulo {
-                font-size: 9px;
+                font-size: 10px;
                 line-height: 1.2;
                 background: none;
                 border: none;
@@ -499,14 +497,13 @@
             }
             
             .estado-buttons {
-                display: none !important;
+                display: none;
             }
             
             .observacion-input {
-                font-size: 8px;
-                min-height: 25px;
+                font-size: 9px;
+                min-height: 30px;
                 padding: 2px;
-                border: 1px solid #ccc;
             }
             
             @page {
@@ -525,8 +522,14 @@
             }
             
             .requisito-item {
-                grid-template-columns: 50px 1fr 180px 250px;
+                grid-template-columns: 50px 1fr 160px 220px;
                 gap: 12px;
+            }
+            
+            .btn-estado {
+                font-size: 11px;
+                padding: 7px 10px;
+                max-width: 90px;
             }
         }
 
@@ -540,7 +543,7 @@
             }
             
             .requisito-item {
-                grid-template-columns: 45px 1fr 160px 200px;
+                grid-template-columns: 45px 1fr 140px 180px;
                 gap: 10px;
                 padding: 12px;
             }
@@ -555,8 +558,9 @@
             }
             
             .btn-estado {
-                font-size: 11px;
-                padding: 5px 10px;
+                font-size: 10px;
+                padding: 6px 8px;
+                max-width: 80px;
             }
         }
 
@@ -747,12 +751,12 @@
             
             .btn-estado {
                 flex: 1;
-                max-width: 120px;
-                padding: 12px 16px;
-                font-size: 13px;
+                max-width: 110px;
+                padding: 10px 14px;
+                font-size: 12px;
                 font-weight: 500;
-                border-radius: 10px;
-                box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             }
             
             .observacion-input {
@@ -873,9 +877,9 @@
             }
             
             .btn-estado {
-                padding: 10px 14px;
-                font-size: 12px;
-                max-width: 110px;
+                padding: 8px 12px;
+                font-size: 11px;
+                max-width: 100px;
             }
             
             .observacion-input {
@@ -911,7 +915,7 @@
         }
 
         .requisito-item:hover .requisito-numero {
-            transform: scale(1.1);
+            transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
         }
 
@@ -921,6 +925,10 @@
 
         .btn-estado:active {
             transform: translateY(-1px) scale(0.95);
+        }
+
+        .btn-estado:hover {
+            transform: translateY(-1px);
         }
 
         /* Animaciones para mobile */
@@ -953,18 +961,19 @@
         /* Mejoras táctiles */
         @media (hover: none) and (pointer: coarse) {
             .btn-estado {
-                min-height: 48px;
-                font-size: 15px;
+                min-height: 40px;
+                font-size: 12px;
+                max-width: 110px;
             }
             
             .observacion-input {
-                min-height: 120px;
+                min-height: 100px;
                 font-size: 16px;
             }
             
             .form-group input,
             .form-group select {
-                min-height: 48px;
+                min-height: 44px;
                 font-size: 16px;
             }
             
@@ -974,6 +983,10 @@
             
             .btn:active {
                 transform: scale(0.98);
+            }
+            
+            .btn-estado:active {
+                transform: scale(0.95);
             }
         }
     </style>
@@ -999,22 +1012,22 @@
                 </h2>
                 
                 <div class="menu-grid">
-                    <button class="menu-card plan-seguridad" onclick="mostrarSeccion('plan-seguridad')">
+                    <button class="menu-card plan-seguridad" onclick="mostrarSeccion('plan-seguridad')" style="background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%); box-shadow: 0 10px 30px rgba(26, 54, 93, 0.3);">
                         <h3>📋 Plan de Seguridad</h3>
                         <p>Verificación de requisitos para planes de seguridad con vigencia de 2 años según Decreto Exento N° 32</p>
                     </button>
                     
-                    <button class="menu-card servicentros" onclick="mostrarSeccion('servicentros')">
+                    <button class="menu-card servicentros" onclick="mostrarSeccion('servicentros')" style="background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%); box-shadow: 0 10px 30px rgba(45, 80, 22, 0.3);">
                         <h3>⛽ Medidas Servicentros</h3>
                         <p>Requisitos de seguridad para establecimientos de venta de combustible al público (3 años de vigencia)</p>
                     </button>
                     
-                    <button class="menu-card sobre-500uf" onclick="mostrarSeccion('sobre-500uf')">
+                    <button class="menu-card sobre-500uf" onclick="mostrarSeccion('sobre-500uf')" style="background: linear-gradient(135deg, #742a2a 0%, #c53030 100%); box-shadow: 0 10px 30px rgba(116, 42, 42, 0.3);">
                         <h3>💰 Medidas Sobre 500 UF</h3>
-                        <p>Supermercados, joyerías, casas de cambio y establecimientos que manejan valores superiores a 500 UF (3 años de vigencia)</p>
+                        <p>Supermercados, joyerías, bancos y establecimientos que manejan valores superiores a 500 UF (3 años)</p>
                     </button>
                     
-                    <button class="menu-card directiva-funcionamiento" onclick="mostrarSeccion('directiva-funcionamiento')">
+                    <button class="menu-card directiva-funcionamiento" onclick="mostrarSeccion('directiva-funcionamiento')" style="background: linear-gradient(135deg, #553c9a 0%, #805ad5 100%); box-shadow: 0 10px 30px rgba(85, 60, 154, 0.3);">
                         <h3>📄 Directiva de Funcionamiento</h3>
                         <p>Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos</p>
                     </button>
@@ -1183,7 +1196,7 @@
             <div id="sobre-500uf-section" class="form-section sobre-500uf">
                 <div class="form-header sobre-500uf">
                     <h2>💰 MEDIDAS DE SEGURIDAD SOBRE 500 UF</h2>
-                    <p>Vigencia 3 años - Decreto Exento N° 32 del 31.01.2024</p>
+                    <p>Supermercados, Joyerías, Bancos y Establecimientos - Vigencia 3 años - Decreto Exento N° 32 del 31.01.2024</p>
                 </div>
 
                 <div class="establecimiento-info">
@@ -1509,8 +1522,8 @@
             const headerDiv = document.createElement('div');
             headerDiv.style.cssText = `
                 display: grid;
-                grid-template-columns: 70px 1fr 180px 280px;
-                gap: 18px;
+                grid-template-columns: 70px 1fr 180px 300px;
+                gap: 20px;
                 padding: 15px;
                 color: white;
                 font-weight: bold;
@@ -1647,22 +1660,22 @@
             switch(tipo) {
                 case 'plan-seguridad':
                     tituloDocumento = 'INFORME DE VERIFICACIÓN - PLAN DE SEGURIDAD';
-                    colorPrincipal = '#1e40af';
+                    colorPrincipal = '#1a365d';
                     tipoInspeccion = 'Plan de Seguridad (Vigencia 2 años)';
                     break;
                 case 'servicentros':
                     tituloDocumento = 'INFORME DE VERIFICACIÓN - MEDIDAS DE SEGURIDAD SERVICENTROS';
-                    colorPrincipal = '#059669';
+                    colorPrincipal = '#2d5016';
                     tipoInspeccion = 'Medidas de Seguridad Servicentros (Vigencia 3 años)';
                     break;
                 case 'sobre-500uf':
                     tituloDocumento = 'INFORME DE VERIFICACIÓN - MEDIDAS DE SEGURIDAD SOBRE 500 UF';
-                    colorPrincipal = '#dc2626';
-                    tipoInspeccion = 'Medidas de Seguridad Sobre 500 UF - Supermercados, Joyerías, Casas de Cambio (Vigencia 3 años)';
+                    colorPrincipal = '#742a2a';
+                    tipoInspeccion = 'Medidas de Seguridad Sobre 500 UF - Supermercados, Joyerías, Bancos (Vigencia 3 años)';
                     break;
                 case 'directiva-funcionamiento':
                     tituloDocumento = 'INFORME DE VERIFICACIÓN - DIRECTIVA DE FUNCIONAMIENTO';
-                    colorPrincipal = '#7c3aed';
+                    colorPrincipal = '#553c9a';
                     tipoInspeccion = 'Directiva de Funcionamiento';
                     break;
             }
@@ -1755,38 +1768,44 @@
                         .tabla-requisitos th { 
                             background: ${colorPrincipal}; 
                             color: white; 
-                            padding: 8px; 
-                            font-size: 10px; 
+                            padding: 6px; 
+                            font-size: 9px; 
                             font-weight: bold;
+                            text-align: center;
                         }
                         .tabla-requisitos td { 
                             border: 1px solid #ddd; 
-                            padding: 6px; 
-                            font-size: 9px; 
+                            padding: 4px; 
+                            font-size: 8px; 
                             vertical-align: top;
                         }
                         .numero-req { 
                             text-align: center; 
                             font-weight: bold; 
                             background: #f5f5f5;
-                            width: 40px;
+                            width: 30px;
                         }
                         .estado-cumple { 
                             color: green; 
                             font-weight: bold; 
                             text-align: center;
+                            font-size: 9px;
                         }
                         .estado-no-cumple { 
                             color: red; 
                             font-weight: bold; 
                             text-align: center;
+                            font-size: 9px;
                         }
                         .estado-sin-revisar { 
                             color: #666; 
                             text-align: center;
+                            font-size: 8px;
                         }
                         .observaciones { 
-                            min-height: 30px; 
+                            min-height: 25px;
+                            font-size: 8px;
+                            line-height: 1.2;
                         }
                         .firmas { 
                             margin-top: 40px; 
@@ -1987,10 +2006,10 @@
                 const style = document.createElement('style');
                 style.textContent = `
                     .touch-device .btn-estado {
-                        min-height: 44px;
-                        font-size: 14px;
+                        min-height: 40px;
+                        font-size: 12px;
                         font-weight: 500;
-                        padding: 10px 16px;
+                        max-width: 110px;
                     }
                     
                     .touch-device .observacion-input {
