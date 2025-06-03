@@ -1,4 +1,14 @@
-/* style.css */
+.form-header::before {
+        width: 40px;
+        height: 40px;
+        left: 10px;
+        padding: 4px;
+    }
+    
+    .form-header::after {
+        font-size: 25px;
+        left: 20px;
+    }/* style.css */
 
 * {
     margin: 0;
@@ -899,7 +909,15 @@ body {
     }
     
     .form-header::before {
-        display: none;
+        width: 50px;
+        height: 50px;
+        left: 15px;
+        padding: 6px;
+    }
+    
+    .form-header::after {
+        font-size: 30px;
+        left: 25px;
     }
     
     .form-header h2 {
@@ -952,6 +970,18 @@ body {
     .form-header {
         padding: 20px 15px;
         border-radius: 12px;
+    }
+    
+    .form-header::before {
+        width: 40px;
+        height: 40px;
+        left: 10px;
+        padding: 4px;
+    }
+    
+    .form-header::after {
+        font-size: 25px;
+        left: 20px;
     }
     
     .form-header h2 {
