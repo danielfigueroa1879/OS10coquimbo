@@ -10,11 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <button class="btn-volver" onclick="volverAtras()" style="display: none;">← Volver Atrás</button>
+
     <div class="container">
         <div class="header">
             <div class="header-content">
-                <!-- La imagen del logo ahora apunta a la carpeta assets -->
-                <img src="assets/logo.png" alt="Logo Carabineros">
+                <!-- Logo institucional -->
+                <div class="logo-container">🏛️</div>
                 <div class="header-text">
                     <h1>Sistema de Requisitos de Seguridad Privada</h1>
                     <h2>OS10 Coquimbo - Carabineros de Chile</h2>
@@ -31,22 +33,22 @@
                 </h2>
                 
                 <div class="menu-grid">
-                    <button class="menu-card plan-seguridad" onclick="mostrarSeccion('plan-seguridad')" style="background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%); box-shadow: 0 10px 30px rgba(26, 54, 93, 0.3);">
+                    <button class="menu-card plan-seguridad" onclick="mostrarSeccion('plan-seguridad')">
                         <h3>📋 Plan de Seguridad</h3>
                         <p>Verificación de requisitos para planes de seguridad con vigencia de 2 años según Decreto Exento N° 32</p>
                     </button>
                     
-                    <button class="menu-card servicentros" onclick="mostrarSeccion('servicentros')" style="background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%); box-shadow: 0 10px 30px rgba(45, 80, 22, 0.3);">
+                    <button class="menu-card servicentros" onclick="mostrarSeccion('servicentros')">
                         <h3>⛽ Medidas Servicentros</h3>
                         <p>Requisitos de seguridad para establecimientos de venta de combustible al público (3 años de vigencia)</p>
                     </button>
                     
-                    <button class="menu-card sobre-500uf" onclick="mostrarSeccion('sobre-500uf')" style="background: linear-gradient(135deg, #742a2a 0%, #c53030 100%); box-shadow: 0 10px 30px rgba(116, 42, 42, 0.3);">
+                    <button class="menu-card sobre-500uf" onclick="mostrarSeccion('sobre-500uf')">
                         <h3>💰 Medidas Sobre 500 UF</h3>
                         <p>Supermercados, joyerías, bancos y establecimientos que manejan valores superiores a 500 UF (3 años)</p>
                     </button>
                     
-                    <button class="menu-card directiva-funcionamiento" onclick="mostrarSeccion('directiva-funcionamiento')" style="background: linear-gradient(135deg, #553c9a 0%, #805ad5 100%); box-shadow: 0 10px 30px rgba(85, 60, 154, 0.3);">
+                    <button class="menu-card directiva-funcionamiento" onclick="mostrarSeccion('directiva-funcionamiento')">
                         <h3>📄 Directiva de Funcionamiento</h3>
                         <p>Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos</p>
                     </button>
@@ -64,79 +66,50 @@
                     <h3>📍 Datos del Establecimiento Fiscalizado</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
-                            <label for="razon-social-plan">Razón Social:</label>
-                            <input type="text" id="razon-social-plan" placeholder="Ingrese la razón social completa">
-                        </div>
-                        <div class="form-group">
-                            <label for="rut-establecimiento-plan">RUT Establecimiento:</label>
-                            <input type="text" id="rut-establecimiento-plan" placeholder="12.345.678-9">
+                            <label for="nombre-establecimiento-plan">Nombre del Establecimiento:</label>
+                            <input type="text" id="nombre-establecimiento-plan" placeholder="Ingrese el nombre del establecimiento">
                         </div>
                         <div class="form-group">
                             <label for="direccion-plan">Dirección:</label>
                             <input type="text" id="direccion-plan" placeholder="Dirección completa del establecimiento">
                         </div>
-                        <div class="form-group">
-                            <label for="comuna-plan">Comuna:</label>
-                            <input type="text" id="comuna-plan" placeholder="Comuna donde se ubica">
-                        </div>
                     </div>
                 </div>
 
-                <div class="datos-presentacion">
-                    <h3>👤 Datos de Quien Presenta el Documento</h3>
-                    <div class="establecimiento-grid">
-                        <div class="form-group">
-                            <label for="nombre-presenta-plan">Nombre Completo:</label>
-                            <input type="text" id="nombre-presenta-plan" placeholder="Nombre de quien presenta">
-                        </div>
-                        <div class="form-group">
-                            <label for="rut-presenta-plan">RUT:</label>
-                            <input type="text" id="rut-presenta-plan" placeholder="12.345.678-9">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono-presenta-plan">Teléfono:</label>
-                            <input type="tel" id="telefono-presenta-plan" placeholder="+56 9 1234 5678">
-                        </div>
-                        <div class="form-group">
-                            <label for="cargo-presenta-plan">Cargo:</label>
-                            <input type="text" id="cargo-presenta-plan" placeholder="Cargo">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="inspector-info">
-                    <h3>👮 Datos del Inspector</h3>
+                <div class="funcionario-info">
+                    <h3>👮 Datos del Funcionario</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="inspector-nombre-plan">Nombre del Inspector:</label>
-                            <input type="text" id="inspector-nombre-plan" placeholder="Nombre completo">
+                            <label for="funcionario-nombre-plan">Nombre del Funcionario:</label>
+                            <input type="text" id="funcionario-nombre-plan" placeholder="Nombre completo">
                         </div>
                         <div class="form-group">
-                            <label for="inspector-rut-plan">RUT del Inspector:</label>
-                            <input type="text" id="inspector-rut-plan" placeholder="12.345.678-9">
+                            <label for="funcionario-rut-plan">RUT del Funcionario:</label>
+                            <input type="text" id="funcionario-rut-plan" placeholder="12.345.678-9">
                         </div>
                     </div>
                 </div>
 
                 <div class="print-info">
-                    <p><strong>Nota:</strong> Para imprimir, asegúrese de que el diseño de impresión esté configurado para "Diseño" o "Fondo" para ver los colores y estilos.</p>
+                    <p><strong>Nota:</strong> Para imprimir, use el botón "Imprimir" o Ctrl+P. El formato se ajustará automáticamente.</p>
                 </div>
 
-                <div class="header-requisitos-desktop" style="display: none; background: #e9ecef; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #333; grid-template-columns: 70px 1fr 180px 300px; gap: 20px; align-items: center;">
+                <div class="header-requisitos-desktop">
                     <div>N°</div>
                     <div>Requisito</div>
                     <div>Estado</div>
                     <div>Observaciones</div>
                 </div>
-                <div class="header-requisitos-mobile" style="display: none;">REQUISITOS DEL PLAN DE SEGURIDAD</div>
+                <div class="header-requisitos-mobile">REQUISITOS DEL PLAN DE SEGURIDAD</div>
 
                 <div id="requisitos-plan-seguridad">
-                    <!-- Los requisitos se cargarán aquí dinámicamente desde JavaScript -->
+                    <!-- Los requisitos se cargarán aquí dinámicamente -->
                 </div>
 
                 <div class="action-buttons">
                     <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
-                    <button class="btn btn-success" onclick="generarReporte('plan-seguridad')">Generar Reporte PDF</button>
+                    <button class="btn btn-info" onclick="window.print()">🖨️ Imprimir</button>
+                    <button class="btn btn-success" onclick="generarReporte('plan-seguridad')">📄 Generar PDF</button>
                 </div>
             </div>
 
@@ -151,79 +124,50 @@
                     <h3>📍 Datos del Establecimiento Fiscalizado</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
-                            <label for="razon-social-servicentros">Razón Social:</label>
-                            <input type="text" id="razon-social-servicentros" placeholder="Ingrese la razón social completa">
-                        </div>
-                        <div class="form-group">
-                            <label for="rut-establecimiento-servicentros">RUT Establecimiento:</label>
-                            <input type="text" id="rut-establecimiento-servicentros" placeholder="12.345.678-9">
+                            <label for="nombre-establecimiento-servicentros">Nombre del Establecimiento:</label>
+                            <input type="text" id="nombre-establecimiento-servicentros" placeholder="Ingrese el nombre del establecimiento">
                         </div>
                         <div class="form-group">
                             <label for="direccion-servicentros">Dirección:</label>
                             <input type="text" id="direccion-servicentros" placeholder="Dirección completa del establecimiento">
                         </div>
-                        <div class="form-group">
-                            <label for="comuna-servicentros">Comuna:</label>
-                            <input type="text" id="comuna-servicentros" placeholder="Comuna donde se ubica">
-                        </div>
                     </div>
                 </div>
 
-                <div class="datos-presentacion">
-                    <h3>👤 Datos de Quien Presenta el Documento</h3>
-                    <div class="establecimiento-grid">
-                        <div class="form-group">
-                            <label for="nombre-presenta-servicentros">Nombre Completo:</label>
-                            <input type="text" id="nombre-presenta-servicentros" placeholder="Nombre de quien presenta">
-                        </div>
-                        <div class="form-group">
-                            <label for="rut-presenta-servicentros">RUT:</label>
-                            <input type="text" id="rut-presenta-servicentros" placeholder="12.345.678-9">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono-presenta-servicentros">Teléfono:</label>
-                            <input type="tel" id="telefono-presenta-servicentros" placeholder="+56 9 1234 5678">
-                        </div>
-                        <div class="form-group">
-                            <label for="cargo-presenta-servicentros">Cargo:</label>
-                            <input type="text" id="cargo-presenta-servicentros" placeholder="Cargo">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="inspector-info">
-                    <h3>👮 Datos del Inspector</h3>
+                <div class="funcionario-info">
+                    <h3>👮 Datos del Funcionario</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="inspector-nombre-servicentros">Nombre del Inspector:</label>
-                            <input type="text" id="inspector-nombre-servicentros" placeholder="Nombre completo">
+                            <label for="funcionario-nombre-servicentros">Nombre del Funcionario:</label>
+                            <input type="text" id="funcionario-nombre-servicentros" placeholder="Nombre completo">
                         </div>
                         <div class="form-group">
-                            <label for="inspector-rut-servicentros">RUT del Inspector:</label>
-                            <input type="text" id="inspector-rut-servicentros" placeholder="12.345.678-9">
+                            <label for="funcionario-rut-servicentros">RUT del Funcionario:</label>
+                            <input type="text" id="funcionario-rut-servicentros" placeholder="12.345.678-9">
                         </div>
                     </div>
                 </div>
 
                 <div class="print-info">
-                    <p><strong>Nota:</strong> Para imprimir, asegúrese de que el diseño de impresión esté configurado para "Diseño" o "Fondo" para ver los colores y estilos.</p>
+                    <p><strong>Nota:</strong> Para imprimir, use el botón "Imprimir" o Ctrl+P. El formato se ajustará automáticamente.</p>
                 </div>
 
-                <div class="header-requisitos-desktop" style="display: none; background: #e9ecef; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #333; grid-template-columns: 70px 1fr 180px 300px; gap: 20px; align-items: center;">
+                <div class="header-requisitos-desktop">
                     <div>N°</div>
                     <div>Requisito</div>
                     <div>Estado</div>
                     <div>Observaciones</div>
                 </div>
-                <div class="header-requisitos-mobile" style="display: none;">REQUISITOS MEDIDAS SERVICENTROS</div>
+                <div class="header-requisitos-mobile">REQUISITOS MEDIDAS SERVICENTROS</div>
 
                 <div id="requisitos-servicentros">
-                    <!-- Los requisitos se cargarán aquí dinámicamente desde JavaScript -->
+                    <!-- Los requisitos se cargarán aquí dinámicamente -->
                 </div>
 
                 <div class="action-buttons">
                     <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
-                    <button class="btn btn-success" onclick="generarReporte('servicentros')">Generar Reporte PDF</button>
+                    <button class="btn btn-info" onclick="window.print()">🖨️ Imprimir</button>
+                    <button class="btn btn-success" onclick="generarReporte('servicentros')">📄 Generar PDF</button>
                 </div>
             </div>
 
@@ -238,79 +182,50 @@
                     <h3>📍 Datos del Establecimiento Fiscalizado</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
-                            <label for="razon-social-500uf">Razón Social:</label>
-                            <input type="text" id="razon-social-500uf" placeholder="Ingrese la razón social completa">
-                        </div>
-                        <div class="form-group">
-                            <label for="rut-establecimiento-500uf">RUT Establecimiento:</label>
-                            <input type="text" id="rut-establecimiento-500uf" placeholder="12.345.678-9">
+                            <label for="nombre-establecimiento-500uf">Nombre del Establecimiento:</label>
+                            <input type="text" id="nombre-establecimiento-500uf" placeholder="Ingrese el nombre del establecimiento">
                         </div>
                         <div class="form-group">
                             <label for="direccion-500uf">Dirección:</label>
                             <input type="text" id="direccion-500uf" placeholder="Dirección completa del establecimiento">
                         </div>
-                        <div class="form-group">
-                            <label for="comuna-500uf">Comuna:</label>
-                            <input type="text" id="comuna-500uf" placeholder="Comuna donde se ubica">
-                        </div>
                     </div>
                 </div>
 
-                <div class="datos-presentacion">
-                    <h3>👤 Datos de Quien Presenta el Documento</h3>
-                    <div class="establecimiento-grid">
-                        <div class="form-group">
-                            <label for="nombre-presenta-500uf">Nombre Completo:</label>
-                            <input type="text" id="nombre-presenta-500uf" placeholder="Nombre de quien presenta">
-                        </div>
-                        <div class="form-group">
-                            <label for="rut-presenta-500uf">RUT:</label>
-                            <input type="text" id="rut-presenta-500uf" placeholder="12.345.678-9">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono-presenta-500uf">Teléfono:</label>
-                            <input type="tel" id="telefono-presenta-500uf" placeholder="+56 9 1234 5678">
-                        </div>
-                        <div class="form-group">
-                            <label for="cargo-presenta-500uf">Cargo:</label>
-                            <input type="text" id="cargo-presenta-500uf" placeholder="Cargo">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="inspector-info">
-                    <h3>👮 Datos del Inspector</h3>
+                <div class="funcionario-info">
+                    <h3>👮 Datos del Funcionario</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="inspector-nombre-500uf">Nombre del Inspector:</label>
-                            <input type="text" id="inspector-nombre-500uf" placeholder="Nombre completo">
+                            <label for="funcionario-nombre-500uf">Nombre del Funcionario:</label>
+                            <input type="text" id="funcionario-nombre-500uf" placeholder="Nombre completo">
                         </div>
                         <div class="form-group">
-                            <label for="inspector-rut-500uf">RUT del Inspector:</label>
-                            <input type="text" id="inspector-rut-500uf" placeholder="12.345.678-9">
+                            <label for="funcionario-rut-500uf">RUT del Funcionario:</label>
+                            <input type="text" id="funcionario-rut-500uf" placeholder="12.345.678-9">
                         </div>
                     </div>
                 </div>
 
                 <div class="print-info">
-                    <p><strong>Nota:</strong> Para imprimir, asegúrese de que el diseño de impresión esté configurado para "Diseño" o "Fondo" para ver los colores y estilos.</p>
+                    <p><strong>Nota:</strong> Para imprimir, use el botón "Imprimir" o Ctrl+P. El formato se ajustará automáticamente.</p>
                 </div>
 
-                <div class="header-requisitos-desktop" style="display: none; background: #e9ecef; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #333; grid-template-columns: 70px 1fr 180px 300px; gap: 20px; align-items: center;">
+                <div class="header-requisitos-desktop">
                     <div>N°</div>
                     <div>Requisito</div>
                     <div>Estado</div>
                     <div>Observaciones</div>
                 </div>
-                <div class="header-requisitos-mobile" style="display: none;">REQUISITOS MEDIDAS SOBRE 500 UF</div>
+                <div class="header-requisitos-mobile">REQUISITOS MEDIDAS SOBRE 500 UF</div>
 
                 <div id="requisitos-500uf">
-                    <!-- Los requisitos se cargarán aquí dinámicamente desde JavaScript -->
+                    <!-- Los requisitos se cargarán aquí dinámicamente -->
                 </div>
 
                 <div class="action-buttons">
                     <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
-                    <button class="btn btn-success" onclick="generarReporte('sobre-500uf')">Generar Reporte PDF</button>
+                    <button class="btn btn-info" onclick="window.print()">🖨️ Imprimir</button>
+                    <button class="btn btn-success" onclick="generarReporte('sobre-500uf')">📄 Generar PDF</button>
                 </div>
             </div>
 
@@ -343,79 +258,50 @@
                     <h3>📍 Datos del Establecimiento/Evento Fiscalizado</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
-                            <label for="razon-social-directiva">Razón Social/Nombre Evento:</label>
-                            <input type="text" id="razon-social-directiva" placeholder="Ingrese la razón social o nombre del evento">
-                        </div>
-                        <div class="form-group">
-                            <label for="rut-establecimiento-directiva">RUT/ID Evento:</label>
-                            <input type="text" id="rut-establecimiento-directiva" placeholder="12.345.678-9 o ID del evento">
+                            <label for="nombre-establecimiento-directiva">Nombre del Establecimiento/Evento:</label>
+                            <input type="text" id="nombre-establecimiento-directiva" placeholder="Ingrese el nombre del establecimiento o evento">
                         </div>
                         <div class="form-group">
                             <label for="direccion-directiva">Dirección/Lugar:</label>
                             <input type="text" id="direccion-directiva" placeholder="Dirección completa o lugar del evento">
                         </div>
-                        <div class="form-group">
-                            <label for="comuna-directiva">Comuna:</label>
-                            <input type="text" id="comuna-directiva" placeholder="Comuna donde se ubica">
-                        </div>
                     </div>
                 </div>
 
-                <div class="datos-presentacion">
-                    <h3>👤 Datos de Quien Presenta el Documento</h3>
-                    <div class="establecimiento-grid">
-                        <div class="form-group">
-                            <label for="nombre-presenta-directiva">Nombre Completo:</label>
-                            <input type="text" id="nombre-presenta-directiva" placeholder="Nombre de quien presenta">
-                        </div>
-                        <div class="form-group">
-                            <label for="rut-presenta-directiva">RUT:</label>
-                            <input type="text" id="rut-presenta-directiva" placeholder="12.345.678-9">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono-presenta-directiva">Teléfono:</label>
-                            <input type="tel" id="telefono-presenta-directiva" placeholder="+56 9 1234 5678">
-                        </div>
-                        <div class="form-group">
-                            <label for="cargo-presenta-directiva">Cargo:</label>
-                            <input type="text" id="cargo-presenta-directiva" placeholder="Cargo">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="inspector-info">
-                    <h3>👮 Datos del Inspector</h3>
+                <div class="funcionario-info">
+                    <h3>👮 Datos del Funcionario</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="inspector-nombre-directiva">Nombre del Inspector:</label>
-                            <input type="text" id="inspector-nombre-directiva" placeholder="Nombre completo">
+                            <label for="funcionario-nombre-directiva">Nombre del Funcionario:</label>
+                            <input type="text" id="funcionario-nombre-directiva" placeholder="Nombre completo">
                         </div>
                         <div class="form-group">
-                            <label for="inspector-rut-directiva">RUT del Inspector:</label>
-                            <input type="text" id="inspector-rut-directiva" placeholder="12.345.678-9">
+                            <label for="funcionario-rut-directiva">RUT del Funcionario:</label>
+                            <input type="text" id="funcionario-rut-directiva" placeholder="12.345.678-9">
                         </div>
                     </div>
                 </div>
 
                 <div class="print-info">
-                    <p><strong>Nota:</strong> Para imprimir, asegúrese de que el diseño de impresión esté configurado para "Diseño" o "Fondo" para ver los colores y estilos.</p>
+                    <p><strong>Nota:</strong> Para imprimir, use el botón "Imprimir" o Ctrl+P. El formato se ajustará automáticamente.</p>
                 </div>
 
-                <div class="header-requisitos-desktop" style="display: none; background: #e9ecef; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #333; grid-template-columns: 70px 1fr 180px 300px; gap: 20px; align-items: center;">
+                <div class="header-requisitos-desktop">
                     <div>N°</div>
                     <div>Requisito</div>
                     <div>Estado</div>
                     <div>Observaciones</div>
                 </div>
-                <div class="header-requisitos-mobile" style="display: none;">REQUISITOS DIRECTIVA DE FUNCIONAMIENTO</div>
+                <div class="header-requisitos-mobile">REQUISITOS DIRECTIVA DE FUNCIONAMIENTO</div>
 
                 <div id="requisitos-directiva-funcionamiento">
-                    <!-- Los requisitos se cargarán aquí dinámicamente desde JavaScript -->
+                    <!-- Los requisitos se cargarán aquí dinámicamente -->
                 </div>
 
                 <div class="action-buttons">
                     <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
-                    <button class="btn btn-success" onclick="generarReporte('directiva-funcionamiento')">Generar Reporte PDF</button>
+                    <button class="btn btn-info" onclick="window.print()">🖨️ Imprimir</button>
+                    <button class="btn btn-success" onclick="generarReporte('directiva-funcionamiento')">📄 Generar PDF</button>
                 </div>
             </div>
 
@@ -426,6 +312,6 @@
     <script src="script.js"></script>
     <!-- Incluye jsPDF para la generación de PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 </body>
 </html>
