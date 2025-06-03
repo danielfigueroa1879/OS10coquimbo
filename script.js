@@ -98,6 +98,8 @@ let sectionHistory = []; // Historial de navegación
 
 // Función para mostrar la sección seleccionada y ocultar las demás
 function mostrarSeccion(sectionId) {
+    console.log(`Mostrando sección: ${sectionId}`);
+    
     // Guardar sección actual en el historial si no es inicio
     if (currentSection !== 'inicio') {
         sectionHistory.push(currentSection);
@@ -122,12 +124,24 @@ function mostrarSeccion(sectionId) {
             btnVolver.style.display = 'block';
         }
         
-        // Cargar requisitos solo si es una sección de requisitos
-        if (sectionId !== 'inicio' && sectionId !== 'directiva-funcionamiento') {
-            cargarRequisitos(sectionId);
-        } else if (sectionId === 'directiva-funcionamiento' && selectedDirectivaType) {
-            cargarRequisitos(sectionId, selectedDirectivaType);
+        // Cargar requisitos para todas las secciones excepto inicio
+        if (sectionId !== 'inicio') {
+            if (sectionId === 'directiva-funcionamiento') {
+                // Para directiva solo cargar si ya hay un tipo seleccionado
+                if (selectedDirectivaType) {
+                    console.log(`Cargando directiva funcionamiento tipo: ${selectedDirectivaType}`);
+                    cargarRequisitos(sectionId, selectedDirectivaType);
+                } else {
+                    console.log('Esperando selección de tipo de directiva');
+                }
+            } else {
+                // Para todas las demás secciones, cargar inmediatamente
+                console.log(`Cargando requisitos para: ${sectionId}`);
+                cargarRequisitos(sectionId);
+            }
         }
+    } else {
+        console.error(`No se encontró la sección: ${sectionId}-section`);
     }
 }
 
@@ -176,10 +190,15 @@ function mostrarSeccionSinHistorial(sectionId) {
 
 // Función para cargar los requisitos dinámicamente
 function cargarRequisitos(sectionId, directivaType = null) {
+    console.log(`Intentando cargar requisitos para: ${sectionId}`);
+    
     const containerId = `requisitos-${sectionId}`;
     const requisitosContainer = document.getElementById(containerId);
+    
     if (!requisitosContainer) {
         console.error(`Contenedor de requisitos no encontrado para: ${containerId}`);
+        console.log('Contenedores disponibles:', 
+            Array.from(document.querySelectorAll('[id*="requisitos"]')).map(el => el.id));
         return;
     }
 
@@ -188,17 +207,26 @@ function cargarRequisitos(sectionId, directivaType = null) {
     let requisitos;
     if (sectionId === 'directiva-funcionamiento' && directivaType) {
         requisitos = requisitosData[sectionId][directivaType];
-    } else if (requisitosData[sectionId]) {
-        requisitos = requisitosData[sectionId];
+        console.log(`Cargando directiva tipo: ${directivaType}`);
     } else {
+        requisitos = requisitosData[sectionId];
+        console.log(`Cargando requisitos para sección: ${sectionId}`);
+    }
+
+    if (!requisitos) {
         console.error(`Datos de requisitos no encontrados para: ${sectionId}`);
+        console.log('Secciones disponibles:', Object.keys(requisitosData));
         return;
     }
 
-    requisitos.forEach(req => {
+    console.log(`Cargando ${requisitos.length} requisitos`);
+
+    requisitos.forEach((req, index) => {
+        console.log(`Cargando requisito ${index + 1}: ${req.text.substring(0, 50)}...`);
+        
         const requisitoItem = document.createElement('div');
         requisitoItem.classList.add('requisito-item');
-        requisitoItem.setAttribute('data-numero', req.id); // Para CSS responsive
+        requisitoItem.setAttribute('data-numero', req.id);
 
         requisitoItem.innerHTML = `
             <div class="requisito-numero">${req.id}</div>
@@ -211,6 +239,8 @@ function cargarRequisitos(sectionId, directivaType = null) {
         `;
         requisitosContainer.appendChild(requisitoItem);
     });
+    
+    console.log(`Requisitos cargados exitosamente para: ${sectionId}`);
 }
 
 // Función para marcar el estado de un requisito
@@ -253,17 +283,25 @@ async function generarReporte(sectionId) {
     }
 
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'mm', 'a4'); // 'p' for portrait, 'mm' for millimeters, 'a4' size
+    const doc = new jsPDF('p', 'mm', 'a4');
 
     // Recopilar datos del formulario
-    const getInputValue = (id) => document.getElementById(id) ? document.getElementById(id).value : 'N/A';
+    const getInputValue = (id) => {
+        const element = document.getElementById(id);
+        return element ? element.value.trim() : '';
+    };
 
     const generalInfo = {
         nombreEstablecimiento: getInputValue(`nombre-establecimiento-${sectionId}`),
         direccion: getInputValue(`direccion-${sectionId}`),
-        funcionarioNombre: getInputValue(`funcionario-nombre-${sectionId}`),
-        funcionarioRut: getInputValue(`funcionario-rut-${sectionId}`)
+        funcionarioGrado: getInputValue(`funcionario-grado-${sectionId}`)
     };
+
+    // Validar que al menos el nombre del establecimiento esté lleno
+    if (!generalInfo.nombreEstablecimiento) {
+        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
+        return;
+    }
 
     let sectionTitle = '';
     let sectionSubtitle = '';
@@ -300,17 +338,23 @@ async function generarReporte(sectionId) {
     // Añadir información general
     doc.setFontSize(11);
     doc.setTextColor(0, 0, 0);
-    doc.text('Establecimiento Fiscalizado:', 20, yOffset);
+    doc.text('DATOS DEL ESTABLECIMIENTO FISCALIZADO:', 20, yOffset);
     yOffset += 7;
-    doc.text(`Nombre: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
+    doc.text(`Nombre del Establecimiento: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
     yOffset += 7;
     doc.text(`Dirección: ${generalInfo.direccion}`, 20, yOffset);
-    yOffset += 10;
+    yOffset += 12;
 
-    doc.text('Funcionario:', 20, yOffset);
+    doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
     yOffset += 7;
-    doc.text(`Nombre: ${generalInfo.funcionarioNombre}`, 20, yOffset);
-    doc.text(`RUT: ${generalInfo.funcionarioRut}`, 110, yOffset);
+    doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
+    yOffset += 7;
+    
+    // Agregar fecha y hora del reporte
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toLocaleDateString('es-CL');
+    const horaFormateada = fechaActual.toLocaleTimeString('es-CL');
+    doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
     yOffset += 15;
 
     // Añadir tabla de requisitos
@@ -396,6 +440,24 @@ window.addEventListener('afterprint', function() {
 document.addEventListener('DOMContentLoaded', () => {
     // Al cargar la página, se muestra la sección de inicio por defecto
     mostrarSeccion('inicio');
+    
+    // Manejar error de carga del logo
+    const logoImg = document.querySelector('.logo-imagen');
+    if (logoImg) {
+        logoImg.onerror = function() {
+            console.log('No se pudo cargar logo.png, usando fallback');
+            this.style.display = 'none';
+            const fallback = document.createElement('div');
+            fallback.innerHTML = '🏛️';
+            fallback.style.fontSize = '30px';
+            fallback.style.color = 'white';
+            this.parentNode.appendChild(fallback);
+        };
+        
+        logoImg.onload = function() {
+            console.log('Logo cargado exitosamente');
+        };
+    }
     
     // Configurar eventos de teclado para navegación
     document.addEventListener('keydown', function(event) {
