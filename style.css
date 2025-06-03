@@ -64,16 +64,19 @@ body {
     gap: 20px;
 }
 
-.logo-container {
-    font-size: 80px;
-    height: 80px;
-    width: 80px;
+.titulo-con-logo {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo-titulo {
+    font-size: 50px;
     background: #2d5016;
     border-radius: 12px;
     color: white;
+    padding: 10px;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
@@ -229,9 +232,13 @@ body {
 
 .form-row, .establecimiento-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
     margin-bottom: 20px;
+}
+
+.establecimiento-grid {
+    grid-template-columns: 1fr 1fr;
 }
 
 .form-group {
@@ -686,11 +693,15 @@ body {
         gap: 15px;
     }
     
-    .logo-container {
-        height: 60px;
-        width: 60px;
-        font-size: 60px;
-        margin-bottom: 5px;
+    .titulo-con-logo {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .logo-titulo {
+        font-size: 40px;
+        padding: 8px;
     }
     
     .main-content {
@@ -698,7 +709,12 @@ body {
         border-radius: 16px;
     }
     
-    .form-row, .establecimiento-grid {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .establecimiento-grid {
         grid-template-columns: 1fr;
         gap: 15px;
     }
@@ -881,10 +897,9 @@ body {
         font-weight: 500;
     }
     
-    .logo-container {
-        height: 50px;
-        width: 50px;
-        font-size: 50px;
+    .logo-titulo {
+        font-size: 30px;
+        padding: 6px;
     }
     
     .main-content {
