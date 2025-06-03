@@ -3,120 +3,106 @@
 // Datos de los requisitos para cada sección
 const requisitosData = {
     'plan-seguridad': [
-        { id: 1, text: 'Plan de seguridad actualizado y aprobado por la autoridad competente (OS10).' },
-        { id: 2, text: 'Certificado de vigencia del plan de seguridad.' },
-        { id: 3, text: 'Identificación clara de las áreas de riesgo y vulnerabilidades.' },
-        { id: 4, text: 'Medidas de seguridad física implementadas (cercos, puertas, ventanas, iluminación).' },
-        { id: 5, text: 'Sistemas de alarma y detección de intrusos operativos y monitoreados.' },
-        { id: 6, text: 'Sistemas de videovigilancia (CCTV) con cobertura adecuada y grabación.' },
-        { id: 7, text: 'Controles de acceso para personal y visitantes.' },
-        { id: 8, text: 'Procedimientos de seguridad para apertura y cierre del establecimiento.' },
-        { id: 9, text: 'Capacitación del personal en materia de seguridad y emergencias.' },
-        { id: 10, text: 'Plan de emergencia y evacuación actualizado y difundido.' },
-        { id: 11, text: 'Simulacros de emergencia realizados periódicamente.' },
-        { id: 12, text: 'Personal de seguridad privada con credencial al día y uniforme reglamentario.' },
-        { id: 13, text: 'Registro de rondas y novedades del personal de seguridad.' },
-        { id: 14, text: 'Comunicación fluida con Carabineros de Chile.' },
-        { id: 15, text: 'Existencia de un libro de novedades o bitácora de seguridad.' },
-        { id: 16, text: 'Sistema de protección contra incendios (extintores, detectores) con mantención al día.' },
-        { id: 17, text: 'Señalización de seguridad y vías de evacuación claras.' },
-        { id: 18, text: 'Existencia de un responsable de seguridad en el establecimiento.' },
-        { id: 19, text: 'Cumplimiento de la normativa vigente en materia de seguridad privada.' },
-        { id: 20, text: 'Disposición de un sistema de respaldo de energía para los sistemas de seguridad.' },
-        { id: 21, text: 'Medidas de seguridad para el manejo y transporte de valores (si aplica).' },
-        { id: 22, text: 'Análisis de riesgos actualizado.' },
-        { id: 23, text: 'Coordinación con empresas de seguridad externa (si aplica).' },
-        { id: 24, text: 'Plan de contingencia ante situaciones de crisis.' },
-        { id: 25, text: 'Implementación de medidas de seguridad para la información y datos sensibles.' },
-        { id: 26, text: 'Existencia de un protocolo de respuesta ante robos o asaltos.' },
-        { id: 27, text: 'Dispositivos de seguridad para la prevención de delitos (ej. botones de pánico).' },
-        { id: 28, text: 'Control de inventario de equipos y bienes de valor.' },
-        { id: 29, text: 'Programa de mantenimiento preventivo de los sistemas de seguridad.' },
-        { id: 30, text: 'Auditorías internas de seguridad realizadas periódicamente.' }
+        { id: 1, text: 'SOLICITUD SIMPLE DE LA ENTIDAD OBLIGADA.' },
+        { id: 2, text: 'EL PLAN DE SEGURIDAD, CUMPLE CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.' },
+        { id: 3, text: 'ENCARGADO DE SEGURIDAD: EL ENCARGADO DE SEGURIDAD DEBE ESTAR ACREDITADO (AUTORIZACIÓN RESOLUCIÓN) ASÍ COMO TAMBIÉN EL SUPLENTE. (APARTADO IV: CONFECCIÓN DE INSTRUMENTOS DE SEGURIDAD; N° 2 PLAN DE SEGURIDAD ; ENCARGADO DE SEGURIDAD)' },
+        { id: 4, text: 'CAJERO AUTOMÁTICO: CUANTO CAJEROS SE MANTIENEN EN EL BANCO Y NÚMEROS ATM.' },
+        { id: 5, text: 'EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO. (SIN IMPLEMENTOS)' },
+        { id: 6, text: 'INFORMACIÓN PARA DECISIONES POLICIALES' },
+        { id: 7, text: 'FOTOGRAFÍA Y LISTADO DE CREDENCIALES DE VIGILANTES PRIVADOS.' },
+        { id: 8, text: 'Copia de la Autorización del Encargado de Seguridad Suplente (conforme a al Manual Operativo en Materias de Seguridad Privada, aprobado mediante Decreto Exento N° 32 del 31.01.2024, del Ministerio del Interior y Seguridad Publica).' },
+        { id: 9, text: 'COMODATOS Y PADRONES O CERTIFICADO DE INSCRIPCIÓN DE TODOS LOS ARMAMENTOS Y CANTIDADES copia del reporte o despliegue del armamento de la empresa, otorgado por la Dirección General de Movilización Nacional (D.G.M.N.).' },
+        { id: 10, text: 'Copia de los CERTIFICADOS DEL LABORATORIO DE RESISTENCIA BALÍSTICA de los chalecos antibalas, otorgado por el Instituto de Investigaciones y Control del Ejército de Chile (IDIC), respecto de cumplir con la normativa técnica de ensayo balístico NIJ 0101.04., cuyo nivel de amenaza no sea superior a 40 mm.' },
+        { id: 11, text: 'Copia del SEGURO DE VIDA POR 30 UF o su equivalente en dólares americanos, esto para el caso que los CHALECOS ANTIBALAS no cumpla con la función, conforme a lo estipulado en el artículo noveno, numeral 1) del Decreto Supremo N° 867, del 13.06.2017 del Ministerio del Interior y Seguridad Pública, en concordancia con el Manual Operativo en materias de Seguridad Privada, aprobado a través del Decreto Exento N° 32 de fecha 31.01.2024, del mismo Ministerio.' },
+        { id: 12, text: 'SEGURO DE VIDA DE LOS VIGILANTES PRIVADOS, la que debe considerar el término de "Vida" o "Seguro de Vida.' },
+        { id: 13, text: 'OPERADORES CCTV QUE EMPRESA MONITOREA DESDE SANTIAGO ACREDITACIÓN DE LA EMPRESA Y OPERADORES.' },
+        { id: 14, text: 'PLAN DE EMERGENCIA Y CROQUIS UBICACIÓN, ELEMENTOS DE EMERGENCIA Y VÍAS DE EVACUACIÓN.' },
+        { id: 15, text: 'Adjunta los Anexos "A,B,C,D,E y F", conforme a lo establecido en el formato del Plan de Seguridad.' }
     ],
     'servicentros': [
-        { id: 1, text: 'Sistema de cámaras de televigilancia (CCTV) operativo y con grabación.' },
-        { id: 2, text: 'Iluminación adecuada en todas las áreas del servicentro, incluyendo surtidores y accesos.' },
-        { id: 3, text: 'Botón de pánico o sistema de alerta conectado a central de monitoreo o Carabineros.' },
-        { id: 4, text: 'Cajas de seguridad o buzones de depósito para el manejo de efectivo.' },
-        { id: 5, text: 'Procedimientos de retiro de valores y arqueo de caja seguros.' },
-        { id: 6, text: 'Personal capacitado en seguridad y manejo de situaciones de riesgo.' },
-        { id: 7, text: 'Existencia de un plan de emergencia y evacuación.' },
-        { id: 8, text: 'Extintores y sistemas contra incendios en buen estado y accesibles.' },
-        { id: 9, text: 'Señalización clara de zonas de seguridad y vías de escape.' },
-        { id: 10, text: 'Control de acceso a áreas restringidas (oficinas, bodegas).' },
-        { id: 11, text: 'Protección perimetral (cercos, muros) en buen estado.' },
-        { id: 12, text: 'Sistema de alarma de intrusión operativo.' },
-        { id: 13, text: 'Protocolos de actuación ante robos o asaltos.' },
-        { id: 14, text: 'Comunicación directa y expedita con Carabineros de Chile.' },
-        { id: 15, text: 'Disposición de un sistema de respaldo de energía para los sistemas de seguridad.' }
+        { id: 1, text: 'MEDIDAS DE SEGURIDAD CUMPLEN CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN. (página 108 Y 109 establecimiento de venta y combustible al público)' },
+        { id: 2, text: 'CAJERO AUTOMÁTICO: CUAL ES EL NÚMERO ATM Y A QUE BANCO PERTENECE EL CAJERO AUTOMÁTICO. (FOTOGRAFÍAS- INCLUIR UBICACIÓN EN CROQUIS.)' },
+        { id: 3, text: 'QUE EMPRESA DE TRANSPORTE DE TRANSPORTE DE VALORES ES LA ENCARGADA DE REALIZAR LA CARGA Y DESCARGA DEL CAJERO. (aislarse transitoriamente por parte de las entidades emisoras o receptoras o cualquier establecimiento que las contenga)' },
+        { id: 4, text: 'MANTIENE ESTANCO PARA LA CARGA Y DESCARGA DEL CAJERO; SI NO TIENE ESTANCO DEBE APOYAR LA OPERACIÓN CON UNA CÁMARA DE SEGURIDAD.(Art. 8º inciso 1 del Decreto Nº 1.814 del 12.11.2014) (Agregar fotografías y croquis)' },
+        { id: 5, text: 'OPERADOR CCTV: SI MANTIENE PROPIOS O DE LA CENTRAL SANTIAGO, DEBE GESTIONAR LAS AUTORIZACIONES DE LOS OPERADORES QUE REALIZAN ESTA LABOR. ADJUNTAR AUTORIZACIÓN DE LA EMPRESA Y DEL PERSONAL QUE REALIZA ESTE SERVICIO. (Decreto Supremo N° 867, de 2017- El Decreto Exento N° 32 del 31.01.2024)' },
+        { id: 6, text: 'MÁXIMO DE DINERO QUE MANTIENE LOS ATENDEDORES O BOMBEROS.' },
+        { id: 7, text: 'EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO.' },
+        { id: 8, text: 'CROQUIS DE CÁMARAS DE SEGURIDAD Y TECNOLOGÍA APLICADA (SENSORES DE HUMO, SENSORES DE MOVIMIENTO, ALARMAS, ETC.)' },
+        { id: 9, text: 'ANÁLISIS DE VULNERABILIDADES Y MITIGACIÓN DE ELLAS.' },
+        { id: 10, text: 'PLAN DE EMERGENCIA Y SUS ANEXOS.' },
+        { id: 11, text: 'CROQUIS UBICACIÓN, ELEMENTOS DE EMERGENCIA Y VÍAS DE EVACUACIÓN.' },
+        { id: 12, text: 'TODAS LAS FOTOGRAFÍAS DEBEN VENIR CON UNA DESCRIPCIÓN DE ELLAS.' }
     ],
     'sobre-500uf': [
-        { id: 1, text: 'Sistema de cámaras de televigilancia (CCTV) de alta resolución, con cobertura total y grabación.' },
-        { id: 2, text: 'Bóveda o caja fuerte de seguridad certificada para el resguardo de valores.' },
-        { id: 3, text: 'Sistema de alarma de intrusión con monitoreo 24/7 y respuesta armada.' },
-        { id: 4, text: 'Botón de pánico silencioso conectado a central de monitoreo y Carabineros.' },
-        { id: 5, text: 'Control de acceso biométrico o con tarjeta para áreas de manejo de valores.' },
-        { id: 6, text: 'Personal de seguridad privada armado y capacitado (si aplica).' },
-        { id: 7, text: 'Procedimientos estrictos para el manejo, conteo y transporte de valores.' },
-        { id: 8, text: 'Puertas y ventanas blindadas o reforzadas en áreas críticas.' },
-        { id: 9, text: 'Sensores de movimiento y vibración en muros y techos.' },
-        { id: 10, text: 'Sistema de nebulización o humo de seguridad para disuasión.' },
-        { id: 11, text: 'Iluminación de emergencia y de seguridad en todo el establecimiento.' },
-        { id: 12, text: 'Plan de contingencia ante robos, asaltos y secuestros.' },
-        { id: 13, text: 'Coordinación permanente con Carabineros de Chile.' },
-        { id: 14, text: 'Auditorías de seguridad periódicas realizadas por expertos externos.' },
-        { id: 15, text: 'Sistema de respaldo de energía para todos los sistemas de seguridad.' }
+        { id: 1, text: 'MEDIDAS DE SEGURIDAD CUMPLEN CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.' },
+        { id: 2, text: 'CAJERO AUTOMÁTICO: CUAL ES EL NÚMERO ATM Y A QUE BANCO PERTENECE EL CAJERO AUTOMÁTICO. (FOTOGRAFÍAS- INCLUIR UBICACIÓN EN CROQUIS.)' },
+        { id: 3, text: 'QUE EMPRESA DE TRANSPORTE DE TRANSPORTE DE VALORES ES LA ENCARGADA DE REALIZAR LA CARGA Y DESCARGA DEL CAJERO. (aislarse transitoriamente por parte de las entidades emisoras o receptoras o cualquier establecimiento que las contenga)' },
+        { id: 4, text: 'MANTIENE ESTANCO PARA LA CARGA Y DESCARGA DEL CAJERO; SI NO TIENE ESTANCO DEBE APOYAR LA OPERACIÓN CON UNA CÁMARA DE SEGURIDAD. (Art. 8º inciso 1 del Decreto Nº 1.814 del 12.11.2014) (Agregar fotografías y croquis)' },
+        { id: 5, text: 'OPERADOR CCTV: SI MANTIENE PROPIOS O DE LA CENTRAL SANTIAGO, DEBE GESTIONAR LAS AUTORIZACIONES DE LOS OPERADORES QUE REALIZAN ESTA LABOR. ADJUNTAR AUTORIZACIÓN DE LA EMPRESA Y DEL PERSONAL QUE REALIZA ESTE SERVICIO. (Decreto Supremo N° 867, de 2017- El Decreto Exento N° 32 del 31.01.2024)' },
+        { id: 6, text: 'EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO. (SIN IMPLEMENTOS )' },
+        { id: 7, text: 'CROQUIS DE CÁMARAS DE SEGURIDAD Y TECNOLOGÍA APLICADA (SENSORES DE HUMO, SENSORES DE MOVIMIENTO, ALARMAS, ETC.)' },
+        { id: 8, text: 'ANÁLISIS DE VULNERABILIDADES Y MITIGACIÓN DE ELLAS.' },
+        { id: 9, text: 'PLAN DE EMERGENCIA Y SUS ANEXOS.' },
+        { id: 10, text: 'CROQUIS UBICACIÓN, ELEMENTOS DE EMERGENCIA Y VÍAS DE EVACUACIÓN.' }
     ],
     'directiva-funcionamiento': {
         'instalacion': [
-            { id: 1, text: 'Directiva de funcionamiento aprobada por la autoridad competente.' },
-            { id: 2, text: 'Plano de la instalación con identificación de zonas de seguridad, vías de evacuación y puntos de control.' },
-            { id: 3, text: 'Descripción de los sistemas de seguridad implementados (CCTV, alarmas, controles de acceso).' },
-            { id: 4, text: 'Detalle del personal de seguridad (cantidad, funciones, equipamiento).' },
-            { id: 5, text: 'Plan de emergencia y evacuación específico para la instalación.' },
-            { id: 6, text: 'Procedimientos de control de acceso para vehículos y personas.' },
-            { id: 7, text: 'Medidas de seguridad para el manejo de objetos prohibidos.' },
-            { id: 8, text: 'Coordinación con servicios de emergencia (bomberos, ambulancias).' },
-            { id: 9, text: 'Sistema de comunicación interna y externa operativo.' },
-            { id: 10, text: 'Registro de incidentes y novedades de seguridad.' }
+            { id: 1, text: 'LISTADO DE LOS GG.SS.,(Que realizan servicios en la instalación).' },
+            { id: 2, text: 'FOTOCOPIA DE CREDENCIAL O SOLICITUD DE CREDENCIAL (Art. 18 D/S 93), Que realizaran servicios en la instalación. (RESOL. 370 SUSPENDE CREDENCIALES HASTA AGOSTO 2024)' },
+            { id: 3, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD (Art. 13 numero | D/S 93) El rubro contratado debe decir Vida no fallecimiento ni muerte.' },
+            { id: 4, text: 'SEGURO DE RESPONSABILIDAD CIVIL EMPRESA RR.HH. (Art. Undécimo numero 3 D/S 867)' },
+            { id: 5, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS (Entre empresa de rr.hh. Y empleador Art. Séptimo D/S 867) No adjuntar orden de compra, correos de aceptación de servicios etc.' },
+            { id: 6, text: 'UNIFORME (conforme el art octavo D/S N° 867)' },
+            { id: 7, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE (Art. 5 D/S 93 y Art. decimo del D/S 867).' },
+            { id: 8, text: 'SERVICIOS DE 12 HORAS (F-35-B o RES. Acuerdo Marco Dirección del Trabajo).' },
+            { id: 9, text: 'INFORME DEBILIDADES Y AMENAZAS DE LA INSTALACIÓN (Inciso segundo Nro. 4, del apartado IV, D/exento 261, del 21.02.2020, del Min. Interior y seg. Pública.)' },
+            { id: 10, text: 'CHALECO ANTICORTE, Se debe adjuntar Certificación de la normativa técnica norteamericana NIJ 0115.00, Seguro de vida por 30 UF o su equivalente en dólares americanos ( viii. De los cargos de seguridad privada., 1.5.2 Chaleco anticorte, Decreto 32 Exento del 31.01.2024, modifica D 261.)' },
+            { id: 11, text: 'CHALECO ANTIBALA, Se debe adjuntar Resolución de autorización de uso otorgado por la AA.FF. (Art. 9 N° 2 y 3 del D/S 867)' },
+            { id: 12, text: 'BASTÓN, ESPOSAS DE SEGURIDAD, Se debe adjuntar resolución de autorización d uso otorgado por AA.FF. (Art 9 N° 3 del D/S 867)' }
         ],
         'evento-deportivo': [
-            { id: 1, text: 'Directiva de funcionamiento aprobada por la autoridad competente (Intendencia, Gobernación, Estadio Seguro).' },
-            { id: 2, text: 'Plan de seguridad específico para el evento deportivo.' },
-            { id: 3, text: 'Coordinación con Carabineros de Chile y otras fuerzas de seguridad.' },
-            { id: 4, text: 'Control de acceso y registro de asistentes.' },
-            { id: 5, text: 'Separación de hinchadas y zonas de amortiguación.' },
-            { id: 6, text: 'Medidas de seguridad para la prevención de violencia y desórdenes.' },
-            { id: 7, text: 'Sistemas de videovigilancia y monitoreo en tiempo real.' },
-            { id: 8, text: 'Personal de seguridad privada adecuado al aforo y riesgo del evento.' },
-            { id: 9, text: 'Plan de emergencia y evacuación con señalización clara.' },
-            { id: 10, text: 'Puntos de primeros auxilios y atención médica.' },
-            { id: 11, text: 'Control de venta y consumo de alcohol.' },
-            { id: 12, text: 'Medidas para evitar el ingreso de elementos prohibidos (armas, fuegos artificiales).' }
+            { id: 1, text: 'ANEXO CON DESCRIPCIÓN DE LA LABOR DEL GG.SS. EN SU FACCIÓN.' },
+            { id: 2, text: 'LISTADO DE LOS GG.SS.' },
+            { id: 3, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD (Art. 13 número 1 D/S 93)' },
+            { id: 4, text: 'SEGURO DE RESPONSABILIDAD CIVIL DE LA EMPRESA DE RR.HH. (Art. Undécimo numero 3 D/S. 867)' },
+            { id: 5, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS ENTRE LA EMPRESA DE RR.HH. Y EL EQUIPO DE FUTBOL ORGANIZADOR (Art. Séptimo D/S. 867).' },
+            { id: 6, text: 'DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME (conforme el art octavo D/S. N° 867)' },
+            { id: 7, text: 'AUTORIZACIÓN VIGENTE DE LA EMPRESA RR.HH. VIGENTE (Art. 5° D/S 93 y Art. decimo del D/S. 867).' },
+            { id: 8, text: 'CONTRATO AMBULANCIA POR PARTE DEL EQUIPO ORGANIZADOR.' },
+            { id: 9, text: 'AUTORIZACIÓN DE LA AMBULANCIA POR PARTE DE LA SEREMI DE SALUD.' },
+            { id: 10, text: 'FOTOCOPIA DE LA CREDENCIAL O DE LA AUTORIZACIÓN VIGENTE DEL JEFE DE SEGURIDAD DEL CLUB ORGANIZADOR (Ley 19.327, inciso primero letra a)' },
+            { id: 11, text: 'COPIA DEL CONTRATO DEL JEFE DE SEGURIDAD CON EL CLUB ORGANIZADOR (equipo)' },
+            { id: 12, text: 'PROPUESTA DEL PARTIDO PRESENTADA POR EL EQUIPO ORGANIZADOR.' },
+            { id: 13, text: 'PLAN DE EVACUACIÓN' }
         ],
         'evento-masivo': [
-            { id: 1, text: 'Directiva de funcionamiento aprobada por la autoridad competente.' },
-            { id: 2, text: 'Plan de seguridad detallado para el evento masivo (concierto, feria, etc.).' },
-            { id: 3, text: 'Estudio de carga de público y capacidad del recinto.' },
-            { id: 4, text: 'Coordinación con Carabineros de Chile y otras instituciones.' },
-            { id: 5, text: 'Control de acceso y registro de asistentes.' },
-            { id: 6, text: 'Vías de evacuación y salidas de emergencia claras y despejadas.' },
-            { id: 7, text: 'Sistemas de sonido y megafonía para comunicaciones de emergencia.' },
-            { id: 8, text: 'Personal de seguridad privada suficiente y capacitado.' },
-            { id: 9, text: 'Puntos de primeros auxilios y atención médica.' },
-            { id: 10, text: 'Medidas para el control de aglomeraciones y estampidas.' },
-            { id: 11, text: 'Gestión de residuos y limpieza durante y después del evento.' },
-            { id: 12, text: 'Protocolos para el manejo de objetos perdidos y encontrados.' }
+            { id: 1, text: 'DECLARACIÓN JURADA DEL EVENTO NOTARIADA' },
+            { id: 2, text: 'LISTADO DE LOS GG.SS.' },
+            { id: 3, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD (Art. 13 número 1. D/S 93)' },
+            { id: 4, text: 'SEGURO DE RESPONSABILIDAD CIVIL DE LA EMPRESA DE RR.HH. (Art. Undécimo numero 3 D/S. 867)' },
+            { id: 5, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS (Art. Séptimo D/S. 867).' },
+            { id: 6, text: 'DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME (conforme el art octavo D/S. N° 867)' },
+            { id: 7, text: 'CONTRATO AMBULANCIA' },
+            { id: 8, text: 'RES. AUTORIZ. AMBULANCIA DE LA SEREMI' },
+            { id: 9, text: 'ACTA DESCRIPTIVA MAS DE 3.000 PERSONAS INT.' },
+            { id: 10, text: 'AUTORIZACIÓN VIGENTE DE LA EMPRESA RR.HH. VIGENTE (Art. 5° D/S 93 y Art. decimo del D/S. 867.' },
+            { id: 11, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA firmado, por un prevencionista de riesgos.' },
+            { id: 12, text: 'CARTA INFORMATIVA A: Carabineros del sector, bomberos, municipalidad del sector y servicio de salud del sector, la que debe venir con timbre de recepción.' }
         ]
     }
 };
 
 let currentSection = 'inicio'; // Variable para controlar la sección actual
 let selectedDirectivaType = null; // Para la sección de Directiva de Funcionamiento
+let sectionHistory = []; // Historial de navegación
 
 // Función para mostrar la sección seleccionada y ocultar las demás
 function mostrarSeccion(sectionId) {
+    // Guardar sección actual en el historial si no es inicio
+    if (currentSection !== 'inicio') {
+        sectionHistory.push(currentSection);
+    }
+
     const sections = document.querySelectorAll('.form-section');
     sections.forEach(section => {
         section.classList.remove('active');
@@ -126,7 +112,60 @@ function mostrarSeccion(sectionId) {
     if (targetSection) {
         targetSection.classList.add('active');
         currentSection = sectionId;
+        
+        // Mostrar/ocultar botón volver atrás
+        const btnVolver = document.querySelector('.btn-volver');
+        if (sectionId === 'inicio') {
+            btnVolver.style.display = 'none';
+            sectionHistory = []; // Limpiar historial
+        } else {
+            btnVolver.style.display = 'block';
+        }
+        
         // Cargar requisitos solo si es una sección de requisitos
+        if (sectionId !== 'inicio' && sectionId !== 'directiva-funcionamiento') {
+            cargarRequisitos(sectionId);
+        } else if (sectionId === 'directiva-funcionamiento' && selectedDirectivaType) {
+            cargarRequisitos(sectionId, selectedDirectivaType);
+        }
+    }
+}
+
+// Función para volver atrás usando el historial
+function volverAtras() {
+    if (sectionHistory.length > 0) {
+        const previousSection = sectionHistory.pop();
+        // No guardar en historial cuando volvemos atrás
+        const tempCurrent = currentSection;
+        currentSection = previousSection;
+        mostrarSeccionSinHistorial(previousSection);
+        currentSection = tempCurrent; // Restaurar para la próxima navegación
+    } else {
+        mostrarSeccion('inicio');
+    }
+}
+
+// Función auxiliar para mostrar sección sin agregar al historial
+function mostrarSeccionSinHistorial(sectionId) {
+    const sections = document.querySelectorAll('.form-section');
+    sections.forEach(section => {
+        section.classList.remove('active');
+    });
+
+    const targetSection = document.getElementById(`${sectionId}-section`);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        currentSection = sectionId;
+        
+        // Mostrar/ocultar botón volver atrás
+        const btnVolver = document.querySelector('.btn-volver');
+        if (sectionId === 'inicio') {
+            btnVolver.style.display = 'none';
+        } else {
+            btnVolver.style.display = 'block';
+        }
+        
+        // Cargar requisitos
         if (sectionId !== 'inicio' && sectionId !== 'directiva-funcionamiento') {
             cargarRequisitos(sectionId);
         } else if (sectionId === 'directiva-funcionamiento' && selectedDirectivaType) {
@@ -207,39 +246,23 @@ function seleccionarDirectiva(type) {
 
 // Función para generar el reporte PDF
 async function generarReporte(sectionId) {
-    // Asegurarse de que jsPDF y html2canvas estén cargados
-    if (typeof window.jspdf === 'undefined' || typeof window.html2canvas === 'undefined') {
-        console.error('jsPDF o html2canvas no están cargados.');
+    // Verificar si jsPDF está disponible
+    if (typeof window.jspdf === 'undefined') {
+        alert('Generador PDF no disponible. Use el botón "Imprimir" en su lugar.');
         return;
     }
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4'); // 'p' for portrait, 'mm' for millimeters, 'a4' size
 
-    // Deshabilitar botones de estado y ocultar botones de acción para la impresión
-    const buttonsToHide = document.querySelectorAll('.btn-estado, .action-buttons');
-    buttonsToHide.forEach(btn => btn.style.display = 'none');
-
-    // Mostrar los headers de tabla para impresión
-    const desktopHeaders = document.querySelectorAll('.header-requisitos-desktop');
-    desktopHeaders.forEach(header => header.style.display = 'grid');
-    const mobileHeaders = document.querySelectorAll('.header-requisitos-mobile');
-    mobileHeaders.forEach(header => header.style.display = 'none');
-
     // Recopilar datos del formulario
     const getInputValue = (id) => document.getElementById(id) ? document.getElementById(id).value : 'N/A';
 
     const generalInfo = {
-        razonSocial: getInputValue(`razon-social-${sectionId}`),
-        rutEstablecimiento: getInputValue(`rut-establecimiento-${sectionId}`),
+        nombreEstablecimiento: getInputValue(`nombre-establecimiento-${sectionId}`),
         direccion: getInputValue(`direccion-${sectionId}`),
-        comuna: getInputValue(`comuna-${sectionId}`),
-        nombrePresenta: getInputValue(`nombre-presenta-${sectionId}`),
-        rutPresenta: getInputValue(`rut-presenta-${sectionId}`),
-        telefonoPresenta: getInputValue(`telefono-presenta-${sectionId}`),
-        cargoPresenta: getInputValue(`cargo-presenta-${sectionId}`),
-        inspectorNombre: getInputValue(`inspector-nombre-${sectionId}`),
-        inspectorRut: getInputValue(`inspector-rut-${sectionId}`)
+        funcionarioNombre: getInputValue(`funcionario-nombre-${sectionId}`),
+        funcionarioRut: getInputValue(`funcionario-rut-${sectionId}`)
     };
 
     let sectionTitle = '';
@@ -277,28 +300,17 @@ async function generarReporte(sectionId) {
     // Añadir información general
     doc.setFontSize(11);
     doc.setTextColor(0, 0, 0);
-    doc.text('Datos del Establecimiento Fiscalizado:', 20, yOffset);
+    doc.text('Establecimiento Fiscalizado:', 20, yOffset);
     yOffset += 7;
-    doc.text(`Razón Social: ${generalInfo.razonSocial}`, 20, yOffset);
-    doc.text(`RUT Establecimiento: ${generalInfo.rutEstablecimiento}`, 110, yOffset);
+    doc.text(`Nombre: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
     yOffset += 7;
     doc.text(`Dirección: ${generalInfo.direccion}`, 20, yOffset);
-    doc.text(`Comuna: ${generalInfo.comuna}`, 110, yOffset);
     yOffset += 10;
 
-    doc.text('Datos de Quien Presenta el Documento:', 20, yOffset);
+    doc.text('Funcionario:', 20, yOffset);
     yOffset += 7;
-    doc.text(`Nombre Completo: ${generalInfo.nombrePresenta}`, 20, yOffset);
-    doc.text(`RUT: ${generalInfo.rutPresenta}`, 110, yOffset);
-    yOffset += 7;
-    doc.text(`Teléfono: ${generalInfo.telefonoPresenta}`, 20, yOffset);
-    doc.text(`Cargo: ${generalInfo.cargoPresenta}`, 110, yOffset);
-    yOffset += 10;
-
-    doc.text('Datos del Inspector:', 20, yOffset);
-    yOffset += 7;
-    doc.text(`Nombre del Inspector: ${generalInfo.inspectorNombre}`, 20, yOffset);
-    doc.text(`RUT del Inspector: ${generalInfo.inspectorRut}`, 110, yOffset);
+    doc.text(`Nombre: ${generalInfo.funcionarioNombre}`, 20, yOffset);
+    doc.text(`RUT: ${generalInfo.funcionarioRut}`, 110, yOffset);
     yOffset += 15;
 
     // Añadir tabla de requisitos
@@ -343,23 +355,71 @@ async function generarReporte(sectionId) {
                     data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
                     data.cell.styles.textColor = [255, 255, 255];
                 } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [220, 53, 69]; // Rojo para No Cumple
+                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
                     data.cell.styles.textColor = [255, 255, 255];
                 }
             }
         }
     });
 
-    // Restaurar la visibilidad de los botones después de generar el PDF
-    buttonsToHide.forEach(btn => btn.style.display = ''); // Restaurar display original
-    desktopHeaders.forEach(header => header.style.display = 'none'); // Ocultar de nuevo
-    mobileHeaders.forEach(header => header.style.display = 'block'); // Mostrar de nuevo si aplica
-
-    doc.save(`${sectionId}-reporte.pdf`);
+    // Generar fecha actual para el nombre del archivo
+    const fecha = new Date().toISOString().split('T')[0];
+    doc.save(`${sectionTitle.replace(/\s+/g, '_')}_${fecha}.pdf`);
 }
+
+// Eventos para mejorar la impresión
+window.addEventListener('beforeprint', function() {
+    // Mostrar headers de desktop para impresión
+    document.querySelectorAll('.header-requisitos-desktop').forEach(header => {
+        header.style.display = 'grid';
+    });
+    // Ocultar headers mobile para impresión
+    document.querySelectorAll('.header-requisitos-mobile').forEach(header => {
+        header.style.display = 'none';
+    });
+});
+
+window.addEventListener('afterprint', function() {
+    // Restaurar headers después de imprimir
+    document.querySelectorAll('.header-requisitos-desktop').forEach(header => {
+        header.style.display = 'none';
+    });
+    // Restaurar headers mobile si es necesario (en mobile)
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.header-requisitos-mobile').forEach(header => {
+            header.style.display = 'block';
+        });
+    }
+});
 
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
     // Al cargar la página, se muestra la sección de inicio por defecto
     mostrarSeccion('inicio');
+    
+    // Configurar eventos de teclado para navegación
+    document.addEventListener('keydown', function(event) {
+        // ESC para volver atrás
+        if (event.key === 'Escape' && currentSection !== 'inicio') {
+            volverAtras();
+        }
+        // Ctrl+P para imprimir
+        if (event.ctrlKey && event.key === 'p' && currentSection !== 'inicio') {
+            event.preventDefault();
+            window.print();
+        }
+    });
+    
+    // Agregar smooth scroll a los elementos que lo necesiten
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 });
