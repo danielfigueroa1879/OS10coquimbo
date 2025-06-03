@@ -1,4 +1,15 @@
-// script.js
+console.log('Datos leídos del formulario:', generalInfo);
+
+    // Validar que al menos el nombre del establecimiento esté lleno
+    if (!generalInfo.nombreEstablecimiento) {
+        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
+        return;
+    } else {
+        console.warn('Sección no reconocida:', sectionId);
+        nombreEstablecimientoId = `nombre-establecimiento-${sectionId}`;
+        direccionId = `direccion-${sectionId}`;
+        funcionarioGradoId = `funcionario-grado-${sectionId}`;
+    }// script.js
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -276,6 +287,9 @@ function seleccionarDirectiva(type) {
 
 // Función para generar el reporte PDF
 async function generarReporte(sectionId) {
+    console.log('=== INICIO GENERACIÓN PDF ===');
+    console.log('Sección ID recibida:', sectionId);
+    
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
         alert('Generador PDF no disponible. Use el botón "Imprimir" en su lugar.');
@@ -285,23 +299,46 @@ async function generarReporte(sectionId) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    // Recopilar datos del formulario
+    // Recopilar datos del formulario - CORREGIDO
     const getInputValue = (id) => {
         const element = document.getElementById(id);
         return element ? element.value.trim() : '';
     };
 
+    // Mapear correctamente los IDs según la sección
+    let nombreEstablecimientoId, direccionId, funcionarioGradoId;
+    
+    if (sectionId === 'plan-seguridad') {
+        nombreEstablecimientoId = 'nombre-establecimiento-plan';
+        direccionId = 'direccion-plan';
+        funcionarioGradoId = 'funcionario-grado-plan';
+    } else if (sectionId === 'servicentros') {
+        nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
+        direccionId = 'direccion-servicentros';
+        funcionarioGradoId = 'funcionario-grado-servicentros';
+    } else if (sectionId === 'sobre-500uf') {
+        nombreEstablecimientoId = 'nombre-establecimiento-500uf';
+        direccionId = 'direccion-500uf';
+        funcionarioGradoId = 'funcionario-grado-500uf';
+    } else if (sectionId === 'directiva-funcionamiento') {
+        nombreEstablecimientoId = 'nombre-establecimiento-directiva';
+        direccionId = 'direccion-directiva';
+        funcionarioGradoId = 'funcionario-grado-directiva';
+    }
+    
+    console.log('IDs a buscar:', {
+        nombreEstablecimientoId,
+        direccionId, 
+        funcionarioGradoId
+    });
+
     const generalInfo = {
-        nombreEstablecimiento: getInputValue(`nombre-establecimiento-${sectionId}`),
-        direccion: getInputValue(`direccion-${sectionId}`),
-        funcionarioGrado: getInputValue(`funcionario-grado-${sectionId}`)
+        nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
+        direccion: getInputValue(direccionId),
+        funcionarioGrado: getInputValue(funcionarioGradoId)
     };
 
-    // Validar que al menos el nombre del establecimiento esté lleno
-    if (!generalInfo.nombreEstablecimiento) {
-        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
-        return;
-    }
+    console.log('Datos leídos del formulario:', generalInfo);
 
     let sectionTitle = '';
     let sectionSubtitle = '';
@@ -362,12 +399,25 @@ async function generarReporte(sectionId) {
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
 
-    const requisitosItems = document.querySelectorAll(`#requisitos-${sectionId} .requisito-item`);
-    requisitosItems.forEach(item => {
+    // Buscar el contenedor de requisitos correcto
+    let requisitosSelector;
+    if (sectionId === 'sobre-500uf') {
+        requisitosSelector = '#requisitos-sobre-500uf .requisito-item';
+    } else {
+        requisitosSelector = `#requisitos-${sectionId} .requisito-item`;
+    }
+    
+    console.log('Buscando requisitos con selector:', requisitosSelector);
+    const requisitosItems = document.querySelectorAll(requisitosSelector);
+    console.log('Requisitos encontrados:', requisitosItems.length);
+    
+    requisitosItems.forEach((item, index) => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
         const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
         const observacion = item.querySelector('.observacion-input').value || '';
+        
+        console.log(`Requisito ${index + 1}: ${numero} - ${estado}`);
         data.push([numero, titulo, estado, observacion]);
     });
 
