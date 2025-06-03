@@ -1,15 +1,4 @@
-console.log('Datos leídos del formulario:', generalInfo);
-
-    // Validar que al menos el nombre del establecimiento esté lleno
-    if (!generalInfo.nombreEstablecimiento) {
-        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
-        return;
-    } else {
-        console.warn('Sección no reconocida:', sectionId);
-        nombreEstablecimientoId = `nombre-establecimiento-${sectionId}`;
-        direccionId = `direccion-${sectionId}`;
-        funcionarioGradoId = `funcionario-grado-${sectionId}`;
-    }// script.js
+// script.js
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -135,15 +124,19 @@ function mostrarSeccion(sectionId) {
             btnVolver.style.display = 'block';
         }
         
-        // Cargar requisitos inmediatamente para todas las secciones excepto inicio y directiva sin tipo
+        // Cargar requisitos para todas las secciones excepto inicio
         if (sectionId !== 'inicio') {
             if (sectionId === 'directiva-funcionamiento') {
                 // Para directiva solo cargar si ya hay un tipo seleccionado
                 if (selectedDirectivaType) {
+                    console.log(`Cargando directiva funcionamiento tipo: ${selectedDirectivaType}`);
                     cargarRequisitos(sectionId, selectedDirectivaType);
+                } else {
+                    console.log('Esperando selección de tipo de directiva');
                 }
             } else {
                 // Para todas las demás secciones, cargar inmediatamente
+                console.log(`Cargando requisitos para: ${sectionId}`);
                 cargarRequisitos(sectionId);
             }
         }
@@ -156,9 +149,42 @@ function mostrarSeccion(sectionId) {
 function volverAtras() {
     if (sectionHistory.length > 0) {
         const previousSection = sectionHistory.pop();
-        mostrarSeccion(previousSection);
+        // No guardar en historial cuando volvemos atrás
+        const tempCurrent = currentSection;
+        currentSection = previousSection;
+        mostrarSeccionSinHistorial(previousSection);
+        currentSection = tempCurrent; // Restaurar para la próxima navegación
     } else {
         mostrarSeccion('inicio');
+    }
+}
+
+// Función auxiliar para mostrar sección sin agregar al historial
+function mostrarSeccionSinHistorial(sectionId) {
+    const sections = document.querySelectorAll('.form-section');
+    sections.forEach(section => {
+        section.classList.remove('active');
+    });
+
+    const targetSection = document.getElementById(`${sectionId}-section`);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        currentSection = sectionId;
+        
+        // Mostrar/ocultar botón volver atrás
+        const btnVolver = document.querySelector('.btn-volver');
+        if (sectionId === 'inicio') {
+            btnVolver.style.display = 'none';
+        } else {
+            btnVolver.style.display = 'block';
+        }
+        
+        // Cargar requisitos
+        if (sectionId !== 'inicio' && sectionId !== 'directiva-funcionamiento') {
+            cargarRequisitos(sectionId);
+        } else if (sectionId === 'directiva-funcionamiento' && selectedDirectivaType) {
+            cargarRequisitos(sectionId, selectedDirectivaType);
+        }
     }
 }
 
@@ -166,17 +192,13 @@ function volverAtras() {
 function cargarRequisitos(sectionId, directivaType = null) {
     console.log(`Intentando cargar requisitos para: ${sectionId}`);
     
-    let containerId;
-    if (sectionId === 'sobre-500uf') {
-        containerId = 'requisitos-sobre-500uf';
-    } else {
-        containerId = `requisitos-${sectionId}`;
-    }
-    
+    const containerId = `requisitos-${sectionId}`;
     const requisitosContainer = document.getElementById(containerId);
     
     if (!requisitosContainer) {
         console.error(`Contenedor de requisitos no encontrado para: ${containerId}`);
+        console.log('Contenedores disponibles:', 
+            Array.from(document.querySelectorAll('[id*="requisitos"]')).map(el => el.id));
         return;
     }
 
@@ -193,12 +215,15 @@ function cargarRequisitos(sectionId, directivaType = null) {
 
     if (!requisitos) {
         console.error(`Datos de requisitos no encontrados para: ${sectionId}`);
+        console.log('Secciones disponibles:', Object.keys(requisitosData));
         return;
     }
 
     console.log(`Cargando ${requisitos.length} requisitos`);
 
     requisitos.forEach((req, index) => {
+        console.log(`Cargando requisito ${index + 1}: ${req.text.substring(0, 50)}...`);
+        
         const requisitoItem = document.createElement('div');
         requisitoItem.classList.add('requisito-item');
         requisitoItem.setAttribute('data-numero', req.id);
@@ -251,9 +276,6 @@ function seleccionarDirectiva(type) {
 
 // Función para generar el reporte PDF
 async function generarReporte(sectionId) {
-    console.log('=== INICIO GENERACIÓN PDF ===');
-    console.log('Sección ID recibida:', sectionId);
-    
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
         alert('Generador PDF no disponible. Use el botón "Imprimir" en su lugar.');
@@ -263,46 +285,23 @@ async function generarReporte(sectionId) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    // Recopilar datos del formulario - CORREGIDO
+    // Recopilar datos del formulario
     const getInputValue = (id) => {
         const element = document.getElementById(id);
         return element ? element.value.trim() : '';
     };
 
-    // Mapear correctamente los IDs según la sección
-    let nombreEstablecimientoId, direccionId, funcionarioGradoId;
-    
-    if (sectionId === 'plan-seguridad') {
-        nombreEstablecimientoId = 'nombre-establecimiento-plan';
-        direccionId = 'direccion-plan';
-        funcionarioGradoId = 'funcionario-grado-plan';
-    } else if (sectionId === 'servicentros') {
-        nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
-        direccionId = 'direccion-servicentros';
-        funcionarioGradoId = 'funcionario-grado-servicentros';
-    } else if (sectionId === 'sobre-500uf') {
-        nombreEstablecimientoId = 'nombre-establecimiento-500uf';
-        direccionId = 'direccion-500uf';
-        funcionarioGradoId = 'funcionario-grado-500uf';
-    } else if (sectionId === 'directiva-funcionamiento') {
-        nombreEstablecimientoId = 'nombre-establecimiento-directiva';
-        direccionId = 'direccion-directiva';
-        funcionarioGradoId = 'funcionario-grado-directiva';
-    }
-    
-    console.log('IDs a buscar:', {
-        nombreEstablecimientoId,
-        direccionId, 
-        funcionarioGradoId
-    });
-
     const generalInfo = {
-        nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
-        direccion: getInputValue(direccionId),
-        funcionarioGrado: getInputValue(funcionarioGradoId)
+        nombreEstablecimiento: getInputValue(`nombre-establecimiento-${sectionId}`),
+        direccion: getInputValue(`direccion-${sectionId}`),
+        funcionarioGrado: getInputValue(`funcionario-grado-${sectionId}`)
     };
 
-    console.log('Datos leídos del formulario:', generalInfo);
+    // Validar que al menos el nombre del establecimiento esté lleno
+    if (!generalInfo.nombreEstablecimiento) {
+        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
+        return;
+    }
 
     let sectionTitle = '';
     let sectionSubtitle = '';
@@ -363,25 +362,12 @@ async function generarReporte(sectionId) {
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
 
-    // Buscar el contenedor de requisitos correcto
-    let requisitosSelector;
-    if (sectionId === 'sobre-500uf') {
-        requisitosSelector = '#requisitos-sobre-500uf .requisito-item';
-    } else {
-        requisitosSelector = `#requisitos-${sectionId} .requisito-item`;
-    }
-    
-    console.log('Buscando requisitos con selector:', requisitosSelector);
-    const requisitosItems = document.querySelectorAll(requisitosSelector);
-    console.log('Requisitos encontrados:', requisitosItems.length);
-    
-    requisitosItems.forEach((item, index) => {
+    const requisitosItems = document.querySelectorAll(`#requisitos-${sectionId} .requisito-item`);
+    requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
         const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
         const observacion = item.querySelector('.observacion-input').value || '';
-        
-        console.log(`Requisito ${index + 1}: ${numero} - ${estado}`);
         data.push([numero, titulo, estado, observacion]);
     });
 
@@ -452,8 +438,6 @@ window.addEventListener('afterprint', function() {
 
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM cargado, iniciando sistema...');
-    
     // Al cargar la página, se muestra la sección de inicio por defecto
     mostrarSeccion('inicio');
     
@@ -465,8 +449,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.style.display = 'none';
             const fallback = document.createElement('div');
             fallback.innerHTML = '🏛️';
-            fallback.style.fontSize = '45px';
-            fallback.style.color = '#2d5016';
+            fallback.style.fontSize = '30px';
+            fallback.style.color = 'white';
             this.parentNode.appendChild(fallback);
         };
         
@@ -474,12 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Logo cargado exitosamente');
         };
     }
-    
-    // Test: verificar que los datos de requisitos estén disponibles
-    console.log('Datos de requisitos disponibles:', Object.keys(requisitosData));
-    console.log('Plan de seguridad tiene', requisitosData['plan-seguridad']?.length, 'requisitos');
-    console.log('Servicentros tiene', requisitosData['servicentros']?.length, 'requisitos');
-    console.log('Sobre 500 UF tiene', requisitosData['sobre-500uf']?.length, 'requisitos');
     
     // Configurar eventos de teclado para navegación
     document.addEventListener('keydown', function(event) {
@@ -492,5 +470,18 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             window.print();
         }
+    });
+    
+    // Agregar smooth scroll a los elementos que lo necesiten
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
 });
