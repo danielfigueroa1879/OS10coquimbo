@@ -4,998 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Requisitos de Seguridad Privada - OS10 Coquimbo</title>
+    <!-- Enlaza el archivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Enlaza la fuente Poppins de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
-            min-height: 100vh;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .header-content img {
-            height: 80px;
-            max-width: 80px;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-        }
-
-        .header-text {
-            text-align: center;
-        }
-
-        .header h1 {
-            color: #2d5016;
-            font-size: 2.2em;
-            margin-bottom: 8px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .header h2 {
-            color: #4a7c22;
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-
-        .header p {
-            color: #666;
-            font-weight: 400;
-            margin: 0;
-        }
-
-        .main-content {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            min-height: 70vh;
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .menu-card {
-            background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            border: none;
-            font-size: 16px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .menu-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-        }
-
-        .menu-card h3 {
-            font-size: 1.4em;
-            margin-bottom: 15px;
-        }
-
-        .menu-card p {
-            font-size: 0.95em;
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
-        .form-section {
-            display: none;
-        }
-
-        .form-section.active {
-            display: block;
-        }
-
-        .form-header {
-            background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            text-align: center;
-            position: relative;
-        }
-
-        .form-header::before {
-            content: '';
-            background: url('logo.png') no-repeat center;
-            background-size: contain;
-            width: 60px;
-            height: 60px;
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .form-header h2 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-        }
-
-        .inspector-info {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-left: 5px solid #2d5016;
-        }
-
-        .inspector-info h3 {
-            color: #2d5016;
-            margin-bottom: 15px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #2d5016;
-        }
-
-        .requisito-item {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #e9ecef;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: grid;
-            grid-template-columns: 70px 1fr 180px 300px;
-            gap: 20px;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .requisito-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .requisito-item.cumple {
-            border-color: #28a745;
-            background: linear-gradient(135deg, #f8fff9 0%, #f0fff4 100%);
-            box-shadow: 0 4px 20px rgba(40, 167, 69, 0.15);
-        }
-
-        .requisito-item.no-cumple {
-            border-color: #dc3545;
-            background: linear-gradient(135deg, #fff8f8 0%, #fff5f5 100%);
-            box-shadow: 0 4px 20px rgba(220, 53, 69, 0.15);
-        }
-
-        .requisito-numero {
-            background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
-            color: white;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-weight: 600;
-            text-align: center;
-            font-size: 16px;
-            box-shadow: 0 4px 12px rgba(45, 80, 22, 0.3);
-        }
-
-        .requisito-titulo {
-            font-weight: 500;
-            color: #333;
-            line-height: 1.5;
-            font-size: 14px;
-        }
-
-        .estado-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn-estado {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 12px;
-            width: 100%;
-            font-family: 'Poppins', sans-serif;
-            position: relative;
-            overflow: hidden;
-            max-width: 100px;
-        }
-
-        .btn-estado::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-estado:hover::before {
-            left: 100%;
-        }
-
-        .btn-cumple {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-
-        .btn-cumple:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-        }
-
-        .btn-no-cumple {
-            background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-        }
-
-        .btn-no-cumple:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
-        }
-
-        .btn-estado.active {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .observacion-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            resize: vertical;
-            min-height: 70px;
-            font-size: 13px;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: white;
-        }
-
-        .observacion-input:focus {
-            outline: none;
-            border-color: #2d5016;
-            box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
-            transform: translateY(-2px);
-        }
-
-
-
-        .action-buttons {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 2px solid #e1e5e9;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            margin: 0 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: #2d5016;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #1f3a0f;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #218838;
-            transform: translateY(-2px);
-        }
-
-        .directiva-selector {
-            background: #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .directiva-selector h3 {
-            color: #495057;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .directiva-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .directiva-option {
-            background: white;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .directiva-option:hover {
-            border-color: #2d5016;
-            background: #f8fff9;
-        }
-
-        .directiva-option.active {
-            border-color: #2d5016;
-            background: #2d5016;
-            color: white;
-        }
-
-        .print-info {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #0c5460;
-        }
-
-        @media print {
-            body {
-                background: white;
-                color: black;
-                font-size: 12px;
-            }
-            
-            .main-content {
-                background: white;
-                box-shadow: none;
-                padding: 20px;
-            }
-            
-            .action-buttons, .btn-estado {
-                display: none;
-            }
-            
-            .observacion-input {
-                border: 1px solid #ccc;
-                background: white;
-                min-height: 40px;
-            }
-            
-            .header-requisitos-mobile {
-                display: none !important;
-            }
-            
-            .header-requisitos-desktop {
-                display: grid !important;
-                grid-template-columns: 40px 1fr 100px 150px;
-                font-size: 11px;
-                padding: 8px;
-            }
-            
-            .requisito-item {
-                display: grid !important;
-                grid-template-columns: 40px 1fr 100px 150px;
-                gap: 8px;
-                padding: 8px;
-                margin-bottom: 5px;
-                border: 1px solid #ccc;
-                break-inside: avoid;
-            }
-            
-            .requisito-item::before {
-                display: none;
-            }
-            
-            .requisito-numero {
-                font-size: 10px;
-                padding: 4px 8px;
-            }
-            
-            .requisito-titulo {
-                font-size: 10px;
-                line-height: 1.2;
-                background: none;
-                border: none;
-                padding: 0;
-                margin: 0;
-            }
-            
-            .estado-buttons {
-                display: none;
-            }
-            
-            .observacion-input {
-                font-size: 9px;
-                min-height: 30px;
-                padding: 2px;
-            }
-            
-            @page {
-                margin: 15mm;
-                size: A4;
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .main-content {
-                padding: 30px;
-            }
-            
-            .requisito-item {
-                grid-template-columns: 50px 1fr 160px 220px;
-                gap: 12px;
-            }
-            
-            .btn-estado {
-                font-size: 11px;
-                padding: 7px 10px;
-                max-width: 90px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .header h2 {
-                font-size: 1.1em;
-            }
-            
-            .requisito-item {
-                grid-template-columns: 45px 1fr 140px 180px;
-                gap: 10px;
-                padding: 12px;
-            }
-            
-            .requisito-titulo {
-                font-size: 13px;
-            }
-            
-            .observacion-input {
-                min-height: 50px;
-                font-size: 12px;
-            }
-            
-            .btn-estado {
-                font-size: 10px;
-                padding: 6px 8px;
-                max-width: 80px;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 991px) {
-            .menu-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .directiva-options {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 481px) and (max-width: 768px) {
-            .header-content {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .header-content img {
-                height: 70px;
-                margin-right: 15px;
-                margin-bottom: 0;
-            }
-            
-            .requisito-item {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            
-            .requisito-numero {
-                justify-self: center;
-                margin-bottom: 8px;
-            }
-            
-            .estado-buttons {
-                justify-content: space-evenly;
-            }
-            
-            .btn-estado {
-                min-width: 100px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .header {
-                padding: 20px;
-                border-radius: 16px;
-                margin-bottom: 25px;
-            }
-            
-            .header h1 {
-                font-size: 1.6em;
-                font-weight: 700;
-            }
-            
-            .header h2 {
-                font-size: 1em;
-                font-weight: 500;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            .header-content img {
-                height: 60px;
-                margin-bottom: 5px;
-            }
-            
-            .main-content {
-                padding: 25px;
-                border-radius: 16px;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .menu-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .menu-card {
-                border-radius: 16px;
-                padding: 25px;
-                margin-bottom: 10px;
-            }
-            
-            .menu-card h3 {
-                font-size: 1.3em;
-                font-weight: 600;
-            }
-            
-            .menu-card p {
-                font-size: 0.9em;
-                line-height: 1.5;
-            }
-            
-            .directiva-options {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            
-            .directiva-option {
-                padding: 18px;
-                border-radius: 12px;
-            }
-            
-            .header-requisitos-desktop {
-                display: none !important;
-            }
-            
-            .header-requisitos-mobile {
-                display: block !important;
-                background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
-                color: white;
-                font-weight: 600;
-                border-radius: 12px;
-                margin-bottom: 20px;
-                padding: 18px;
-                text-align: center;
-                font-size: 1.1em;
-                box-shadow: 0 6px 20px rgba(45, 80, 22, 0.3);
-            }
-            
-            .requisito-item {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                text-align: left;
-                padding: 25px;
-                border-radius: 16px;
-                margin-bottom: 25px;
-                border: 2px solid #e9ecef;
-                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-                position: relative;
-            }
-            
-            .requisito-item::before {
-                content: "REQUISITO N° " attr(data-numero);
-                position: absolute;
-                top: -12px;
-                left: 20px;
-                background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
-                color: white;
-                padding: 6px 16px;
-                border-radius: 20px;
-                font-weight: 600;
-                font-size: 12px;
-                box-shadow: 0 4px 12px rgba(45, 80, 22, 0.3);
-            }
-            
-            .requisito-numero {
-                justify-self: center;
-                width: fit-content;
-                margin-bottom: 15px;
-                padding: 12px 20px;
-                border-radius: 12px;
-                font-size: 18px;
-                font-weight: 600;
-            }
-            
-            .requisito-titulo {
-                margin-bottom: 20px;
-                padding: 20px;
-                background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-                border-radius: 12px;
-                border-left: 4px solid #2d5016;
-                font-size: 14px;
-                line-height: 1.6;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            }
-            
-            .estado-buttons {
-                flex-direction: row;
-                gap: 12px;
-                justify-content: center;
-                margin-bottom: 20px;
-            }
-            
-            .btn-estado {
-                flex: 1;
-                max-width: 110px;
-                padding: 10px 14px;
-                font-size: 12px;
-                font-weight: 500;
-                border-radius: 8px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            }
-            
-            .observacion-input {
-                min-height: 100px;
-                border-radius: 12px;
-                padding: 16px;
-                font-size: 14px;
-                border: 2px solid #e9ecef;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 320px;
-                margin: 0;
-                padding: 16px 24px;
-                font-size: 16px;
-                border-radius: 12px;
-            }
-            
-            .form-header {
-                padding: 25px 20px;
-                border-radius: 16px;
-            }
-            
-            .form-header::before {
-                display: none;
-            }
-            
-            .form-header h2 {
-                font-size: 1.4em;
-                font-weight: 600;
-            }
-            
-            .inspector-info {
-                padding: 20px;
-                border-radius: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .header {
-                padding: 15px;
-                margin-bottom: 20px;
-                border-radius: 12px;
-            }
-            
-            .header h1 {
-                font-size: 1.4em;
-                font-weight: 700;
-                line-height: 1.3;
-            }
-            
-            .header h2 {
-                font-size: 0.9em;
-                font-weight: 500;
-            }
-            
-            .header-content img {
-                height: 50px;
-            }
-            
-            .main-content {
-                padding: 20px;
-                border-radius: 12px;
-            }
-            
-            .form-header {
-                padding: 20px 15px;
-                border-radius: 12px;
-            }
-            
-            .form-header h2 {
-                font-size: 1.2em;
-                font-weight: 600;
-            }
-            
-            .inspector-info {
-                padding: 18px;
-                border-radius: 12px;
-            }
-            
-            .requisito-item {
-                padding: 20px;
-                border-radius: 12px;
-                margin-bottom: 20px;
-            }
-            
-            .requisito-titulo {
-                font-size: 13px;
-                line-height: 1.5;
-                padding: 16px;
-            }
-            
-            .menu-card {
-                padding: 20px;
-                border-radius: 12px;
-            }
-            
-            .menu-card h3 {
-                font-size: 1.2em;
-                font-weight: 600;
-            }
-            
-            .menu-card p {
-                font-size: 0.85em;
-                line-height: 1.4;
-            }
-            
-            .btn-estado {
-                padding: 8px 12px;
-                font-size: 11px;
-                max-width: 100px;
-            }
-            
-            .observacion-input {
-                min-height: 90px;
-                padding: 14px;
-                font-size: 13px;
-            }
-            
-            .btn {
-                padding: 14px 20px;
-                font-size: 15px;
-                max-width: 280px;
-            }
-            
-            .directiva-option {
-                padding: 16px;
-                border-radius: 10px;
-            }
-            
-            .directiva-option h4 {
-                font-size: 1em;
-                font-weight: 600;
-            }
-            
-            .directiva-option p {
-                font-size: 0.85em;
-            }
-        }
-
-        /* Efectos modernos adicionales */
-        .menu-card, .requisito-item, .btn, .form-group input, .form-group select, .observacion-input {
-            backdrop-filter: blur(10px);
-        }
-
-        .requisito-item:hover .requisito-numero {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(-1px) scale(0.98);
-        }
-
-        .btn-estado:active {
-            transform: translateY(-1px) scale(0.95);
-        }
-
-        .btn-estado:hover {
-            transform: translateY(-1px);
-        }
-
-        /* Animaciones para mobile */
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .requisito-item {
-                animation: slideInUp 0.3s ease-out;
-            }
-            
-            .menu-card {
-                animation: slideInUp 0.3s ease-out;
-            }
-        }
-
-        /* Scroll suave */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Mejoras táctiles */
-        @media (hover: none) and (pointer: coarse) {
-            .btn-estado {
-                min-height: 40px;
-                font-size: 12px;
-                max-width: 110px;
-            }
-            
-            .observacion-input {
-                min-height: 100px;
-                font-size: 16px;
-            }
-            
-            .form-group input,
-            .form-group select {
-                min-height: 44px;
-                font-size: 16px;
-            }
-            
-            .menu-card:active {
-                transform: scale(0.98);
-            }
-            
-            .btn:active {
-                transform: scale(0.98);
-            }
-            
-            .btn-estado:active {
-                transform: scale(0.95);
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div class="header-content">
-                <img src="logo.png" alt="Logo Carabineros">
+                <!-- La imagen del logo ahora apunta a la carpeta assets -->
+                <img src="assets/logo.png" alt="Logo Carabineros">
                 <div class="header-text">
                     <h1>Sistema de Requisitos de Seguridad Privada</h1>
                     <h2>OS10 Coquimbo - Carabineros de Chile</h2>
@@ -1080,44 +99,52 @@
                         </div>
                         <div class="form-group">
                             <label for="cargo-presenta-plan">Cargo:</label>
-                            <input type="text" id="cargo-presenta-plan" placeholder="Cargo en la empresa">
+                            <input type="text" id="cargo-presenta-plan" placeholder="Cargo">
                         </div>
                     </div>
                 </div>
 
                 <div class="inspector-info">
-                    <h3>👮‍♂️ Información del Inspector OS10</h3>
+                    <h3>👮 Datos del Inspector</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="inspector-plan">Funcionario Inspector:</label>
-                            <input type="text" id="inspector-plan" placeholder="Nombre completo del funcionario">
+                            <label for="inspector-nombre-plan">Nombre del Inspector:</label>
+                            <input type="text" id="inspector-nombre-plan" placeholder="Nombre completo">
                         </div>
                         <div class="form-group">
-                            <label for="fecha-plan">Fecha y Hora de Inspección:</label>
-                            <input type="datetime-local" id="fecha-plan">
+                            <label for="inspector-rut-plan">RUT del Inspector:</label>
+                            <input type="text" id="inspector-rut-plan" placeholder="12.345.678-9">
                         </div>
                     </div>
                 </div>
 
                 <div class="print-info">
-                    <strong>Nota:</strong> Complete todos los campos antes de generar el documento oficial. La información quedará registrada en el informe final.
+                    <p><strong>Nota:</strong> Para imprimir, asegúrese de que el diseño de impresión esté configurado para "Diseño" o "Fondo" para ver los colores y estilos.</p>
                 </div>
 
+                <div class="header-requisitos-desktop" style="display: none; background: #e9ecef; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #333; grid-template-columns: 70px 1fr 180px 300px; gap: 20px; align-items: center;">
+                    <div>N°</div>
+                    <div>Requisito</div>
+                    <div>Estado</div>
+                    <div>Observaciones</div>
+                </div>
+                <div class="header-requisitos-mobile" style="display: none;">REQUISITOS DEL PLAN DE SEGURIDAD</div>
+
                 <div id="requisitos-plan-seguridad">
-                    <!-- Los requisitos se generarán dinámicamente -->
+                    <!-- Los requisitos se cargarán aquí dinámicamente desde JavaScript -->
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">🏠 Volver al Inicio</button>
-                    <button class="btn btn-success" onclick="generarDocumentoOficial('plan-seguridad')">📄 Generar Documento Oficial</button>
+                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
+                    <button class="btn btn-success" onclick="generarReporte('plan-seguridad')">Generar Reporte PDF</button>
                 </div>
             </div>
 
-            <!-- Sección Servicentros -->
+            <!-- Sección Medidas Servicentros -->
             <div id="servicentros-section" class="form-section servicentros">
                 <div class="form-header servicentros">
-                    <h2>⛽ MEDIDAS DE SEGURIDAD SERVICENTROS</h2>
-                    <p>Vigencia 3 años - Decreto Exento N° 32 del 31.01.2024</p>
+                    <h2>⛽ MEDIDAS SERVICENTROS</h2>
+                    <p>Vigencia 3 años - Ley 20.931</p>
                 </div>
 
                 <div class="establecimiento-info">
@@ -1159,44 +186,52 @@
                         </div>
                         <div class="form-group">
                             <label for="cargo-presenta-servicentros">Cargo:</label>
-                            <input type="text" id="cargo-presenta-servicentros" placeholder="Cargo en la empresa">
+                            <input type="text" id="cargo-presenta-servicentros" placeholder="Cargo">
                         </div>
                     </div>
                 </div>
 
                 <div class="inspector-info">
-                    <h3>👮‍♂️ Información del Inspector OS10</h3>
+                    <h3>👮 Datos del Inspector</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="inspector-servicentros">Funcionario Inspector:</label>
-                            <input type="text" id="inspector-servicentros" placeholder="Nombre completo del funcionario">
+                            <label for="inspector-nombre-servicentros">Nombre del Inspector:</label>
+                            <input type="text" id="inspector-nombre-servicentros" placeholder="Nombre completo">
                         </div>
                         <div class="form-group">
-                            <label for="fecha-servicentros">Fecha y Hora de Inspección:</label>
-                            <input type="datetime-local" id="fecha-servicentros">
+                            <label for="inspector-rut-servicentros">RUT del Inspector:</label>
+                            <input type="text" id="inspector-rut-servicentros" placeholder="12.345.678-9">
                         </div>
                     </div>
                 </div>
 
                 <div class="print-info">
-                    <strong>Nota:</strong> Complete todos los campos antes de generar el documento oficial. La información quedará registrada en el informe final.
+                    <p><strong>Nota:</strong> Para imprimir, asegúrese de que el diseño de impresión esté configurado para "Diseño" o "Fondo" para ver los colores y estilos.</p>
                 </div>
 
+                <div class="header-requisitos-desktop" style="display: none; background: #e9ecef; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #333; grid-template-columns: 70px 1fr 180px 300px; gap: 20px; align-items: center;">
+                    <div>N°</div>
+                    <div>Requisito</div>
+                    <div>Estado</div>
+                    <div>Observaciones</div>
+                </div>
+                <div class="header-requisitos-mobile" style="display: none;">REQUISITOS MEDIDAS SERVICENTROS</div>
+
                 <div id="requisitos-servicentros">
-                    <!-- Los requisitos se generarán dinámicamente -->
+                    <!-- Los requisitos se cargarán aquí dinámicamente desde JavaScript -->
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">🏠 Volver al Inicio</button>
-                    <button class="btn btn-success" onclick="generarDocumentoOficial('servicentros')">📄 Generar Documento Oficial</button>
+                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
+                    <button class="btn btn-success" onclick="generarReporte('servicentros')">Generar Reporte PDF</button>
                 </div>
             </div>
 
-            <!-- Sección Sobre 500 UF -->
+            <!-- Sección Medidas Sobre 500 UF -->
             <div id="sobre-500uf-section" class="form-section sobre-500uf">
                 <div class="form-header sobre-500uf">
-                    <h2>💰 MEDIDAS DE SEGURIDAD SOBRE 500 UF</h2>
-                    <p>Supermercados, Joyerías, Bancos y Establecimientos - Vigencia 3 años - Decreto Exento N° 32 del 31.01.2024</p>
+                    <h2>💰 MEDIDAS SOBRE 500 UF</h2>
+                    <p>Vigencia 3 años - Supermercados, joyerías, bancos y establecimientos que manejan valores superiores a 500 UF</p>
                 </div>
 
                 <div class="establecimiento-info">
@@ -1238,36 +273,44 @@
                         </div>
                         <div class="form-group">
                             <label for="cargo-presenta-500uf">Cargo:</label>
-                            <input type="text" id="cargo-presenta-500uf" placeholder="Cargo en la empresa">
+                            <input type="text" id="cargo-presenta-500uf" placeholder="Cargo">
                         </div>
                     </div>
                 </div>
 
                 <div class="inspector-info">
-                    <h3>👮‍♂️ Información del Inspector OS10</h3>
+                    <h3>👮 Datos del Inspector</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="inspector-500uf">Funcionario Inspector:</label>
-                            <input type="text" id="inspector-500uf" placeholder="Nombre completo del funcionario">
+                            <label for="inspector-nombre-500uf">Nombre del Inspector:</label>
+                            <input type="text" id="inspector-nombre-500uf" placeholder="Nombre completo">
                         </div>
                         <div class="form-group">
-                            <label for="fecha-500uf">Fecha y Hora de Inspección:</label>
-                            <input type="datetime-local" id="fecha-500uf">
+                            <label for="inspector-rut-500uf">RUT del Inspector:</label>
+                            <input type="text" id="inspector-rut-500uf" placeholder="12.345.678-9">
                         </div>
                     </div>
                 </div>
 
                 <div class="print-info">
-                    <strong>Nota:</strong> Complete todos los campos antes de generar el documento oficial. La información quedará registrada en el informe final.
+                    <p><strong>Nota:</strong> Para imprimir, asegúrese de que el diseño de impresión esté configurado para "Diseño" o "Fondo" para ver los colores y estilos.</p>
                 </div>
 
+                <div class="header-requisitos-desktop" style="display: none; background: #e9ecef; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #333; grid-template-columns: 70px 1fr 180px 300px; gap: 20px; align-items: center;">
+                    <div>N°</div>
+                    <div>Requisito</div>
+                    <div>Estado</div>
+                    <div>Observaciones</div>
+                </div>
+                <div class="header-requisitos-mobile" style="display: none;">REQUISITOS MEDIDAS SOBRE 500 UF</div>
+
                 <div id="requisitos-500uf">
-                    <!-- Los requisitos se generarán dinámicamente -->
+                    <!-- Los requisitos se cargarán aquí dinámicamente desde JavaScript -->
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">🏠 Volver al Inicio</button>
-                    <button class="btn btn-success" onclick="generarDocumentoOficial('sobre-500uf')">📄 Generar Documento Oficial</button>
+                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
+                    <button class="btn btn-success" onclick="generarReporte('sobre-500uf')">Generar Reporte PDF</button>
                 </div>
             </div>
 
@@ -1275,23 +318,41 @@
             <div id="directiva-funcionamiento-section" class="form-section directiva-funcionamiento">
                 <div class="form-header directiva-funcionamiento">
                     <h2>📄 DIRECTIVA DE FUNCIONAMIENTO</h2>
-                    <p>Verificación según tipo de directiva</p>
+                    <p>Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos</p>
+                </div>
+
+                <div class="directiva-selector">
+                    <h3>Seleccione el tipo de Directiva</h3>
+                    <div class="directiva-options">
+                        <div class="directiva-option" data-type="instalacion" onclick="seleccionarDirectiva('instalacion')">
+                            <h4>Instalación</h4>
+                            <p>Directivas para instalaciones de seguridad privada.</p>
+                        </div>
+                        <div class="directiva-option" data-type="evento-deportivo" onclick="seleccionarDirectiva('evento-deportivo')">
+                            <h4>Evento Deportivo</h4>
+                            <p>Directivas para eventos deportivos masivos.</p>
+                        </div>
+                        <div class="directiva-option" data-type="evento-masivo" onclick="seleccionarDirectiva('evento-masivo')">
+                            <h4>Evento Masivo</h4>
+                            <p>Directivas para otros eventos masivos (conciertos, ferias, etc.).</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="establecimiento-info">
-                    <h3>📍 Datos del Establecimiento Fiscalizado</h3>
+                    <h3>📍 Datos del Establecimiento/Evento Fiscalizado</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
-                            <label for="razon-social-directiva">Razón Social:</label>
-                            <input type="text" id="razon-social-directiva" placeholder="Ingrese la razón social completa">
+                            <label for="razon-social-directiva">Razón Social/Nombre Evento:</label>
+                            <input type="text" id="razon-social-directiva" placeholder="Ingrese la razón social o nombre del evento">
                         </div>
                         <div class="form-group">
-                            <label for="rut-establecimiento-directiva">RUT Establecimiento:</label>
-                            <input type="text" id="rut-establecimiento-directiva" placeholder="12.345.678-9">
+                            <label for="rut-establecimiento-directiva">RUT/ID Evento:</label>
+                            <input type="text" id="rut-establecimiento-directiva" placeholder="12.345.678-9 o ID del evento">
                         </div>
                         <div class="form-group">
-                            <label for="direccion-directiva">Dirección:</label>
-                            <input type="text" id="direccion-directiva" placeholder="Dirección completa del establecimiento">
+                            <label for="direccion-directiva">Dirección/Lugar:</label>
+                            <input type="text" id="direccion-directiva" placeholder="Dirección completa o lugar del evento">
                         </div>
                         <div class="form-group">
                             <label for="comuna-directiva">Comuna:</label>
@@ -1317,781 +378,54 @@
                         </div>
                         <div class="form-group">
                             <label for="cargo-presenta-directiva">Cargo:</label>
-                            <input type="text" id="cargo-presenta-directiva" placeholder="Cargo en la empresa">
+                            <input type="text" id="cargo-presenta-directiva" placeholder="Cargo">
                         </div>
                     </div>
                 </div>
 
                 <div class="inspector-info">
-                    <h3>👮‍♂️ Información del Inspector OS10</h3>
+                    <h3>👮 Datos del Inspector</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="inspector-directiva">Funcionario Inspector:</label>
-                            <input type="text" id="inspector-directiva" placeholder="Nombre completo del funcionario">
+                            <label for="inspector-nombre-directiva">Nombre del Inspector:</label>
+                            <input type="text" id="inspector-nombre-directiva" placeholder="Nombre completo">
                         </div>
                         <div class="form-group">
-                            <label for="fecha-directiva">Fecha y Hora de Inspección:</label>
-                            <input type="datetime-local" id="fecha-directiva">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="directiva-selector">
-                    <h3>Seleccione el tipo de directiva a revisar:</h3>
-                    <div class="directiva-options">
-                        <div class="directiva-option" onclick="seleccionarDirectiva('instalaciones')">
-                            <h4>🏢 Directivas de Instalaciones</h4>
-                            <p>Requisitos para instalaciones fijas</p>
-                        </div>
-                        <div class="directiva-option" onclick="seleccionarDirectiva('futbol')">
-                            <h4>⚽ Partidos de Fútbol</h4>
-                            <p>Requisitos para eventos deportivos</p>
-                        </div>
-                        <div class="directiva-option" onclick="seleccionarDirectiva('eventos')">
-                            <h4>🎭 Eventos Masivos</h4>
-                            <p>Requisitos para eventos en general</p>
+                            <label for="inspector-rut-directiva">RUT del Inspector:</label>
+                            <input type="text" id="inspector-rut-directiva" placeholder="12.345.678-9">
                         </div>
                     </div>
                 </div>
 
                 <div class="print-info">
-                    <strong>Nota:</strong> Complete todos los campos antes de generar el documento oficial. La información quedará registrada en el informe final.
+                    <p><strong>Nota:</strong> Para imprimir, asegúrese de que el diseño de impresión esté configurado para "Diseño" o "Fondo" para ver los colores y estilos.</p>
                 </div>
 
-                <div id="requisitos-directiva">
-                    <!-- Los requisitos se generarán dinámicamente según la selección -->
+                <div class="header-requisitos-desktop" style="display: none; background: #e9ecef; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #333; grid-template-columns: 70px 1fr 180px 300px; gap: 20px; align-items: center;">
+                    <div>N°</div>
+                    <div>Requisito</div>
+                    <div>Estado</div>
+                    <div>Observaciones</div>
+                </div>
+                <div class="header-requisitos-mobile" style="display: none;">REQUISITOS DIRECTIVA DE FUNCIONAMIENTO</div>
+
+                <div id="requisitos-directiva-funcionamiento">
+                    <!-- Los requisitos se cargarán aquí dinámicamente desde JavaScript -->
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">🏠 Volver al Inicio</button>
-                    <button class="btn btn-success" onclick="generarDocumentoOficial('directiva-funcionamiento')">📄 Generar Documento Oficial</button>
+                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
+                    <button class="btn btn-success" onclick="generarReporte('directiva-funcionamiento')">Generar Reporte PDF</button>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <script>
-        // Datos de los requisitos
-        const requisitos = {
-            planSeguridad: [
-                "SOLICITUD SIMPLE DE LA ENTIDAD OBLIGADA.",
-                "EL PLAN DE SEGURIDAD, CUMPLE CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.",
-                "ENCARGADO DE SEGURIDAD: EL ENCARGADO DE SEGURIDAD DEBE ESTAR ACREDITADO (AUTORIZACIÓN RESOLUCIÓN) ASÍ COMO TAMBIÉN EL SUPLENTE.",
-                "CAJERO AUTOMÁTICO: CUANTOS CAJEROS SE MANTIENEN EN EL BANCO Y NÚMEROS ATM.",
-                "EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO. (SIN IMPLEMENTOS)",
-                "INFORMACIÓN PARA DECISIONES POLICIALES",
-                "FOTOGRAFÍA Y LISTADO DE CREDENCIALES DE VIGILANTES PRIVADOS.",
-                "Copia de la Autorización del Encargado de Seguridad Suplente (conforme al Manual Operativo en Materias de Seguridad Privada, aprobado mediante Decreto Exento N° 32 del 31.01.2024).",
-                "COMODATOS Y PADRONES O CERTIFICADO DE INSCRIPCIÓN DE TODOS LOS ARMAMENTOS Y CANTIDADES copia del reporte o despliegue del armamento de la empresa, otorgado por la DGMN.",
-                "Copia de los CERTIFICADOS DEL LABORATORIO DE RESISTENCIA BALÍSTICA de los chalecos antibalas, otorgado por el IDIC, respecto de cumplir con la normativa técnica de ensayo balístico NIJ 0101.04.",
-                "Copia del SEGURO DE VIDA POR 30 UF o su equivalente en dólares americanos, para el caso que los CHALECOS ANTIBALAS no cumplan con la función.",
-                "SEGURO DE VIDA DE LOS VIGILANTES PRIVADOS, la que debe considerar el término de 'Vida' o 'Seguro de Vida'.",
-                "OPERADORES CCTV QUE EMPRESA MONITOREA DESDE SANTIAGO ACREDITACIÓN DE LA EMPRESA Y OPERADORES.",
-                "PLAN DE EMERGENCIA Y CROQUIS UBICACIÓN, ELEMENTOS DE EMERGENCIA Y VÍAS DE EVACUACIÓN.",
-                "Adjunta los Anexos 'A,B,C,D,E y F', conforme a lo establecido en el formato del Plan de Seguridad."
-            ],
-            servicentros: [
-                "MEDIDAS DE SEGURIDAD CUMPLEN CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN. (página 108 Y 109 establecimiento de venta y combustible al público)",
-                "CAJERO AUTOMÁTICO: CUAL ES EL NÚMERO ATM Y A QUE BANCO PERTENECE EL CAJERO AUTOMÁTICO. (FOTOGRAFÍAS- INCLUIR UBICACIÓN EN CROQUIS.)",
-                "QUE EMPRESA DE TRANSPORTE DE VALORES ES LA ENCARGADA DE REALIZAR LA CARGA Y DESCARGA DEL CAJERO.",
-                "MANTIENE ESTANCO PARA LA CARGA Y DESCARGA DEL CAJERO; SI NO TIENE ESTANCO DEBE APOYAR LA OPERACIÓN CON UNA CÁMARA DE SEGURIDAD. (Agregar fotografías y croquis)",
-                "OPERADOR CCTV: SI MANTIENE PROPIOS O DE LA CENTRAL SANTIAGO, DEBE GESTIONAR LAS AUTORIZACIONES DE LOS OPERADORES QUE REALIZAN ESTA LABOR. ADJUNTAR AUTORIZACIÓN DE LA EMPRESA Y DEL PERSONAL.",
-                "MÁXIMO DE DINERO QUE MANTIENE LOS ATENDEDORES O BOMBEROS.",
-                "EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO.",
-                "CROQUIS DE CÁMARAS DE SEGURIDAD Y TECNOLOGÍA APLICADA (SENSORES DE HUMO, SENSORES DE MOVIMIENTO, ALARMAS, ETC.)",
-                "ANÁLISIS DE VULNERABILIDADES Y MITIGACIÓN DE ELLAS.",
-                "PLAN DE EMERGENCIA Y SUS ANEXOS.",
-                "CROQUIS UBICACIÓN, ELEMENTOS DE EMERGENCIA Y VÍAS DE EVACUACIÓN.",
-                "TODAS LAS FOTOGRAFÍAS DEBEN VENIR CON UNA DESCRIPCIÓN DE ELLAS."
-            ],
-            sobre500uf: [
-                "MEDIDAS DE SEGURIDAD CUMPLEN CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.",
-                "CAJERO AUTOMÁTICO: CUAL ES EL NÚMERO ATM Y A QUE BANCO PERTENECE EL CAJERO AUTOMÁTICO. (FOTOGRAFÍAS- INCLUIR UBICACIÓN EN CROQUIS.)",
-                "QUE EMPRESA DE TRANSPORTE DE VALORES ES LA ENCARGADA DE REALIZAR LA CARGA Y DESCARGA DEL CAJERO.",
-                "MANTIENE ESTANCO PARA LA CARGA Y DESCARGA DEL CAJERO; SI NO TIENE ESTANCO DEBE APOYAR LA OPERACIÓN CON UNA CÁMARA DE SEGURIDAD. (Agregar fotografías y croquis)",
-                "OPERADOR CCTV: SI MANTIENE PROPIOS O DE LA CENTRAL SANTIAGO, DEBE GESTIONAR LAS AUTORIZACIONES DE LOS OPERADORES QUE REALIZAN ESTA LABOR. ADJUNTAR AUTORIZACIÓN DE LA EMPRESA Y DEL PERSONAL.",
-                "EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO. (SIN IMPLEMENTOS)",
-                "CROQUIS DE CÁMARAS DE SEGURIDAD Y TECNOLOGÍA APLICADA (SENSORES DE HUMO, SENSORES DE MOVIMIENTO, ALARMAS, ETC.)",
-                "ANÁLISIS DE VULNERABILIDADES Y MITIGACIÓN DE ELLAS.",
-                "PLAN DE EMERGENCIA Y SUS ANEXOS.",
-                "CROQUIS UBICACIÓN, ELEMENTOS DE EMERGENCIA Y VÍAS DE EVACUACIÓN."
-            ],
-            directivaInstalaciones: [
-                "LISTADO DE LOS GG.SS. (Que realizan servicios en la instalación).",
-                "FOTOCOPIA DE CREDENCIAL O SOLICITUD DE CREDENCIAL (Art. 18 D/S 93), Que realizarán servicios en la instalación.",
-                "SEGURO DE VIDA GUARDIA DE SEGURIDAD (Art. 13 número 1 D/S 93) El rubro contratado debe decir Vida no fallecimiento ni muerte.",
-                "SEGURO DE RESPONSABILIDAD CIVIL EMPRESA RR.HH. (Art. Undécimo número 3 D/S 867)",
-                "CONTRATO DE PRESTACIÓN DE SERVICIOS (Entre empresa de rr.hh. Y empleador Art. Séptimo D/S 867) No adjuntar orden de compra, correos de aceptación de servicios etc.",
-                "UNIFORME (conforme el art octavo D/S N° 867)",
-                "AUTORIZACIÓN EMPRESA RR.HH. VIGENTE (Art. 5 D/S 93 y Art. décimo del D/S 867).",
-                "SERVICIOS DE 12 HORAS (F-35-B o RES. Acuerdo Marco Dirección del Trabajo).",
-                "INFORME DEBILIDADES Y AMENAZAS DE LA INSTALACIÓN (Inciso segundo Nro. 4, del apartado IV, D/exento 261).",
-                "CHALECO ANTICORTE, Se debe adjuntar Certificación de la normativa técnica norteamericana NIJ 0115.00, Seguro de vida por 30 UF o su equivalente en dólares americanos.",
-                "CHALECO ANTIBALA, Se debe adjuntar Resolución de autorización de uso otorgado por la AA.FF. (Art. 9 N° 2 y 3 del D/S 867)",
-                "BASTÓN, ESPOSAS DE SEGURIDAD, Se debe adjuntar resolución de autorización de uso otorgado por AA.FF. (Art 9 N° 3 del D/S 867)"
-            ],
-            directivaFutbol: [
-                "ANEXO CON DESCRIPCIÓN DE LA LABOR DEL GG.SS. EN SU FUNCIÓN.",
-                "LISTADO DE LOS GG.SS.",
-                "SEGURO DE VIDA GUARDIA DE SEGURIDAD (Art. 13 número 1 D/S 93)",
-                "SEGURO DE RESPONSABILIDAD CIVIL DE LA EMPRESA DE RR.HH. (Art. Undécimo número 3 D/S. 867)",
-                "CONTRATO DE PRESTACIÓN DE SERVICIOS ENTRE LA EMPRESA DE RR.HH. Y EL EQUIPO DE FÚTBOL ORGANIZADOR (Art. Séptimo D/S. 867).",
-                "DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME (conforme el art octavo D/S. N° 867)",
-                "AUTORIZACIÓN VIGENTE DE LA EMPRESA RR.HH. VIGENTE (Art. 5° D/S 93 y Art. décimo del D/S. 867).",
-                "CONTRATO AMBULANCIA POR PARTE DEL EQUIPO ORGANIZADOR.",
-                "AUTORIZACIÓN DE LA AMBULANCIA POR PARTE DE LA SEREMI DE SALUD.",
-                "FOTOCOPIA DE LA CREDENCIAL O DE LA AUTORIZACIÓN VIGENTE DEL JEFE DE SEGURIDAD DEL CLUB ORGANIZADOR (Ley 19.327)",
-                "COPIA DEL CONTRATO DEL JEFE DE SEGURIDAD CON EL CLUB ORGANIZADOR (equipo)",
-                "PROPUESTA DEL PARTIDO PRESENTADA POR EL EQUIPO ORGANIZADOR.",
-                "PLAN DE EVACUACIÓN"
-            ],
-            directivaEventos: [
-                "DECLARACIÓN JURADA DEL EVENTO NOTARIADA",
-                "LISTADO DE LOS GG.SS.",
-                "SEGURO DE VIDA GUARDIA DE SEGURIDAD (Art. 13 número 1. D/S 93)",
-                "SEGURO DE RESPONSABILIDAD CIVIL DE LA EMPRESA DE RR.HH. (Art. Undécimo número 3 D/S. 867)",
-                "CONTRATO DE PRESTACIÓN DE SERVICIOS (Art. Séptimo D/S. 867).",
-                "DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME (conforme el art octavo D/S. N° 867)",
-                "CONTRATO AMBULANCIA",
-                "RES. AUTORIZ. AMBULANCIA DE LA SEREMI",
-                "ACTA DESCRIPTIVA MAS DE 3.000 PERSONAS INT.",
-                "AUTORIZACIÓN VIGENTE DE LA EMPRESA RR.HH. VIGENTE (Art. 5° D/S 93 y Art. décimo del D/S. 867.",
-                "PLAN DE EVACUACIÓN Y EMERGENCIA firmado, por un prevencionista de riesgos.",
-                "CARTA INFORMATIVA A: Carabineros del sector, bomberos, municipalidad del sector y servicio de salud del sector, la que debe venir con timbre de recepción."
-            ]
-        };
-
-        // Variables para almacenar el estado
-        let estadoRequisitos = {};
-        let tipoDirectivaSeleccionado = null;
-
-        // Función para mostrar secciones
-        function mostrarSeccion(seccion) {
-            // Ocultar todas las secciones
-            const secciones = document.querySelectorAll('.form-section');
-            secciones.forEach(s => s.classList.remove('active'));
-
-            // Mostrar la sección seleccionada
-            document.getElementById(seccion + '-section').classList.add('active');
-
-            // Establecer fecha y hora actual REAL
-            if (seccion !== 'inicio') {
-                const ahora = new Date();
-                const fechaHora = ahora.toISOString().slice(0, 16);
-                const campoFecha = document.getElementById('fecha-' + seccion);
-                if (campoFecha) {
-                    campoFecha.value = fechaHora;
-                }
-            }
-
-            // Generar requisitos si es necesario
-            if (seccion === 'plan-seguridad') {
-                generarRequisitos('plan-seguridad', requisitos.planSeguridad);
-            } else if (seccion === 'servicentros') {
-                generarRequisitos('servicentros', requisitos.servicentros);
-            } else if (seccion === 'sobre-500uf') {
-                generarRequisitos('500uf', requisitos.sobre500uf);
-            }
-        }
-
-        // Función para generar requisitos dinámicamente
-        function generarRequisitos(tipo, listaRequisitos) {
-            const container = document.getElementById('requisitos-' + tipo);
-            container.innerHTML = '';
-
-            // Determinar clase de color según el tipo
-            let claseColor = '';
-            switch(tipo) {
-                case 'plan-seguridad':
-                    claseColor = 'plan-seguridad';
-                    break;
-                case 'servicentros':
-                    claseColor = 'servicentros';
-                    break;
-                case '500uf':
-                case 'sobre-500uf':
-                    claseColor = 'sobre-500uf';
-                    break;
-                case 'directiva':
-                case 'directiva-funcionamiento':
-                    claseColor = 'directiva-funcionamiento';
-                    break;
-            }
-
-            // Agregar header de columnas - responsive
-            const headerDiv = document.createElement('div');
-            headerDiv.style.cssText = `
-                display: grid;
-                grid-template-columns: 70px 1fr 180px 300px;
-                gap: 20px;
-                padding: 15px;
-                color: white;
-                font-weight: bold;
-                border-radius: 12px;
-                margin-bottom: 20px;
-                align-items: center;
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            `;
-            headerDiv.className = `header-requisitos-desktop ${claseColor}`;
-            headerDiv.innerHTML = `
-                <div style="text-align: center;">N°</div>
-                <div>REQUISITO</div>
-                <div style="text-align: center;">CUMPLIMIENTO</div>
-                <div style="text-align: center;">OBSERVACIONES</div>
-            `;
-            container.appendChild(headerDiv);
-
-            // Header para móviles
-            const headerMobile = document.createElement('div');
-            headerMobile.style.cssText = `
-                display: none;
-                color: white;
-                font-weight: 600;
-                border-radius: 12px;
-                margin-bottom: 20px;
-                padding: 18px;
-                text-align: center;
-                font-size: 1.1em;
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            `;
-            headerMobile.className = `header-requisitos-mobile ${claseColor}`;
-            headerMobile.innerHTML = 'LISTA DE VERIFICACIÓN';
-            container.appendChild(headerMobile);
-
-            listaRequisitos.forEach((requisito, index) => {
-                const requisitoDiv = document.createElement('div');
-                requisitoDiv.className = `requisito-item ${claseColor}`;
-                requisitoDiv.id = `requisito-${tipo}-${index}`;
-                requisitoDiv.setAttribute('data-numero', index + 1);
-
-                requisitoDiv.innerHTML = `
-                    <div class="requisito-numero">${index + 1}</div>
-                    <div class="requisito-titulo">${requisito}</div>
-                    <div class="estado-buttons">
-                        <button class="btn-estado btn-cumple" onclick="marcarEstado('${tipo}', ${index}, 'cumple')">
-                            ✓ Cumple
-                        </button>
-                        <button class="btn-estado btn-no-cumple" onclick="marcarEstado('${tipo}', ${index}, 'no-cumple')">
-                            ✗ No Cumple
-                        </button>
-                    </div>
-                    <textarea class="observacion-input" id="obs-${tipo}-${index}" placeholder="Escribe tus observaciones aquí..."></textarea>
-                `;
-
-                container.appendChild(requisitoDiv);
-            });
-        }
-
-        // Función para marcar el estado de un requisito
-        function marcarEstado(tipo, index, estado) {
-            const requisitoDiv = document.getElementById(`requisito-${tipo}-${index}`);
-            const botones = requisitoDiv.querySelectorAll('.btn-estado');
-            
-            // Remover estado anterior
-            requisitoDiv.classList.remove('cumple', 'no-cumple');
-            botones.forEach(btn => btn.classList.remove('active'));
-
-            // Aplicar nuevo estado
-            requisitoDiv.classList.add(estado);
-            const botonSeleccionado = requisitoDiv.querySelector(`.btn-${estado}`);
-            botonSeleccionado.classList.add('active');
-
-            // Guardar estado
-            if (!estadoRequisitos[tipo]) {
-                estadoRequisitos[tipo] = {};
-            }
-            estadoRequisitos[tipo][index] = estado;
-        }
-
-        // Función para seleccionar tipo de directiva
-        function seleccionarDirectiva(tipo) {
-            // Remover selección anterior
-            const opciones = document.querySelectorAll('.directiva-option');
-            opciones.forEach(opt => opt.classList.remove('active'));
-
-            // Marcar nueva selección
-            event.target.closest('.directiva-option').classList.add('active');
-            tipoDirectivaSeleccionado = tipo;
-
-            // Generar requisitos según el tipo
-            let requisitosDirectiva;
-            switch(tipo) {
-                case 'instalaciones':
-                    requisitosDirectiva = requisitos.directivaInstalaciones;
-                    break;
-                case 'futbol':
-                    requisitosDirectiva = requisitos.directivaFutbol;
-                    break;
-                case 'eventos':
-                    requisitosDirectiva = requisitos.directivaEventos;
-                    break;
-            }
-
-            generarRequisitos('directiva', requisitosDirectiva);
-        }
-
-        // Función para generar documento oficial
-        function generarDocumentoOficial(tipo) {
-            // Validar campos requeridos
-            const inspector = document.getElementById('inspector-' + tipo).value;
-            const razonSocial = document.getElementById('razon-social-' + tipo).value;
-            const rutEstablecimiento = document.getElementById('rut-establecimiento-' + tipo).value;
-            const nombrePresenta = document.getElementById('nombre-presenta-' + tipo).value;
-            const rutPresenta = document.getElementById('rut-presenta-' + tipo).value;
-
-            if (!inspector.trim() || !razonSocial.trim() || !rutEstablecimiento.trim() || !nombrePresenta.trim() || !rutPresenta.trim()) {
-                alert('Por favor, complete todos los campos obligatorios antes de generar el documento oficial.');
-                return;
-            }
-
-            // Obtener información del documento
-            const seccionActual = document.getElementById(tipo + '-section');
-            const fecha = document.getElementById('fecha-' + tipo).value;
-            const direccion = document.getElementById('direccion-' + tipo).value;
-            const comuna = document.getElementById('comuna-' + tipo).value;
-            const telefono = document.getElementById('telefono-presenta-' + tipo).value;
-            const cargo = document.getElementById('cargo-presenta-' + tipo).value;
-
-            // Determinar título y colores según el tipo
-            let tituloDocumento = '';
-            let colorPrincipal = '';
-            let tipoInspeccion = '';
-
-            switch(tipo) {
-                case 'plan-seguridad':
-                    tituloDocumento = 'INFORME DE VERIFICACIÓN - PLAN DE SEGURIDAD';
-                    colorPrincipal = '#1a365d';
-                    tipoInspeccion = 'Plan de Seguridad (Vigencia 2 años)';
-                    break;
-                case 'servicentros':
-                    tituloDocumento = 'INFORME DE VERIFICACIÓN - MEDIDAS DE SEGURIDAD SERVICENTROS';
-                    colorPrincipal = '#2d5016';
-                    tipoInspeccion = 'Medidas de Seguridad Servicentros (Vigencia 3 años)';
-                    break;
-                case 'sobre-500uf':
-                    tituloDocumento = 'INFORME DE VERIFICACIÓN - MEDIDAS DE SEGURIDAD SOBRE 500 UF';
-                    colorPrincipal = '#742a2a';
-                    tipoInspeccion = 'Medidas de Seguridad Sobre 500 UF - Supermercados, Joyerías, Bancos (Vigencia 3 años)';
-                    break;
-                case 'directiva-funcionamiento':
-                    tituloDocumento = 'INFORME DE VERIFICACIÓN - DIRECTIVA DE FUNCIONAMIENTO';
-                    colorPrincipal = '#553c9a';
-                    tipoInspeccion = 'Directiva de Funcionamiento';
-                    break;
-            }
-
-            // Crear ventana para el documento
-            const ventanaDocumento = window.open('', '_blank');
-            
-            // Crear el contenido HTML del documento oficial
-            let contenidoHTML = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Documento Oficial - OS10 Coquimbo</title>
-                    <style>
-                        @page {
-                            size: 8.5in 13in; /* Tamaño oficio */
-                            margin: 0.8in;
-                        }
-                        body { 
-                            font-family: 'Arial', sans-serif; 
-                            margin: 0; 
-                            color: #000; 
-                            font-size: 11px;
-                            line-height: 1.4;
-                        }
-                        .header-oficial { 
-                            text-align: center; 
-                            margin-bottom: 25px; 
-                            border-bottom: 3px solid ${colorPrincipal}; 
-                            padding-bottom: 20px; 
-                        }
-                        .header-content { 
-                            display: flex; 
-                            align-items: center; 
-                            justify-content: center; 
-                            margin-bottom: 15px; 
-                            gap: 20px;
-                        }
-                        .logo-os10 { 
-                            width: 80px; 
-                            height: 80px; 
-                            border: 2px solid ${colorPrincipal};
-                            border-radius: 50%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-weight: bold;
-                            color: ${colorPrincipal};
-                            font-size: 14px;
-                        }
-                        .header-text h1 { 
-                            margin: 0; 
-                            font-size: 16px; 
-                            color: ${colorPrincipal}; 
-                            font-weight: bold;
-                        }
-                        .header-text h2 { 
-                            margin: 5px 0; 
-                            font-size: 12px; 
-                            color: #333; 
-                        }
-                        .documento-info { 
-                            background: #f9f9f9; 
-                            padding: 15px; 
-                            margin: 20px 0; 
-                            border-left: 4px solid ${colorPrincipal}; 
-                        }
-                        .datos-establecimiento, .datos-presentacion { 
-                            margin: 20px 0; 
-                            padding: 15px; 
-                            border: 1px solid #ddd; 
-                        }
-                        .datos-grid { 
-                            display: grid; 
-                            grid-template-columns: 1fr 1fr; 
-                            gap: 15px; 
-                            margin-top: 10px; 
-                        }
-                        .campo { 
-                            margin-bottom: 8px; 
-                        }
-                        .campo strong { 
-                            color: ${colorPrincipal}; 
-                        }
-                        .tabla-requisitos { 
-                            width: 100%; 
-                            border-collapse: collapse; 
-                            margin: 20px 0; 
-                        }
-                        .tabla-requisitos th { 
-                            background: ${colorPrincipal}; 
-                            color: white; 
-                            padding: 6px; 
-                            font-size: 9px; 
-                            font-weight: bold;
-                            text-align: center;
-                        }
-                        .tabla-requisitos td { 
-                            border: 1px solid #ddd; 
-                            padding: 4px; 
-                            font-size: 8px; 
-                            vertical-align: top;
-                        }
-                        .numero-req { 
-                            text-align: center; 
-                            font-weight: bold; 
-                            background: #f5f5f5;
-                            width: 30px;
-                        }
-                        .estado-cumple { 
-                            color: green; 
-                            font-weight: bold; 
-                            text-align: center;
-                            font-size: 9px;
-                        }
-                        .estado-no-cumple { 
-                            color: red; 
-                            font-weight: bold; 
-                            text-align: center;
-                            font-size: 9px;
-                        }
-                        .estado-sin-revisar { 
-                            color: #666; 
-                            text-align: center;
-                            font-size: 8px;
-                        }
-                        .observaciones { 
-                            min-height: 25px;
-                            font-size: 8px;
-                            line-height: 1.2;
-                        }
-                        .firmas { 
-                            margin-top: 40px; 
-                            display: grid;
-                            grid-template-columns: 1fr 1fr;
-                            gap: 50px;
-                        }
-                        .firma-box { 
-                            text-align: center; 
-                            border-top: 2px solid ${colorPrincipal}; 
-                            padding-top: 15px; 
-                        }
-                        .pie-documento { 
-                            margin-top: 30px; 
-                            text-align: center; 
-                            font-size: 9px; 
-                            color: #666; 
-                            border-top: 1px solid #ddd; 
-                            padding-top: 15px; 
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="header-oficial">
-                        <div class="header-content">
-                            <div class="logo-os10">OS10<br>LOGO</div>
-                            <div class="header-text">
-                                <h1>CARABINEROS DE CHILE</h1>
-                                <h2>OS10 COQUIMBO - OFICINA DE SEGURIDAD</h2>
-                                <h2>${tituloDocumento}</h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="documento-info">
-                        <p><strong>Tipo de Inspección:</strong> ${tipoInspeccion}</p>
-                        <p><strong>Decreto de Referencia:</strong> Decreto Exento N° 32 del 31.01.2024 del Ministerio del Interior y Seguridad Pública</p>
-                        <p><strong>Fecha y Hora de Inspección:</strong> ${new Date(fecha).toLocaleString('es-CL')}</p>
-                        <p><strong>Funcionario Inspector:</strong> ${inspector}</p>
-                    </div>
-
-                    <div class="datos-establecimiento">
-                        <h3 style="color: ${colorPrincipal}; margin-top: 0;">📍 DATOS DEL ESTABLECIMIENTO FISCALIZADO</h3>
-                        <div class="datos-grid">
-                            <div class="campo"><strong>Razón Social:</strong><br>${razonSocial}</div>
-                            <div class="campo"><strong>RUT:</strong><br>${rutEstablecimiento}</div>
-                            <div class="campo"><strong>Dirección:</strong><br>${direccion}</div>
-                            <div class="campo"><strong>Comuna:</strong><br>${comuna}</div>
-                        </div>
-                    </div>
-
-                    <div class="datos-presentacion">
-                        <h3 style="color: ${colorPrincipal}; margin-top: 0;">👤 DATOS DE QUIEN PRESENTA EL DOCUMENTO</h3>
-                        <div class="datos-grid">
-                            <div class="campo"><strong>Nombre:</strong><br>${nombrePresenta}</div>
-                            <div class="campo"><strong>RUT:</strong><br>${rutPresenta}</div>
-                            <div class="campo"><strong>Teléfono:</strong><br>${telefono}</div>
-                            <div class="campo"><strong>Cargo:</strong><br>${cargo}</div>
-                        </div>
-                    </div>
-
-                    <h3 style="color: ${colorPrincipal};">📋 VERIFICACIÓN DE REQUISITOS</h3>
-                    <table class="tabla-requisitos">
-                        <thead>
-                            <tr>
-                                <th style="width: 40px;">N°</th>
-                                <th style="width: 50%;">REQUISITO</th>
-                                <th style="width: 100px;">CUMPLIMIENTO</th>
-                                <th style="width: 35%;">OBSERVACIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-
-            // Agregar requisitos a la tabla
-            const requisitosContainer = seccionActual.querySelector('[id^="requisitos-"]');
-            const requisitosItems = requisitosContainer.querySelectorAll('.requisito-item');
-            
-            requisitosItems.forEach((item, index) => {
-                const numero = item.querySelector('.requisito-numero').textContent;
-                const titulo = item.querySelector('.requisito-titulo').textContent;
-                const observacion = item.querySelector('.observacion-input').value;
-                
-                let estadoTexto = 'SIN REVISAR';
-                let estadoClase = 'estado-sin-revisar';
-                
-                if (item.classList.contains('cumple')) {
-                    estadoTexto = '✓ CUMPLE';
-                    estadoClase = 'estado-cumple';
-                } else if (item.classList.contains('no-cumple')) {
-                    estadoTexto = '✗ NO CUMPLE';
-                    estadoClase = 'estado-no-cumple';
-                }
-
-                contenidoHTML += `
-                    <tr>
-                        <td class="numero-req">${numero}</td>
-                        <td>${titulo}</td>
-                        <td class="${estadoClase}">${estadoTexto}</td>
-                        <td class="observaciones">${observacion}</td>
-                    </tr>
-                `;
-            });
-
-            contenidoHTML += `
-                        </tbody>
-                    </table>
-
-                    <div class="firmas">
-                        <div class="firma-box">
-                            <p><strong>FUNCIONARIO INSPECTOR</strong></p>
-                            <br><br><br>
-                            <p><strong>${inspector}</strong></p>
-                            <p>OS10 Coquimbo</p>
-                            <p>Carabineros de Chile</p>
-                        </div>
-                        <div class="firma-box">
-                            <p><strong>REPRESENTANTE ESTABLECIMIENTO</strong></p>
-                            <br><br><br>
-                            <p><strong>${nombrePresenta}</strong></p>
-                            <p>RUT: ${rutPresenta}</p>
-                            <p>${cargo}</p>
-                        </div>
-                    </div>
-
-                    <div class="pie-documento">
-                        <p><strong>Documento generado el:</strong> ${new Date().toLocaleString('es-CL')}</p>
-                        <p>Sistema de Requisitos de Seguridad Privada - OS10 Coquimbo - Carabineros de Chile</p>
-                        <p>Este documento tiene validez oficial para los efectos legales correspondientes</p>
-                    </div>
-                </body>
-                </html>
-            `;
-
-            // Escribir el contenido en la nueva ventana
-            ventanaDocumento.document.write(contenidoHTML);
-            ventanaDocumento.document.close();
-
-            // Configurar la ventana para impresión
-            setTimeout(() => {
-                ventanaDocumento.focus();
-                ventanaDocumento.print();
-            }, 1000);
-        }
-
-        // Inicializar la aplicación
-        document.addEventListener('DOMContentLoaded', function() {
-            // Función para establecer fecha y hora actual REAL
-            function establecerFechaHoraReal() {
-                const ahora = new Date();
-                const fechaHora = ahora.toISOString().slice(0, 16);
-                
-                const camposFecha = document.querySelectorAll('input[type="datetime-local"]');
-                camposFecha.forEach(campo => {
-                    if (!campo.value) { // Solo establecer si está vacío
-                        campo.value = fechaHora;
-                    }
-                });
-            }
-
-            // Establecer fecha inicial
-            establecerFechaHoraReal();
-
-            // Actualizar fecha cada minuto para mantenerla actual
-            setInterval(establecerFechaHoraReal, 60000);
-
-            // Función para ajustar layout responsive dinámicamente
-            function ajustarLayout() {
-                const ancho = window.innerWidth;
-                const headers = document.querySelectorAll('.header-requisitos-desktop, .header-requisitos-mobile');
-                
-                headers.forEach(header => {
-                    if (ancho <= 768) {
-                        if (header.classList.contains('header-requisitos-desktop')) {
-                            header.style.display = 'none';
-                        } else {
-                            header.style.display = 'block';
-                        }
-                    } else {
-                        if (header.classList.contains('header-requisitos-desktop')) {
-                            header.style.display = 'grid';
-                        } else {
-                            header.style.display = 'none';
-                        }
-                    }
-                });
-            }
-
-            // Ejecutar al cargar y al redimensionar
-            ajustarLayout();
-            window.addEventListener('resize', ajustarLayout);
-
-            // Mejorar la experiencia táctil en dispositivos móviles
-            if ('ontouchstart' in window) {
-                document.body.classList.add('touch-device');
-                
-                // Agregar estilos para dispositivos táctiles
-                const style = document.createElement('style');
-                style.textContent = `
-                    .touch-device .btn-estado {
-                        min-height: 40px;
-                        font-size: 12px;
-                        font-weight: 500;
-                        max-width: 110px;
-                    }
-                    
-                    .touch-device .observacion-input {
-                        min-height: 120px;
-                        font-size: 16px;
-                    }
-                    
-                    .touch-device .form-group input,
-                    .touch-device .form-group select {
-                        min-height: 48px;
-                        font-size: 16px;
-                    }
-                    
-                    .touch-device .menu-card {
-                        transition: transform 0.2s ease;
-                    }
-                    
-                    .touch-device .menu-card:active {
-                        transform: scale(0.98);
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-
-            // Animaciones de entrada para elementos
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Aplicar observador a elementos que se van a animar
-            const animatedElements = document.querySelectorAll('.menu-card, .requisito-item');
-            animatedElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
-            });
-
-            // Efecto de vibración táctil en dispositivos compatibles
-            function vibrarDispositivo() {
-                if ('vibrate' in navigator) {
-                    navigator.vibrate(10);
-                }
-            }
-
-            // Agregar vibración a botones importantes
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('btn-estado') || 
-                    e.target.classList.contains('btn-success') ||
-                    e.target.classList.contains('menu-card')) {
-                    vibrarDispositivo();
-                }
-            });
-
-            // Mejorar el scroll en dispositivos móviles
-            if (window.innerWidth <= 768) {
-                let isScrolling = false;
-                window.addEventListener('scroll', function() {
-                    if (!isScrolling) {
-                        window.requestAnimationFrame(function() {
-                            // Aplicar efecto parallax sutil al header
-                            const header = document.querySelector('.header');
-                            const scrolled = window.pageYOffset;
-                            const rate = scrolled * -0.5;
-                            header.style.transform = `translateY(${rate}px)`;
-                            isScrolling = false;
-                        });
-                        isScrolling = true;
-                    }
-                });
-            }
-        });
-    </script>
+    <!-- Enlaza el archivo JavaScript externo -->
+    <script src="script.js"></script>
+    <!-- Incluye jsPDF para la generación de PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
