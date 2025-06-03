@@ -72,13 +72,10 @@ body {
 }
 
 .logo-titulo {
-    background: #2d5016;
-    border-radius: 12px;
-    padding: 8px;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
     display: flex;
     align-items: center;
     justify-content: center;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .logo-imagen {
@@ -86,9 +83,6 @@ body {
     width: auto;
     max-width: 50px;
     object-fit: contain;
-    background: white;
-    border-radius: 6px;
-    padding: 2px;
 }
 
 /* Fallback si no se encuentra la imagen */
@@ -106,9 +100,6 @@ body {
 
 .logo-imagen:not([src]),
 .logo-imagen[src=""] {
-    background: #2d5016;
-    color: white;
-    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -743,7 +734,7 @@ body {
     }
     
     .logo-titulo {
-        padding: 6px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
     
     .logo-imagen {
@@ -945,7 +936,7 @@ body {
     }
     
     .logo-titulo {
-        padding: 4px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
     
     .logo-imagen {
