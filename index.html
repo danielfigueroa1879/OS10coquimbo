@@ -995,22 +995,22 @@
                 </h2>
                 
                 <div class="menu-grid">
-                    <button class="menu-card" onclick="mostrarSeccion('plan-seguridad')">
+                    <button class="menu-card plan-seguridad" onclick="mostrarSeccion('plan-seguridad')">
                         <h3>📋 Plan de Seguridad</h3>
                         <p>Verificación de requisitos para planes de seguridad con vigencia de 2 años según Decreto Exento N° 32</p>
                     </button>
                     
-                    <button class="menu-card" onclick="mostrarSeccion('servicentros')">
+                    <button class="menu-card servicentros" onclick="mostrarSeccion('servicentros')">
                         <h3>⛽ Medidas Servicentros</h3>
                         <p>Requisitos de seguridad para establecimientos de venta de combustible al público (3 años de vigencia)</p>
                     </button>
                     
-                    <button class="menu-card" onclick="mostrarSeccion('sobre-500uf')">
+                    <button class="menu-card sobre-500uf" onclick="mostrarSeccion('sobre-500uf')">
                         <h3>💰 Medidas Sobre 500 UF</h3>
                         <p>Medidas de seguridad para establecimientos que manejan valores superiores a 500 UF (3 años)</p>
                     </button>
                     
-                    <button class="menu-card" onclick="mostrarSeccion('directiva-funcionamiento')">
+                    <button class="menu-card directiva-funcionamiento" onclick="mostrarSeccion('directiva-funcionamiento')">
                         <h3>📄 Directiva de Funcionamiento</h3>
                         <p>Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos</p>
                     </button>
@@ -1018,14 +1018,58 @@
             </div>
 
             <!-- Sección Plan de Seguridad -->
-            <div id="plan-seguridad-section" class="form-section">
-                <div class="form-header">
-                    <h2>📋 Requisitos Plan de Seguridad</h2>
+            <div id="plan-seguridad-section" class="form-section plan-seguridad">
+                <div class="form-header plan-seguridad">
+                    <h2>📋 PLAN DE SEGURIDAD</h2>
                     <p>Vigencia según estudio (2 años) - Decreto Exento N° 32 del 31.01.2024</p>
                 </div>
 
+                <div class="establecimiento-info">
+                    <h3>📍 Datos del Establecimiento Fiscalizado</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="razon-social-plan">Razón Social:</label>
+                            <input type="text" id="razon-social-plan" placeholder="Ingrese la razón social completa">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-establecimiento-plan">RUT Establecimiento:</label>
+                            <input type="text" id="rut-establecimiento-plan" placeholder="12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion-plan">Dirección:</label>
+                            <input type="text" id="direccion-plan" placeholder="Dirección completa del establecimiento">
+                        </div>
+                        <div class="form-group">
+                            <label for="comuna-plan">Comuna:</label>
+                            <input type="text" id="comuna-plan" placeholder="Comuna donde se ubica">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="datos-presentacion">
+                    <h3>👤 Datos de Quien Presenta el Documento</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="nombre-presenta-plan">Nombre Completo:</label>
+                            <input type="text" id="nombre-presenta-plan" placeholder="Nombre de quien presenta">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-presenta-plan">RUT:</label>
+                            <input type="text" id="rut-presenta-plan" placeholder="12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono-presenta-plan">Teléfono:</label>
+                            <input type="tel" id="telefono-presenta-plan" placeholder="+56 9 1234 5678">
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo-presenta-plan">Cargo:</label>
+                            <input type="text" id="cargo-presenta-plan" placeholder="Cargo en la empresa">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="inspector-info">
-                    <h3>Información del Inspector</h3>
+                    <h3>👮‍♂️ Información del Inspector OS10</h3>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="inspector-plan">Funcionario Inspector:</label>
@@ -1039,7 +1083,7 @@
                 </div>
 
                 <div class="print-info">
-                    <strong>Nota:</strong> Complete todos los campos antes de imprimir. La información del inspector quedará registrada en el documento.
+                    <strong>Nota:</strong> Complete todos los campos antes de generar el documento oficial. La información quedará registrada en el informe final.
                 </div>
 
                 <div id="requisitos-plan-seguridad">
@@ -1048,19 +1092,63 @@
 
                 <div class="action-buttons">
                     <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">🏠 Volver al Inicio</button>
-                    <button class="btn btn-success" onclick="imprimirFormulario('plan-seguridad')">🖨️ Imprimir Formulario</button>
+                    <button class="btn btn-success" onclick="generarDocumentoOficial('plan-seguridad')">📄 Generar Documento Oficial</button>
                 </div>
             </div>
 
             <!-- Sección Servicentros -->
-            <div id="servicentros-section" class="form-section">
-                <div class="form-header">
-                    <h2>⛽ Requisitos Medidas de Seguridad Servicentros</h2>
+            <div id="servicentros-section" class="form-section servicentros">
+                <div class="form-header servicentros">
+                    <h2>⛽ MEDIDAS DE SEGURIDAD SERVICENTROS</h2>
                     <p>Vigencia 3 años - Decreto Exento N° 32 del 31.01.2024</p>
                 </div>
 
+                <div class="establecimiento-info">
+                    <h3>📍 Datos del Establecimiento Fiscalizado</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="razon-social-servicentros">Razón Social:</label>
+                            <input type="text" id="razon-social-servicentros" placeholder="Ingrese la razón social completa">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-establecimiento-servicentros">RUT Establecimiento:</label>
+                            <input type="text" id="rut-establecimiento-servicentros" placeholder="12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion-servicentros">Dirección:</label>
+                            <input type="text" id="direccion-servicentros" placeholder="Dirección completa del establecimiento">
+                        </div>
+                        <div class="form-group">
+                            <label for="comuna-servicentros">Comuna:</label>
+                            <input type="text" id="comuna-servicentros" placeholder="Comuna donde se ubica">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="datos-presentacion">
+                    <h3>👤 Datos de Quien Presenta el Documento</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="nombre-presenta-servicentros">Nombre Completo:</label>
+                            <input type="text" id="nombre-presenta-servicentros" placeholder="Nombre de quien presenta">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-presenta-servicentros">RUT:</label>
+                            <input type="text" id="rut-presenta-servicentros" placeholder="12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono-presenta-servicentros">Teléfono:</label>
+                            <input type="tel" id="telefono-presenta-servicentros" placeholder="+56 9 1234 5678">
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo-presenta-servicentros">Cargo:</label>
+                            <input type="text" id="cargo-presenta-servicentros" placeholder="Cargo en la empresa">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="inspector-info">
-                    <h3>Información del Inspector</h3>
+                    <h3>👮‍♂️ Información del Inspector OS10</h3>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="inspector-servicentros">Funcionario Inspector:</label>
@@ -1074,7 +1162,7 @@
                 </div>
 
                 <div class="print-info">
-                    <strong>Nota:</strong> Complete todos los campos antes de imprimir. La información del inspector quedará registrada en el documento.
+                    <strong>Nota:</strong> Complete todos los campos antes de generar el documento oficial. La información quedará registrada en el informe final.
                 </div>
 
                 <div id="requisitos-servicentros">
@@ -1083,19 +1171,63 @@
 
                 <div class="action-buttons">
                     <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">🏠 Volver al Inicio</button>
-                    <button class="btn btn-success" onclick="imprimirFormulario('servicentros')">🖨️ Imprimir Formulario</button>
+                    <button class="btn btn-success" onclick="generarDocumentoOficial('servicentros')">📄 Generar Documento Oficial</button>
                 </div>
             </div>
 
             <!-- Sección Sobre 500 UF -->
-            <div id="sobre-500uf-section" class="form-section">
-                <div class="form-header">
-                    <h2>💰 Requisitos Medidas de Seguridad Sobre 500 UF</h2>
+            <div id="sobre-500uf-section" class="form-section sobre-500uf">
+                <div class="form-header sobre-500uf">
+                    <h2>💰 MEDIDAS DE SEGURIDAD SOBRE 500 UF</h2>
                     <p>Vigencia 3 años - Decreto Exento N° 32 del 31.01.2024</p>
                 </div>
 
+                <div class="establecimiento-info">
+                    <h3>📍 Datos del Establecimiento Fiscalizado</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="razon-social-500uf">Razón Social:</label>
+                            <input type="text" id="razon-social-500uf" placeholder="Ingrese la razón social completa">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-establecimiento-500uf">RUT Establecimiento:</label>
+                            <input type="text" id="rut-establecimiento-500uf" placeholder="12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion-500uf">Dirección:</label>
+                            <input type="text" id="direccion-500uf" placeholder="Dirección completa del establecimiento">
+                        </div>
+                        <div class="form-group">
+                            <label for="comuna-500uf">Comuna:</label>
+                            <input type="text" id="comuna-500uf" placeholder="Comuna donde se ubica">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="datos-presentacion">
+                    <h3>👤 Datos de Quien Presenta el Documento</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="nombre-presenta-500uf">Nombre Completo:</label>
+                            <input type="text" id="nombre-presenta-500uf" placeholder="Nombre de quien presenta">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-presenta-500uf">RUT:</label>
+                            <input type="text" id="rut-presenta-500uf" placeholder="12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono-presenta-500uf">Teléfono:</label>
+                            <input type="tel" id="telefono-presenta-500uf" placeholder="+56 9 1234 5678">
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo-presenta-500uf">Cargo:</label>
+                            <input type="text" id="cargo-presenta-500uf" placeholder="Cargo en la empresa">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="inspector-info">
-                    <h3>Información del Inspector</h3>
+                    <h3>👮‍♂️ Información del Inspector OS10</h3>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="inspector-500uf">Funcionario Inspector:</label>
@@ -1109,7 +1241,7 @@
                 </div>
 
                 <div class="print-info">
-                    <strong>Nota:</strong> Complete todos los campos antes de imprimir. La información del inspector quedará registrada en el documento.
+                    <strong>Nota:</strong> Complete todos los campos antes de generar el documento oficial. La información quedará registrada en el informe final.
                 </div>
 
                 <div id="requisitos-500uf">
@@ -1118,19 +1250,63 @@
 
                 <div class="action-buttons">
                     <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">🏠 Volver al Inicio</button>
-                    <button class="btn btn-success" onclick="imprimirFormulario('sobre-500uf')">🖨️ Imprimir Formulario</button>
+                    <button class="btn btn-success" onclick="generarDocumentoOficial('sobre-500uf')">📄 Generar Documento Oficial</button>
                 </div>
             </div>
 
             <!-- Sección Directiva de Funcionamiento -->
-            <div id="directiva-funcionamiento-section" class="form-section">
-                <div class="form-header">
-                    <h2>📄 Requisitos Directiva de Funcionamiento</h2>
+            <div id="directiva-funcionamiento-section" class="form-section directiva-funcionamiento">
+                <div class="form-header directiva-funcionamiento">
+                    <h2>📄 DIRECTIVA DE FUNCIONAMIENTO</h2>
                     <p>Verificación según tipo de directiva</p>
                 </div>
 
+                <div class="establecimiento-info">
+                    <h3>📍 Datos del Establecimiento Fiscalizado</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="razon-social-directiva">Razón Social:</label>
+                            <input type="text" id="razon-social-directiva" placeholder="Ingrese la razón social completa">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-establecimiento-directiva">RUT Establecimiento:</label>
+                            <input type="text" id="rut-establecimiento-directiva" placeholder="12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion-directiva">Dirección:</label>
+                            <input type="text" id="direccion-directiva" placeholder="Dirección completa del establecimiento">
+                        </div>
+                        <div class="form-group">
+                            <label for="comuna-directiva">Comuna:</label>
+                            <input type="text" id="comuna-directiva" placeholder="Comuna donde se ubica">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="datos-presentacion">
+                    <h3>👤 Datos de Quien Presenta el Documento</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="nombre-presenta-directiva">Nombre Completo:</label>
+                            <input type="text" id="nombre-presenta-directiva" placeholder="Nombre de quien presenta">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-presenta-directiva">RUT:</label>
+                            <input type="text" id="rut-presenta-directiva" placeholder="12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono-presenta-directiva">Teléfono:</label>
+                            <input type="tel" id="telefono-presenta-directiva" placeholder="+56 9 1234 5678">
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo-presenta-directiva">Cargo:</label>
+                            <input type="text" id="cargo-presenta-directiva" placeholder="Cargo en la empresa">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="inspector-info">
-                    <h3>Información del Inspector</h3>
+                    <h3>👮‍♂️ Información del Inspector OS10</h3>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="inspector-directiva">Funcionario Inspector:</label>
@@ -1162,7 +1338,7 @@
                 </div>
 
                 <div class="print-info">
-                    <strong>Nota:</strong> Complete todos los campos antes de imprimir. La información del inspector quedará registrada en el documento.
+                    <strong>Nota:</strong> Complete todos los campos antes de generar el documento oficial. La información quedará registrada en el informe final.
                 </div>
 
                 <div id="requisitos-directiva">
@@ -1171,7 +1347,7 @@
 
                 <div class="action-buttons">
                     <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">🏠 Volver al Inicio</button>
-                    <button class="btn btn-success" onclick="imprimirFormulario('directiva-funcionamiento')">🖨️ Imprimir Formulario</button>
+                    <button class="btn btn-success" onclick="generarDocumentoOficial('directiva-funcionamiento')">📄 Generar Documento Oficial</button>
                 </div>
             </div>
         </div>
@@ -1281,11 +1457,10 @@
             // Mostrar la sección seleccionada
             document.getElementById(seccion + '-section').classList.add('active');
 
-            // Establecer fecha y hora actual
-            const ahora = new Date();
-            const fechaHora = ahora.toISOString().slice(0, 16);
-            
+            // Establecer fecha y hora actual REAL
             if (seccion !== 'inicio') {
+                const ahora = new Date();
+                const fechaHora = ahora.toISOString().slice(0, 16);
                 const campoFecha = document.getElementById('fecha-' + seccion);
                 if (campoFecha) {
                     campoFecha.value = fechaHora;
@@ -1307,21 +1482,40 @@
             const container = document.getElementById('requisitos-' + tipo);
             container.innerHTML = '';
 
+            // Determinar clase de color según el tipo
+            let claseColor = '';
+            switch(tipo) {
+                case 'plan-seguridad':
+                    claseColor = 'plan-seguridad';
+                    break;
+                case 'servicentros':
+                    claseColor = 'servicentros';
+                    break;
+                case '500uf':
+                case 'sobre-500uf':
+                    claseColor = 'sobre-500uf';
+                    break;
+                case 'directiva':
+                case 'directiva-funcionamiento':
+                    claseColor = 'directiva-funcionamiento';
+                    break;
+            }
+
             // Agregar header de columnas - responsive
             const headerDiv = document.createElement('div');
             headerDiv.style.cssText = `
                 display: grid;
-                grid-template-columns: 60px 1fr 200px 300px;
-                gap: 15px;
+                grid-template-columns: 70px 1fr 220px 320px;
+                gap: 20px;
                 padding: 15px;
-                background: #2d5016;
                 color: white;
                 font-weight: bold;
-                border-radius: 8px;
-                margin-bottom: 15px;
+                border-radius: 12px;
+                margin-bottom: 20px;
                 align-items: center;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             `;
-            headerDiv.className = 'header-requisitos-desktop';
+            headerDiv.className = `header-requisitos-desktop ${claseColor}`;
             headerDiv.innerHTML = `
                 <div style="text-align: center;">N°</div>
                 <div>REQUISITO</div>
@@ -1334,21 +1528,22 @@
             const headerMobile = document.createElement('div');
             headerMobile.style.cssText = `
                 display: none;
-                background: #2d5016;
                 color: white;
-                font-weight: bold;
-                border-radius: 8px;
-                margin-bottom: 15px;
-                padding: 15px;
+                font-weight: 600;
+                border-radius: 12px;
+                margin-bottom: 20px;
+                padding: 18px;
                 text-align: center;
+                font-size: 1.1em;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             `;
-            headerMobile.className = 'header-requisitos-mobile';
+            headerMobile.className = `header-requisitos-mobile ${claseColor}`;
             headerMobile.innerHTML = 'LISTA DE VERIFICACIÓN';
             container.appendChild(headerMobile);
 
             listaRequisitos.forEach((requisito, index) => {
                 const requisitoDiv = document.createElement('div');
-                requisitoDiv.className = 'requisito-item';
+                requisitoDiv.className = `requisito-item ${claseColor}`;
                 requisitoDiv.id = `requisito-${tipo}-${index}`;
                 requisitoDiv.setAttribute('data-numero', index + 1);
 
@@ -1418,83 +1613,253 @@
             generarRequisitos('directiva', requisitosDirectiva);
         }
 
-        // Función para imprimir formulario
-        function imprimirFormulario(tipo) {
-            // Verificar que se haya ingresado el nombre del inspector
+        // Función para generar documento oficial
+        function generarDocumentoOficial(tipo) {
+            // Validar campos requeridos
             const inspector = document.getElementById('inspector-' + tipo).value;
-            if (!inspector.trim()) {
-                alert('Por favor, ingrese el nombre del funcionario inspector antes de imprimir.');
+            const razonSocial = document.getElementById('razon-social-' + tipo).value;
+            const rutEstablecimiento = document.getElementById('rut-establecimiento-' + tipo).value;
+            const nombrePresenta = document.getElementById('nombre-presenta-' + tipo).value;
+            const rutPresenta = document.getElementById('rut-presenta-' + tipo).value;
+
+            if (!inspector.trim() || !razonSocial.trim() || !rutEstablecimiento.trim() || !nombrePresenta.trim() || !rutPresenta.trim()) {
+                alert('Por favor, complete todos los campos obligatorios antes de generar el documento oficial.');
                 return;
             }
 
-            // Crear una ventana nueva para imprimir
-            const ventanaImpresion = window.open('', '_blank');
-            
-            // Obtener el contenido de la sección actual
+            // Obtener información del documento
             const seccionActual = document.getElementById(tipo + '-section');
             const fecha = document.getElementById('fecha-' + tipo).value;
+            const direccion = document.getElementById('direccion-' + tipo).value;
+            const comuna = document.getElementById('comuna-' + tipo).value;
+            const telefono = document.getElementById('telefono-presenta-' + tipo).value;
+            const cargo = document.getElementById('cargo-presenta-' + tipo).value;
+
+            // Determinar título y colores según el tipo
+            let tituloDocumento = '';
+            let colorPrincipal = '';
+            let tipoInspeccion = '';
+
+            switch(tipo) {
+                case 'plan-seguridad':
+                    tituloDocumento = 'INFORME DE VERIFICACIÓN - PLAN DE SEGURIDAD';
+                    colorPrincipal = '#1a365d';
+                    tipoInspeccion = 'Plan de Seguridad (Vigencia 2 años)';
+                    break;
+                case 'servicentros':
+                    tituloDocumento = 'INFORME DE VERIFICACIÓN - MEDIDAS DE SEGURIDAD SERVICENTROS';
+                    colorPrincipal = '#2d5016';
+                    tipoInspeccion = 'Medidas de Seguridad Servicentros (Vigencia 3 años)';
+                    break;
+                case 'sobre-500uf':
+                    tituloDocumento = 'INFORME DE VERIFICACIÓN - MEDIDAS DE SEGURIDAD SOBRE 500 UF';
+                    colorPrincipal = '#742a2a';
+                    tipoInspeccion = 'Medidas de Seguridad Sobre 500 UF (Vigencia 3 años)';
+                    break;
+                case 'directiva-funcionamiento':
+                    tituloDocumento = 'INFORME DE VERIFICACIÓN - DIRECTIVA DE FUNCIONAMIENTO';
+                    colorPrincipal = '#553c9a';
+                    tipoInspeccion = 'Directiva de Funcionamiento';
+                    break;
+            }
+
+            // Crear ventana para el documento
+            const ventanaDocumento = window.open('', '_blank');
             
-            // Crear el contenido HTML para imprimir
+            // Crear el contenido HTML del documento oficial
             let contenidoHTML = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Formulario de Requisitos - OS10 Coquimbo</title>
+                    <title>Documento Oficial - OS10 Coquimbo</title>
                     <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; color: #000; }
-                        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2d5016; padding-bottom: 20px; }
-                        .header-content { display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
-                        .header-content img { height: 60px; margin-right: 15px; }
-                        .header h1 { margin: 0; font-size: 20px; color: #2d5016; }
-                        .header h2 { margin: 5px 0; font-size: 16px; color: #4a7c22; }
-                        .inspector-info { background: #f5f5f5; padding: 15px; margin: 20px 0; border: 1px solid #ccc; border-left: 4px solid #2d5016; }
-                        .header-requisitos { display: grid; grid-template-columns: 60px 1fr 150px 200px; gap: 15px; padding: 10px; background: #2d5016; color: white; font-weight: bold; margin: 20px 0; }
-                        .requisito-item { margin: 10px 0; padding: 15px; border: 1px solid #ccc; display: grid; grid-template-columns: 60px 1fr 150px 200px; gap: 15px; align-items: start; }
-                        .requisito-numero { background: #2d5016; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; font-weight: bold; }
-                        .requisito-titulo { font-weight: bold; line-height: 1.4; }
-                        .estado { font-weight: bold; text-align: center; }
-                        .cumple { color: green; }
-                        .no-cumple { color: red; }
-                        .observacion { }
-                        .observacion textarea { width: 100%; border: 1px solid #ccc; padding: 5px; min-height: 50px; resize: none; }
-                        @media print {
-                            body { margin: 0; }
-                            .no-print { display: none; }
+                        @page {
+                            size: 8.5in 13in; /* Tamaño oficio */
+                            margin: 0.8in;
+                        }
+                        body { 
+                            font-family: 'Arial', sans-serif; 
+                            margin: 0; 
+                            color: #000; 
+                            font-size: 11px;
+                            line-height: 1.4;
+                        }
+                        .header-oficial { 
+                            text-align: center; 
+                            margin-bottom: 25px; 
+                            border-bottom: 3px solid ${colorPrincipal}; 
+                            padding-bottom: 20px; 
+                        }
+                        .header-content { 
+                            display: flex; 
+                            align-items: center; 
+                            justify-content: center; 
+                            margin-bottom: 15px; 
+                            gap: 20px;
+                        }
+                        .logo-os10 { 
+                            width: 80px; 
+                            height: 80px; 
+                            border: 2px solid ${colorPrincipal};
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: bold;
+                            color: ${colorPrincipal};
+                            font-size: 14px;
+                        }
+                        .header-text h1 { 
+                            margin: 0; 
+                            font-size: 16px; 
+                            color: ${colorPrincipal}; 
+                            font-weight: bold;
+                        }
+                        .header-text h2 { 
+                            margin: 5px 0; 
+                            font-size: 12px; 
+                            color: #333; 
+                        }
+                        .documento-info { 
+                            background: #f9f9f9; 
+                            padding: 15px; 
+                            margin: 20px 0; 
+                            border-left: 4px solid ${colorPrincipal}; 
+                        }
+                        .datos-establecimiento, .datos-presentacion { 
+                            margin: 20px 0; 
+                            padding: 15px; 
+                            border: 1px solid #ddd; 
+                        }
+                        .datos-grid { 
+                            display: grid; 
+                            grid-template-columns: 1fr 1fr; 
+                            gap: 15px; 
+                            margin-top: 10px; 
+                        }
+                        .campo { 
+                            margin-bottom: 8px; 
+                        }
+                        .campo strong { 
+                            color: ${colorPrincipal}; 
+                        }
+                        .tabla-requisitos { 
+                            width: 100%; 
+                            border-collapse: collapse; 
+                            margin: 20px 0; 
+                        }
+                        .tabla-requisitos th { 
+                            background: ${colorPrincipal}; 
+                            color: white; 
+                            padding: 8px; 
+                            font-size: 10px; 
+                            font-weight: bold;
+                        }
+                        .tabla-requisitos td { 
+                            border: 1px solid #ddd; 
+                            padding: 6px; 
+                            font-size: 9px; 
+                            vertical-align: top;
+                        }
+                        .numero-req { 
+                            text-align: center; 
+                            font-weight: bold; 
+                            background: #f5f5f5;
+                            width: 40px;
+                        }
+                        .estado-cumple { 
+                            color: green; 
+                            font-weight: bold; 
+                            text-align: center;
+                        }
+                        .estado-no-cumple { 
+                            color: red; 
+                            font-weight: bold; 
+                            text-align: center;
+                        }
+                        .estado-sin-revisar { 
+                            color: #666; 
+                            text-align: center;
+                        }
+                        .observaciones { 
+                            min-height: 30px; 
+                        }
+                        .firmas { 
+                            margin-top: 40px; 
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 50px;
+                        }
+                        .firma-box { 
+                            text-align: center; 
+                            border-top: 2px solid ${colorPrincipal}; 
+                            padding-top: 15px; 
+                        }
+                        .pie-documento { 
+                            margin-top: 30px; 
+                            text-align: center; 
+                            font-size: 9px; 
+                            color: #666; 
+                            border-top: 1px solid #ddd; 
+                            padding-top: 15px; 
                         }
                     </style>
                 </head>
                 <body>
-                    <div class="header">
+                    <div class="header-oficial">
                         <div class="header-content">
-                            <img src="logo.png" alt="Logo Carabineros">
-                            <div>
-                                <h1>SISTEMA DE REQUISITOS DE SEGURIDAD PRIVADA</h1>
-                                <h2>OS10 COQUIMBO - CARABINEROS DE CHILE</h2>
+                            <div class="logo-os10">OS10<br>LOGO</div>
+                            <div class="header-text">
+                                <h1>CARABINEROS DE CHILE</h1>
+                                <h2>OS10 COQUIMBO - OFICINA DE SEGURIDAD</h2>
+                                <h2>${tituloDocumento}</h2>
                             </div>
                         </div>
-                        <h3>${seccionActual.querySelector('.form-header h2').textContent}</h3>
                     </div>
                     
-                    <div class="inspector-info">
-                        <p><strong>Funcionario Inspector:</strong> ${inspector}</p>
+                    <div class="documento-info">
+                        <p><strong>Tipo de Inspección:</strong> ${tipoInspeccion}</p>
+                        <p><strong>Decreto de Referencia:</strong> Decreto Exento N° 32 del 31.01.2024 del Ministerio del Interior y Seguridad Pública</p>
                         <p><strong>Fecha y Hora de Inspección:</strong> ${new Date(fecha).toLocaleString('es-CL')}</p>
-                        <p><strong>Fecha de Impresión:</strong> ${new Date().toLocaleString('es-CL')}</p>
+                        <p><strong>Funcionario Inspector:</strong> ${inspector}</p>
                     </div>
+
+                    <div class="datos-establecimiento">
+                        <h3 style="color: ${colorPrincipal}; margin-top: 0;">📍 DATOS DEL ESTABLECIMIENTO FISCALIZADO</h3>
+                        <div class="datos-grid">
+                            <div class="campo"><strong>Razón Social:</strong><br>${razonSocial}</div>
+                            <div class="campo"><strong>RUT:</strong><br>${rutEstablecimiento}</div>
+                            <div class="campo"><strong>Dirección:</strong><br>${direccion}</div>
+                            <div class="campo"><strong>Comuna:</strong><br>${comuna}</div>
+                        </div>
+                    </div>
+
+                    <div class="datos-presentacion">
+                        <h3 style="color: ${colorPrincipal}; margin-top: 0;">👤 DATOS DE QUIEN PRESENTA EL DOCUMENTO</h3>
+                        <div class="datos-grid">
+                            <div class="campo"><strong>Nombre:</strong><br>${nombrePresenta}</div>
+                            <div class="campo"><strong>RUT:</strong><br>${rutPresenta}</div>
+                            <div class="campo"><strong>Teléfono:</strong><br>${telefono}</div>
+                            <div class="campo"><strong>Cargo:</strong><br>${cargo}</div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: ${colorPrincipal};">📋 VERIFICACIÓN DE REQUISITOS</h3>
+                    <table class="tabla-requisitos">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">N°</th>
+                                <th style="width: 50%;">REQUISITO</th>
+                                <th style="width: 100px;">CUMPLIMIENTO</th>
+                                <th style="width: 35%;">OBSERVACIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             `;
 
-            // Agregar requisitos
+            // Agregar requisitos a la tabla
             const requisitosContainer = seccionActual.querySelector('[id^="requisitos-"]');
             const requisitosItems = requisitosContainer.querySelectorAll('.requisito-item');
-            
-            // Agregar header de tabla
-            contenidoHTML += `
-                <div class="header-requisitos">
-                    <div style="text-align: center;">N°</div>
-                    <div>REQUISITO</div>
-                    <div style="text-align: center;">CUMPLIMIENTO</div>
-                    <div style="text-align: center;">OBSERVACIONES</div>
-                </div>
-            `;
             
             requisitosItems.forEach((item, index) => {
                 const numero = item.querySelector('.requisito-numero').textContent;
@@ -1502,61 +1867,87 @@
                 const observacion = item.querySelector('.observacion-input').value;
                 
                 let estadoTexto = 'SIN REVISAR';
-                let estadoClase = '';
+                let estadoClase = 'estado-sin-revisar';
                 
                 if (item.classList.contains('cumple')) {
                     estadoTexto = '✓ CUMPLE';
-                    estadoClase = 'cumple';
+                    estadoClase = 'estado-cumple';
                 } else if (item.classList.contains('no-cumple')) {
                     estadoTexto = '✗ NO CUMPLE';
-                    estadoClase = 'no-cumple';
+                    estadoClase = 'estado-no-cumple';
                 }
 
                 contenidoHTML += `
-                    <div class="requisito-item">
-                        <div class="requisito-numero">${numero}</div>
-                        <div class="requisito-titulo">${titulo}</div>
-                        <div class="estado ${estadoClase}">${estadoTexto}</div>
-                        <div class="observacion">
-                            <textarea readonly>${observacion}</textarea>
-                        </div>
-                    </div>
+                    <tr>
+                        <td class="numero-req">${numero}</td>
+                        <td>${titulo}</td>
+                        <td class="${estadoClase}">${estadoTexto}</td>
+                        <td class="observaciones">${observacion}</td>
+                    </tr>
                 `;
             });
 
             contenidoHTML += `
-                    <div style="margin-top: 40px; text-align: center; border-top: 2px solid #2d5016; padding-top: 20px;">
-                        <p><strong>FIRMA DEL FUNCIONARIO INSPECTOR</strong></p>
-                        <br><br><br>
-                        <p>_________________________________</p>
-                        <p><strong>${inspector}</strong></p>
-                        <p>OS10 Coquimbo</p>
-                        <p><strong>CARABINEROS DE CHILE</strong></p>
+                        </tbody>
+                    </table>
+
+                    <div class="firmas">
+                        <div class="firma-box">
+                            <p><strong>FUNCIONARIO INSPECTOR</strong></p>
+                            <br><br><br>
+                            <p><strong>${inspector}</strong></p>
+                            <p>OS10 Coquimbo</p>
+                            <p>Carabineros de Chile</p>
+                        </div>
+                        <div class="firma-box">
+                            <p><strong>REPRESENTANTE ESTABLECIMIENTO</strong></p>
+                            <br><br><br>
+                            <p><strong>${nombrePresenta}</strong></p>
+                            <p>RUT: ${rutPresenta}</p>
+                            <p>${cargo}</p>
+                        </div>
+                    </div>
+
+                    <div class="pie-documento">
+                        <p><strong>Documento generado el:</strong> ${new Date().toLocaleString('es-CL')}</p>
+                        <p>Sistema de Requisitos de Seguridad Privada - OS10 Coquimbo - Carabineros de Chile</p>
+                        <p>Este documento tiene validez oficial para los efectos legales correspondientes</p>
                     </div>
                 </body>
                 </html>
             `;
 
             // Escribir el contenido en la nueva ventana
-            ventanaImpresion.document.write(contenidoHTML);
-            ventanaImpresion.document.close();
+            ventanaDocumento.document.write(contenidoHTML);
+            ventanaDocumento.document.close();
 
-            // Imprimir después de un breve delay para asegurar que el contenido se cargue
+            // Configurar la ventana para impresión
             setTimeout(() => {
-                ventanaImpresion.print();
-            }, 500);
+                ventanaDocumento.focus();
+                ventanaDocumento.print();
+            }, 1000);
         }
 
         // Inicializar la aplicación
         document.addEventListener('DOMContentLoaded', function() {
-            // Establecer fecha y hora actual en todos los campos de fecha
-            const ahora = new Date();
-            const fechaHora = ahora.toISOString().slice(0, 16);
-            
-            const camposFecha = document.querySelectorAll('input[type="datetime-local"]');
-            camposFecha.forEach(campo => {
-                campo.value = fechaHora;
-            });
+            // Función para establecer fecha y hora actual REAL
+            function establecerFechaHoraReal() {
+                const ahora = new Date();
+                const fechaHora = ahora.toISOString().slice(0, 16);
+                
+                const camposFecha = document.querySelectorAll('input[type="datetime-local"]');
+                camposFecha.forEach(campo => {
+                    if (!campo.value) { // Solo establecer si está vacío
+                        campo.value = fechaHora;
+                    }
+                });
+            }
+
+            // Establecer fecha inicial
+            establecerFechaHoraReal();
+
+            // Actualizar fecha cada minuto para mantenerla actual
+            setInterval(establecerFechaHoraReal, 60000);
 
             // Función para ajustar layout responsive dinámicamente
             function ajustarLayout() {
