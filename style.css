@@ -89,9 +89,9 @@ body {
 }
 
 .logo-imagen {
-    height: 90px;
+    height: 100px;
     width: auto;
-    max-width: 90px;
+    max-width: 100px;
     object-fit: contain;
 }
 
