@@ -248,8 +248,13 @@ body {
 }
 
 .form-header::before {
-    content: '🏛️';
-    font-size: 60px;
+    content: '';
+    width: 60px;                                    /* Ancho del logo */
+    height: 60px;                                   /* Alto del logo */
+    background-image: url('foto/logo.png');        /* Ruta a tu logo */
+    background-size: contain;                       /* Mantiene proporciones */
+    background-repeat: no-repeat;                   /* No repetir la imagen */
+    background-position: center;                    /* Centrar la imagen */
     position: absolute;
     left: 20px;
     top: 50%;
