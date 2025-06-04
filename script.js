@@ -312,21 +312,78 @@ async function generarReporte(sectionId) {
         sectionSubtitle = 'Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos';
     }
 
-    // Añadir encabezado al PDF
+    // Función para agregar el logo al PDF
+    const agregarLogoPDF = () => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = function() {
+                try {
+                    // Agregar logo en la esquina superior izquierda
+                    const logoWidth = 25;
+                    const logoHeight = 25;
+                    doc.addImage(img, 'PNG', 15, 8, logoWidth, logoHeight);
+                    
+                    // Agregar logo también en la esquina superior derecha para balance
+                    doc.addImage(img, 'PNG', 170, 8, logoWidth, logoHeight);
+                    
+                    console.log('Logos agregados al PDF exitosamente');
+                } catch (error) {
+                    console.log('Error al agregar logo al PDF:', error);
+                    // Agregar texto alternativo si no se puede cargar la imagen
+                    doc.setFontSize(12);
+                    doc.setTextColor(45, 80, 22);
+                    doc.text('🏛️', 15, 20);
+                    doc.text('🏛️', 185, 20);
+                }
+                resolve();
+            };
+            img.onerror = function() {
+                console.log('No se pudo cargar logo.png para el PDF');
+                // Agregar iconos alternativos
+                doc.setFontSize(16);
+                doc.setTextColor(45, 80, 22);
+                doc.text('🏛️', 20, 22);
+                doc.text('🏛️', 180, 22);
+                resolve();
+            };
+            img.src = 'logo.png';
+            
+            // Timeout de 2 segundos para evitar bloqueo
+            setTimeout(() => {
+                console.log('Timeout al cargar logo, continuando...');
+                // Agregar iconos alternativos por timeout
+                doc.setFontSize(16);
+                doc.setTextColor(45, 80, 22);
+                doc.text('🏛️', 20, 22);
+                doc.text('🏛️', 180, 22);
+                resolve();
+            }, 2000);
+        });
+    };
+
+    // Agregar logo al PDF
+    await agregarLogoPDF();
+
+    // Añadir encabezado al PDF (ajustado para dar espacio al logo)
     doc.setFontSize(18);
     doc.setTextColor(45, 80, 22); // Verde oscuro
-    doc.text('Sistema de Requisitos de Seguridad Privada', 105, 20, null, null, 'center');
+    doc.text('Sistema de Requisitos de Seguridad Privada', 105, 22, null, null, 'center');
     doc.setFontSize(12);
     doc.setTextColor(74, 124, 34); // Verde más claro
-    doc.text('OS10 Coquimbo - Carabineros de Chile', 105, 27, null, null, 'center');
+    doc.text('OS10 Coquimbo - Carabineros de Chile', 105, 29, null, null, 'center');
 
     doc.setFontSize(14);
     doc.setTextColor(0, 0, 0); // Negro
-    doc.text(`Reporte de: ${sectionTitle}`, 105, 40, null, null, 'center');
+    doc.text(`Reporte de: ${sectionTitle}`, 105, 42, null, null, 'center');
     doc.setFontSize(10);
-    doc.text(sectionSubtitle, 105, 47, null, null, 'center');
+    doc.text(sectionSubtitle, 105, 49, null, null, 'center');
 
-    let yOffset = 60;
+    // Agregar línea separadora decorativa
+    doc.setDrawColor(45, 80, 22); // Verde oscuro
+    doc.setLineWidth(0.5);
+    doc.line(20, 55, 190, 55);
+
+    let yOffset = 65; // Ajustado para dar espacio a los logos
 
     // Añadir información general
     doc.setFontSize(11);
