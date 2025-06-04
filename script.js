@@ -364,26 +364,25 @@ async function generarReporte(sectionId) {
     // Agregar logo al PDF
     await agregarLogoPDF();
 
-    // Añadir encabezado al PDF (ajustado para dar espacio al logo)
-    doc.setFontSize(18);
+    // Añadir encabezado al PDF (solo con el título del requisito)
+    doc.setFontSize(20); // Aumentado para hacer más prominente el título principal
     doc.setTextColor(45, 80, 22); // Verde oscuro
-    doc.text('Sistema de Requisitos de Seguridad Privada', 105, 22, null, null, 'center');
-    doc.setFontSize(12);
+    doc.text(sectionTitle, 105, 25, null, null, 'center'); // Título principal centrado
+    
+    doc.setFontSize(11);
     doc.setTextColor(74, 124, 34); // Verde más claro
-    doc.text('OS10 Coquimbo - Carabineros de Chile', 105, 29, null, null, 'center');
-
-    doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0); // Negro
-    doc.text(`Reporte de: ${sectionTitle}`, 105, 42, null, null, 'center');
-    doc.setFontSize(10);
-    doc.text(sectionSubtitle, 105, 49, null, null, 'center');
+    doc.text('OS10 Coquimbo - Carabineros de Chile', 105, 32, null, null, 'center');
+    
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100); // Gris para el subtítulo
+    doc.text(sectionSubtitle, 105, 38, null, null, 'center');
 
     // Agregar línea separadora decorativa
     doc.setDrawColor(45, 80, 22); // Verde oscuro
     doc.setLineWidth(0.5);
-    doc.line(20, 55, 190, 55);
+    doc.line(20, 45, 190, 45);
 
-    let yOffset = 65; // Ajustado para dar espacio a los logos
+    let yOffset = 55; // Ajustado para el nuevo layout
 
     // Añadir información general
     doc.setFontSize(9); // Reducido de 11 a 9
