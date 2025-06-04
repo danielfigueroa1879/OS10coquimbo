@@ -1,4 +1,4 @@
-// script.js
+// script.js - Versión 9 restaurada con correcciones
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -118,10 +118,10 @@ function mostrarSeccion(sectionId) {
         // Mostrar/ocultar botón volver atrás
         const btnVolver = document.querySelector('.btn-volver');
         if (sectionId === 'inicio') {
-            btnVolver.style.display = 'none';
+            if (btnVolver) btnVolver.style.display = 'none';
             sectionHistory = []; // Limpiar historial
         } else {
-            btnVolver.style.display = 'block';
+            if (btnVolver) btnVolver.style.display = 'block';
         }
         
         // Cargar requisitos para todas las secciones excepto inicio
@@ -149,42 +149,9 @@ function mostrarSeccion(sectionId) {
 function volverAtras() {
     if (sectionHistory.length > 0) {
         const previousSection = sectionHistory.pop();
-        // No guardar en historial cuando volvemos atrás
-        const tempCurrent = currentSection;
-        currentSection = previousSection;
-        mostrarSeccionSinHistorial(previousSection);
-        currentSection = tempCurrent; // Restaurar para la próxima navegación
+        mostrarSeccion(previousSection);
     } else {
         mostrarSeccion('inicio');
-    }
-}
-
-// Función auxiliar para mostrar sección sin agregar al historial
-function mostrarSeccionSinHistorial(sectionId) {
-    const sections = document.querySelectorAll('.form-section');
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
-
-    const targetSection = document.getElementById(`${sectionId}-section`);
-    if (targetSection) {
-        targetSection.classList.add('active');
-        currentSection = sectionId;
-        
-        // Mostrar/ocultar botón volver atrás
-        const btnVolver = document.querySelector('.btn-volver');
-        if (sectionId === 'inicio') {
-            btnVolver.style.display = 'none';
-        } else {
-            btnVolver.style.display = 'block';
-        }
-        
-        // Cargar requisitos
-        if (sectionId !== 'inicio' && sectionId !== 'directiva-funcionamiento') {
-            cargarRequisitos(sectionId);
-        } else if (sectionId === 'directiva-funcionamiento' && selectedDirectivaType) {
-            cargarRequisitos(sectionId, selectedDirectivaType);
-        }
     }
 }
 
@@ -192,7 +159,14 @@ function mostrarSeccionSinHistorial(sectionId) {
 function cargarRequisitos(sectionId, directivaType = null) {
     console.log(`Intentando cargar requisitos para: ${sectionId}`);
     
-    const containerId = `requisitos-${sectionId}`;
+    // CORREGIDO: Manejar el ID especial para sobre-500uf
+    let containerId;
+    if (sectionId === 'sobre-500uf') {
+        containerId = 'requisitos-sobre-500uf';
+    } else {
+        containerId = `requisitos-${sectionId}`;
+    }
+    
     const requisitosContainer = document.getElementById(containerId);
     
     if (!requisitosContainer) {
@@ -222,8 +196,6 @@ function cargarRequisitos(sectionId, directivaType = null) {
     console.log(`Cargando ${requisitos.length} requisitos`);
 
     requisitos.forEach((req, index) => {
-        console.log(`Cargando requisito ${index + 1}: ${req.text.substring(0, 50)}...`);
-        
         const requisitoItem = document.createElement('div');
         requisitoItem.classList.add('requisito-item');
         requisitoItem.setAttribute('data-numero', req.id);
@@ -274,7 +246,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF
+// Función para generar el reporte PDF - CORREGIDA
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -285,19 +257,45 @@ async function generarReporte(sectionId) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    // Recopilar datos del formulario
+    // CORREGIDO: Recopilar datos del formulario con IDs correctos
     const getInputValue = (id) => {
         const element = document.getElementById(id);
         return element ? element.value.trim() : '';
     };
 
+    // Mapear correctamente los IDs según la sección
+    let nombreEstablecimientoId, direccionId, funcionarioGradoId;
+    
+    if (sectionId === 'plan-seguridad') {
+        nombreEstablecimientoId = 'nombre-establecimiento-plan';
+        direccionId = 'direccion-plan';
+        funcionarioGradoId = 'funcionario-grado-plan';
+    } else if (sectionId === 'servicentros') {
+        nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
+        direccionId = 'direccion-servicentros';
+        funcionarioGradoId = 'funcionario-grado-servicentros';
+    } else if (sectionId === 'sobre-500uf') {
+        nombreEstablecimientoId = 'nombre-establecimiento-500uf';
+        direccionId = 'direccion-500uf';
+        funcionarioGradoId = 'funcionario-grado-500uf';
+    } else if (sectionId === 'directiva-funcionamiento') {
+        nombreEstablecimientoId = 'nombre-establecimiento-directiva';
+        direccionId = 'direccion-directiva';
+        funcionarioGradoId = 'funcionario-grado-directiva';
+    }
+
     const generalInfo = {
-        nombreEstablecimiento: getInputValue(`nombre-establecimiento-${sectionId}`),
-        direccion: getInputValue(`direccion-${sectionId}`),
-        funcionarioGrado: getInputValue(`funcionario-grado-${sectionId}`)
+        nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
+        direccion: getInputValue(direccionId),
+        funcionarioGrado: getInputValue(funcionarioGradoId)
     };
 
-   
+    // Validar que al menos el nombre del establecimiento esté lleno
+    if (!generalInfo.nombreEstablecimiento) {
+        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
+        return;
+    }
+
     let sectionTitle = '';
     let sectionSubtitle = '';
     if (sectionId === 'plan-seguridad') {
@@ -352,12 +350,20 @@ async function generarReporte(sectionId) {
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
     yOffset += 15;
 
-    // Añadir tabla de requisitos
+    // CORREGIDO: Añadir tabla de requisitos
     doc.setFontSize(10);
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
 
-    const requisitosItems = document.querySelectorAll(`#requisitos-${sectionId} .requisito-item`);
+    // Buscar requisitos con el ID correcto
+    let requisitosSelector;
+    if (sectionId === 'sobre-500uf') {
+        requisitosSelector = '#requisitos-sobre-500uf .requisito-item';
+    } else {
+        requisitosSelector = `#requisitos-${sectionId} .requisito-item`;
+    }
+
+    const requisitosItems = document.querySelectorAll(requisitosSelector);
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
@@ -444,8 +450,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.style.display = 'none';
             const fallback = document.createElement('div');
             fallback.innerHTML = '🏛️';
-            fallback.style.fontSize = '30px';
-            fallback.style.color = 'white';
+            fallback.style.fontSize = '45px';
+            fallback.style.color = '#2d5016';
             this.parentNode.appendChild(fallback);
         };
         
@@ -465,18 +471,5 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             window.print();
         }
-    });
-    
-    // Agregar smooth scroll a los elementos que lo necesiten
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
     });
 });
