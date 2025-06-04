@@ -340,7 +340,7 @@ async function generarReporte(sectionId) {
                     
                     console.log('Logos agregados al PDF exitosamente');
                 } catch (error) {
-                    console.log('Error al agregar logo al PDF:', error);
+                    console.log('Error al agregar foto/logo.png al PDF:', error);
                     // Agregar texto alternativo si no se puede cargar la imagen
                     doc.setFontSize(12);
                     doc.setTextColor(45, 80, 22);
@@ -350,7 +350,7 @@ async function generarReporte(sectionId) {
                 resolve();
             };
             img.onerror = function() {
-                console.log('No se pudo cargar logo.png para el PDF');
+                console.log('No se pudo cargar foto/logo.png para el PDF');
                 // Agregar iconos alternativos
                 doc.setFontSize(16);
                 doc.setTextColor(45, 80, 22);
@@ -358,11 +358,11 @@ async function generarReporte(sectionId) {
                 doc.text('🏛️', 180, 22);
                 resolve();
             };
-            img.src = 'logo.png';
+            img.src = 'foto/logo.png';
             
             // Timeout de 2 segundos para evitar bloqueo
             setTimeout(() => {
-                console.log('Timeout al cargar logo, continuando...');
+                console.log('Timeout al cargar foto/logo.png, continuando...');
                 // Agregar iconos alternativos por timeout
                 doc.setFontSize(16);
                 doc.setTextColor(45, 80, 22);
@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoImg = document.querySelector('.logo-imagen');
     if (logoImg) {
         logoImg.onerror = function() {
-            console.log('No se pudo cargar logo.png, usando fallback');
+            console.log('No se pudo cargar foto/logo.png, usando fallback');
             this.style.display = 'none';
             const fallback = document.createElement('div');
             fallback.innerHTML = '🏛️';
