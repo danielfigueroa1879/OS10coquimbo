@@ -386,26 +386,37 @@ async function generarReporte(sectionId) {
     let yOffset = 65; // Ajustado para dar espacio a los logos
 
     // Añadir información general
-    doc.setFontSize(11);
+    doc.setFontSize(9); // Reducido de 11 a 9
     doc.setTextColor(0, 0, 0);
+    doc.setFont(undefined, 'bold');
     doc.text('DATOS DEL ESTABLECIMIENTO FISCALIZADO:', 20, yOffset);
-    yOffset += 7;
+    yOffset += 6; // Reducido espaciado
+    
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(8); // Reducido de 11 a 8
     doc.text(`Nombre del Establecimiento: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
-    yOffset += 7;
+    yOffset += 5; // Reducido espaciado
     doc.text(`Dirección: ${generalInfo.direccion}`, 20, yOffset);
-    yOffset += 12;
+    yOffset += 8; // Reducido espaciado
 
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(9); // Reducido de 11 a 9
     doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
-    yOffset += 7;
+    yOffset += 6; // Reducido espaciado
+    
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(8); // Reducido de 11 a 8
     doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
-    yOffset += 7;
+    yOffset += 5; // Reducido espaciado
     
     // Agregar fecha y hora del reporte
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toLocaleDateString('es-CL');
     const horaFormateada = fechaActual.toLocaleTimeString('es-CL');
+    doc.setFontSize(7); // Reducido para fecha
+    doc.setTextColor(100, 100, 100); // Gris para la fecha
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
-    yOffset += 15;
+    yOffset += 10; // Espaciado antes de la tabla
 
     // CORREGIDO: Añadir tabla de requisitos
     doc.setFontSize(10);
