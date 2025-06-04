@@ -298,6 +298,8 @@ async function generarReporte(sectionId) {
 
     let sectionTitle = '';
     let sectionSubtitle = '';
+    let tipoDirectiva = ''; // Nueva variable para el tipo de directiva
+    
     if (sectionId === 'plan-seguridad') {
         sectionTitle = 'PLAN DE SEGURIDAD';
         sectionSubtitle = 'Vigencia según estudio (2 años) - Decreto Exento N° 32 del 31.01.2024';
@@ -308,7 +310,17 @@ async function generarReporte(sectionId) {
         sectionTitle = 'MEDIDAS SOBRE 500 UF';
         sectionSubtitle = 'Vigencia 3 años - Supermercados, joyerías, bancos y establecimientos que manejan valores superiores a 500 UF';
     } else if (sectionId === 'directiva-funcionamiento') {
-        sectionTitle = `DIRECTIVA DE FUNCIONAMIENTO - ${selectedDirectivaType ? selectedDirectivaType.toUpperCase() : ''}`;
+        sectionTitle = 'DIRECTIVA DE FUNCIONAMIENTO';
+        
+        // Definir el tipo de directiva según la selección
+        if (selectedDirectivaType === 'instalacion') {
+            tipoDirectiva = 'INSTALACIÓN';
+        } else if (selectedDirectivaType === 'evento-deportivo') {
+            tipoDirectiva = 'EVENTO DEPORTIVO';
+        } else if (selectedDirectivaType === 'evento-masivo') {
+            tipoDirectiva = 'EVENTO MASIVO';
+        }
+        
         sectionSubtitle = 'Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos';
     }
 
@@ -369,20 +381,31 @@ async function generarReporte(sectionId) {
     doc.setTextColor(45, 80, 22); // Verde oscuro
     doc.text(sectionTitle, 105, 25, null, null, 'center'); // Título principal centrado
     
+    let yOffsetHeader = 32;
+    
+    // Si es directiva de funcionamiento, agregar el tipo específico
+    if (sectionId === 'directiva-funcionamiento' && tipoDirectiva) {
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0); // Negro para el tipo
+        doc.text(tipoDirectiva, 105, yOffsetHeader, null, null, 'center');
+        yOffsetHeader += 7; // Espaciado adicional
+    }
+    
     doc.setFontSize(11);
     doc.setTextColor(74, 124, 34); // Verde más claro
-    doc.text('OS10 Coquimbo - Carabineros de Chile', 105, 32, null, null, 'center');
+    doc.text('OS10 Coquimbo - Carabineros de Chile', 105, yOffsetHeader, null, null, 'center');
     
     doc.setFontSize(9);
     doc.setTextColor(100, 100, 100); // Gris para el subtítulo
-    doc.text(sectionSubtitle, 105, 38, null, null, 'center');
+    doc.text(sectionSubtitle, 105, yOffsetHeader + 6, null, null, 'center');
 
-    // Agregar línea separadora decorativa
+    // Agregar línea separadora decorativa (ajustada según el contenido)
+    const lineY = yOffsetHeader + 12;
     doc.setDrawColor(45, 80, 22); // Verde oscuro
     doc.setLineWidth(0.5);
-    doc.line(20, 45, 190, 45);
+    doc.line(20, lineY, 190, lineY);
 
-    let yOffset = 55; // Ajustado para el nuevo layout
+    let yOffset = lineY + 10; // Ajustado para el nuevo layout
 
     // Añadir información general
     doc.setFontSize(9); // Reducido de 11 a 9
