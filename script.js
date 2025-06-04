@@ -297,12 +297,7 @@ async function generarReporte(sectionId) {
         funcionarioGrado: getInputValue(`funcionario-grado-${sectionId}`)
     };
 
-    // Validar que al menos el nombre del establecimiento esté lleno
-    if (!generalInfo.nombreEstablecimiento) {
-        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
-        return;
-    }
-
+   
     let sectionTitle = '';
     let sectionSubtitle = '';
     if (sectionId === 'plan-seguridad') {
