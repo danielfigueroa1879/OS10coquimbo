@@ -470,17 +470,17 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        // MODIFICADO: Reemplazar "Cumple" y "No Cumple" por emojis más compatibles
-        let estado = '';
+        // MODIFICADO: Usar caracteres más básicos y la palabra completa
+        let estadoDisplay = '';
         if (item.classList.contains('cumple')) {
-            estado = '✔️'; // Unicode check mark
+            estadoDisplay = '+ Cumple'; 
         } else if (item.classList.contains('no-cumple')) {
-            estado = '✖️'; // Unicode multiplication x
+            estadoDisplay = '- No Cumple'; 
         } else {
-            estado = '➖'; // Unicode minus sign (for pending)
+            estadoDisplay = 'Pendiente'; 
         }
         const observacion = item.querySelector('.observacion-input').value || '';
-        data.push([numero, titulo, estado, observacion]);
+        data.push([numero, titulo, estadoDisplay, observacion]);
     });
 
     doc.autoTable({
@@ -510,10 +510,10 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === '✔️') {
+                if (data.cell.text[0].includes('Cumple')) { // Buscar la palabra "Cumple"
                     data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
                     data.cell.styles.textColor = [0, 140, 44];
-                } else if (data.cell.text[0] === '✖️') {
+                } else if (data.cell.text[0].includes('No Cumple')) { // Buscar la palabra "No Cumple"
                     data.cell.styles.fillColor = [247, 202, 209]; // ROJO para No Cumple
                     data.cell.styles.textColor = [247, 49, 9];
                 } else { // Para "Pendiente"
