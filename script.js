@@ -516,18 +516,18 @@ async function generarReporte(sectionId) {
         },
         // ✅ AGREGAR FOOTER Y NUMERACIÓN EN CADA PÁGINA
         didDrawPage: function (data) {
-            // ✅ FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo."
+            // ✅ FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo." - MÁS ABAJO
             doc.setFontSize(10);
             doc.setTextColor(100, 100, 100); // Gris
             doc.setFont(undefined, 'normal');
             
-            // Texto centrado en la parte inferior
+            // Texto centrado en la parte inferior - MODIFICADO: cambiado de -15 a -8 para bajarlo más
             const pageWidth = doc.internal.pageSize.width;
             const footerText = 'Seguridad Privada - OS10 Coquimbo.';
             const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
             const textX = (pageWidth - textWidth) / 2;
             
-            doc.text(footerText, textX, doc.internal.pageSize.height - 15);
+            doc.text(footerText, textX, doc.internal.pageSize.height - 8);
             
             // ✅ NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
             doc.setFontSize(9);
@@ -542,7 +542,7 @@ async function generarReporte(sectionId) {
             const pageTextWidth = doc.getStringUnitWidth(pageText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
             const pageTextX = pageWidth - pageTextWidth - 20; // 20mm del margen derecho
             
-            doc.text(pageText, pageTextX, doc.internal.pageSize.height - 10);
+            doc.text(pageText, pageTextX, doc.internal.pageSize.height - 5);
         }
     });
 
@@ -552,7 +552,7 @@ async function generarReporte(sectionId) {
     for (let i = 1; i <= totalPages; i++) {
         doc.setPage(i);
         
-        // Footer centrado
+        // Footer centrado - MÁS ABAJO
         doc.setFontSize(10);
         doc.setTextColor(100, 100, 100);
         doc.setFont(undefined, 'normal');
@@ -562,7 +562,8 @@ async function generarReporte(sectionId) {
         const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
         const textX = (pageWidth - textWidth) / 2;
         
-        doc.text(footerText, textX, doc.internal.pageSize.height - 15);
+        // MODIFICADO: cambiado de -15 a -8 para que aparezca más abajo
+        doc.text(footerText, textX, doc.internal.pageSize.height - 8);
         
         // Numeración de páginas
         doc.setFontSize(9);
@@ -572,7 +573,8 @@ async function generarReporte(sectionId) {
         const pageTextWidth = doc.getStringUnitWidth(pageText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
         const pageTextX = pageWidth - pageTextWidth - 20;
         
-        doc.text(pageText, pageTextX, doc.internal.pageSize.height - 10);
+        // MODIFICADO: cambiado de -10 a -5 para que esté acorde con el footer
+        doc.text(pageText, pageTextX, doc.internal.pageSize.height - 5);
     }
 
     // Generar fecha actual para el nombre del archivo
