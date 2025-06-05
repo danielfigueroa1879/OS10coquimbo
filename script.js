@@ -470,14 +470,14 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        // MODIFICADO: Reemplazar "Cumple" y "No Cumple" por emojis
+        // MODIFICADO: Reemplazar "Cumple" y "No Cumple" por emojis más compatibles
         let estado = '';
         if (item.classList.contains('cumple')) {
-            estado = '✅'; // Emoji de aprobado
+            estado = '✔️'; // Unicode check mark
         } else if (item.classList.contains('no-cumple')) {
-            estado = '❌'; // Emoji de rechazo
+            estado = '✖️'; // Unicode multiplication x
         } else {
-            estado = '➖'; // Emoji para pendiente
+            estado = '➖'; // Unicode minus sign (for pending)
         }
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
@@ -498,7 +498,7 @@ async function generarReporte(sectionId) {
             fontSize: 8,
             cellPadding: 2,
             valign: 'middle',
-            // ✅ TEXTO MÁS OSCURO EN LOS CUADROS (sin negritas)
+            // Asegurar texto oscuro en los cuadros (sin negritas)
             textColor: [0, 0, 0],          // Negro puro para mejor contraste
             fontStyle: 'normal'            // Sin negritas
         },
@@ -510,11 +510,10 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === '✅') {
+                if (data.cell.text[0] === '✔️') {
                     data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
                     data.cell.styles.textColor = [0, 140, 44];
-                } else if (data.cell.text[0] === '❌') {
-                    // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
+                } else if (data.cell.text[0] === '✖️') {
                     data.cell.styles.fillColor = [247, 202, 209]; // ROJO para No Cumple
                     data.cell.styles.textColor = [247, 49, 9];
                 } else { // Para "Pendiente"
@@ -522,20 +521,20 @@ async function generarReporte(sectionId) {
                     data.cell.styles.textColor = [153, 153, 0]; // Amarillo oscuro
                 }
             }
-            // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
+            // Asegurar texto negro en todas las otras celdas (sin negritas)
             if (data.section === 'body' && data.column.index !== 2) {
                 data.cell.styles.textColor = [0, 0, 0];     // Negro puro
                 data.cell.styles.fontStyle = 'normal';      // Sin negritas
             }
         },
-        // ✅ AGREGAR FOOTER Y NUMERACIÓN EN CADA PÁGINA
+        // Agregar footer y numeración en cada página
         didDrawPage: function (data) {
-            // ✅ FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo." - ALINEADO CON NUMERACIÓN
+            // Footer centrado: "Seguridad Privada - OS10 Coquimbo." - Alineado con numeración
             doc.setFontSize(10);
             doc.setTextColor(100, 100, 100); // Gris
             doc.setFont(undefined, 'normal');
             
-            // Texto centrado en la parte inferior - AJUSTADO: a la misma altura que numeración
+            // Texto centrado en la parte inferior - Ajustado: a la misma altura que numeración
             const pageWidth = doc.internal.pageSize.width;
             const footerText = 'Seguridad Privada - OS10 Coquimbo.';
             const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
@@ -543,7 +542,7 @@ async function generarReporte(sectionId) {
             
             doc.text(footerText, textX, doc.internal.pageSize.height - 8);
             
-            // ✅ NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
+            // Numeración de páginas en esquina inferior derecha
             doc.setFontSize(9);
             doc.setTextColor(80, 80, 80); // Gris más oscuro para números
             
@@ -560,13 +559,13 @@ async function generarReporte(sectionId) {
         }
     });
 
-    // ✅ ACTUALIZAR NUMERACIÓN DE PÁGINAS EN TODAS LAS PÁGINAS
+    // Actualizar numeración de páginas en todas las páginas
     const totalPages = doc.internal.getNumberOfPages();
 
     for (let i = 1; i <= totalPages; i++) {
         doc.setPage(i);
         
-        // Footer centrado - ALINEADO A LA MISMA ALTURA QUE NUMERACIÓN
+        // Footer centrado - Alineado a la misma altura que numeración
         doc.setFontSize(10);
         doc.setTextColor(100, 100, 100);
         doc.setFont(undefined, 'normal');
@@ -576,7 +575,7 @@ async function generarReporte(sectionId) {
         const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
         const textX = (pageWidth - textWidth) / 2;
         
-        // AJUSTADO: bajado de -12 a -8 para alinearse con la numeración
+        // Ajustado: bajado de -12 a -8 para alinearse con la numeración
         doc.text(footerText, textX, doc.internal.pageSize.height - 8);
         
         // Numeración de páginas
