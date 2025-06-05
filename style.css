@@ -333,7 +333,7 @@ body {
 
 /* MODIFICADO: Cambié naranja por rojo para no-cumple */
 .requisito-item.no-cumple {
-    border-color: #dc3545; /* Cambié de #f39c12 a rojo */
+    border-color: #f73105; /* Cambié de #f39c12 a rojo */
     background: linear-gradient(135deg, #ffeaea 0%, #ffcccb 100%); /* Cambié de naranjas a rojos claros */
     box-shadow: 0 4px 20px rgba(220, 53, 69, 0.15); /* Sombra roja */
 }
@@ -405,7 +405,7 @@ body {
 
 /* MODIFICADO: Cambié naranja por rojo para btn-no-cumple */
 .btn-no-cumple {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); /* Cambié de naranjas a rojos */
+    background: linear-gradient(135deg, #f73105 0%, #f73105 100%); /* Cambié de naranjas a rojos */
     color: white;
     box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3); /* Sombra roja */
 }
