@@ -483,7 +483,7 @@ doc.autoTable({
         textColor: [0, 0, 0],          // Negro puro para mejor contraste
         fontStyle: 'normal',           // Sin negritas
         // ✅ LÍNEAS MÁS OSCURAS
-        lineColor: [0, 0, 0],          // Líneas negras
+        // lineColor: [0, 0, 0],          // Líneas negras
         
     },
     columnStyles: {
