@@ -170,6 +170,10 @@ function cargarRequisitos(sectionId, directivaType = null) {
     
     const requisitosContainer = document.getElementById(containerId);
     
+    // Agregar clase de sección al contenedor para los colores de números
+    if (requisitosContainer && !requisitosContainer.classList.contains(sectionId)) {
+    requisitosContainer.className = `requisitos-container ${sectionId}`;
+    }
     if (!requisitosContainer) {
         console.error(`Contenedor de requisitos no encontrado para: ${containerId}`);
         console.log('Contenedores disponibles:', 
