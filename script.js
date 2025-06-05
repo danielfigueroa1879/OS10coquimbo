@@ -470,7 +470,8 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
+        // MODIFICADO: Usar símbolos visuales en lugar de texto
+        const estado = item.classList.contains('cumple') ? '✓' : (item.classList.contains('no-cumple') ? '✗' : '?');
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
@@ -496,19 +497,27 @@ async function generarReporte(sectionId) {
         },
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' }, // N°
-            1: { cellWidth: 80 }, // Requisito
-            2: { cellWidth: 20, halign: 'center' }, // Estado
+            1: { cellWidth: 75 }, // Requisito (un poco más angosta)
+            2: { cellWidth: 25, halign: 'center' }, // Estado (más ancha para símbolos)
             3: { cellWidth: 70 } // Observaciones
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
-                    data.cell.styles.textColor = [0, 140, 44];
-                } else if (data.cell.text[0] === 'No Cumple') {
-                    // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
-                    data.cell.styles.fillColor = [247, 202, 209]; // ROJO para No Cumple
-                    data.cell.styles.textColor = [247, 49, 9];
+                if (data.cell.text[0] === '✓') { // MODIFICADO: Usar símbolo check
+                    data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
+                    data.cell.styles.textColor = [255, 255, 255];
+                    data.cell.styles.fontSize = 12; // Hacer el símbolo más grande
+                    data.cell.styles.fontStyle = 'bold';
+                } else if (data.cell.text[0] === '✗') { // MODIFICADO: Usar símbolo X
+                    data.cell.styles.fillColor = [220, 53, 69]; // ROJO para No Cumple
+                    data.cell.styles.textColor = [255, 255, 255];
+                    data.cell.styles.fontSize = 12; // Hacer el símbolo más grande
+                    data.cell.styles.fontStyle = 'bold';
+                } else if (data.cell.text[0] === '?') { // Pendiente
+                    data.cell.styles.fillColor = [108, 117, 125]; // Gris para Pendiente
+                    data.cell.styles.textColor = [255, 255, 255];
+                    data.cell.styles.fontSize = 12;
+                    data.cell.styles.fontStyle = 'bold';
                 }
             }
             // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
