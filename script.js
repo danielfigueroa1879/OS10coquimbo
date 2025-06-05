@@ -508,7 +508,7 @@ async function generarReporte(sectionId) {
                 } else if (data.cell.text[0] === 'No Cumple') {
                     // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
                     data.cell.styles.fillColor = [255, 186, 210]; // ROJO para No Cumple
-                    data.cell.styles.textColor = [255, 255, 255];
+                    data.cell.styles.textColor = [255, 0, 0];
                 }
             }
             // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
