@@ -1,4 +1,4 @@
-// script.js - Versión 9 restaurada con correcciones
+// script.js - Versión Completa Corregida con Empresa y RUT
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -246,7 +246,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - CORREGIDA
+// Función para generar el reporte PDF - CORREGIDA Y COMPLETA
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -257,61 +257,58 @@ async function generarReporte(sectionId) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-// Busca esta sección en tu script.js y reemplázala:
+    // Recopilar datos del formulario con IDs correctos
+    const getInputValue = (id) => {
+        const element = document.getElementById(id);
+        return element ? element.value.trim() : '';
+    };
 
-// CORREGIDO: Recopilar datos del formulario con IDs correctos
-const getInputValue = (id) => {
-    const element = document.getElementById(id);
-    return element ? element.value.trim() : '';
-};
-
-// Mapear correctamente los IDs según la sección
-let nombreEmpresaId, rutEmpresaId, nombreEstablecimientoId, direccionId, funcionarioGradoId;
-
-if (sectionId === 'plan-seguridad') {
-    nombreEmpresaId = 'nombre-empresa-plan';
-    rutEmpresaId = 'rut-empresa-plan';
-    nombreEstablecimientoId = 'nombre-establecimiento-plan';
-    direccionId = 'direccion-plan';
-    funcionarioGradoId = 'funcionario-grado-plan';
-} else if (sectionId === 'servicentros') {
-    nombreEmpresaId = 'nombre-empresa-servicentros';
-    rutEmpresaId = 'rut-empresa-servicentros';
-    nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
-    direccionId = 'direccion-servicentros';
-    funcionarioGradoId = 'funcionario-grado-servicentros';
-} else if (sectionId === 'sobre-500uf') {
-    nombreEmpresaId = 'nombre-empresa-500uf';
-    rutEmpresaId = 'rut-empresa-500uf';
-    nombreEstablecimientoId = 'nombre-establecimiento-500uf';
-    direccionId = 'direccion-500uf';
-    funcionarioGradoId = 'funcionario-grado-500uf';
-} else if (sectionId === 'directiva-funcionamiento') {
-    nombreEmpresaId = 'nombre-empresa-directiva';
-    rutEmpresaId = 'rut-empresa-directiva';
-    nombreEstablecimientoId = 'nombre-establecimiento-directiva';
-    direccionId = 'direccion-directiva';
-    funcionarioGradoId = 'funcionario-grado-directiva';
-}
-
-const generalInfo = {
-    nombreEmpresa: getInputValue(nombreEmpresaId),
-    rutEmpresa: getInputValue(rutEmpresaId),
-    nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
-    direccion: getInputValue(direccionId),
-    funcionarioGrado: getInputValue(funcionarioGradoId)
-};
-
-// Validar que al menos el nombre de la empresa esté lleno
-if (!generalInfo.nombreEmpresa) {
-    alert('Por favor, complete al menos el nombre de la empresa antes de generar el reporte.');
-    return;
-}
+    // Mapear correctamente los IDs según la sección
+    let nombreEmpresaId, rutEmpresaId, nombreEstablecimientoId, direccionId, funcionarioGradoId;
     
+    if (sectionId === 'plan-seguridad') {
+        nombreEmpresaId = 'nombre-empresa-plan';
+        rutEmpresaId = 'rut-empresa-plan';
+        nombreEstablecimientoId = 'nombre-establecimiento-plan';
+        direccionId = 'direccion-plan';
+        funcionarioGradoId = 'funcionario-grado-plan';
+    } else if (sectionId === 'servicentros') {
+        nombreEmpresaId = 'nombre-empresa-servicentros';
+        rutEmpresaId = 'rut-empresa-servicentros';
+        nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
+        direccionId = 'direccion-servicentros';
+        funcionarioGradoId = 'funcionario-grado-servicentros';
+    } else if (sectionId === 'sobre-500uf') {
+        nombreEmpresaId = 'nombre-empresa-500uf';
+        rutEmpresaId = 'rut-empresa-500uf';
+        nombreEstablecimientoId = 'nombre-establecimiento-500uf';
+        direccionId = 'direccion-500uf';
+        funcionarioGradoId = 'funcionario-grado-500uf';
+    } else if (sectionId === 'directiva-funcionamiento') {
+        nombreEmpresaId = 'nombre-empresa-directiva';
+        rutEmpresaId = 'rut-empresa-directiva';
+        nombreEstablecimientoId = 'nombre-establecimiento-directiva';
+        direccionId = 'direccion-directiva';
+        funcionarioGradoId = 'funcionario-grado-directiva';
+    }
+
+    const generalInfo = {
+        nombreEmpresa: getInputValue(nombreEmpresaId),
+        rutEmpresa: getInputValue(rutEmpresaId),
+        nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
+        direccion: getInputValue(direccionId),
+        funcionarioGrado: getInputValue(funcionarioGradoId)
+    };
+
+    // Validar que al menos el nombre de la empresa esté lleno
+    if (!generalInfo.nombreEmpresa) {
+        alert('Por favor, complete al menos el nombre de la empresa antes de generar el reporte.');
+        return;
+    }
 
     let sectionTitle = '';
     let sectionSubtitle = '';
-    let tipoDirectiva = ''; // Nueva variable para el tipo de directiva
+    let tipoDirectiva = '';
     
     if (sectionId === 'plan-seguridad') {
         sectionTitle = 'PLAN DE SEGURIDAD';
@@ -325,7 +322,6 @@ if (!generalInfo.nombreEmpresa) {
     } else if (sectionId === 'directiva-funcionamiento') {
         sectionTitle = 'DIRECTIVA DE FUNCIONAMIENTO';
         
-        // Definir el tipo de directiva según la selección
         if (selectedDirectivaType === 'instalacion') {
             tipoDirectiva = 'INSTALACIÓN';
         } else if (selectedDirectivaType === 'evento-deportivo') {
@@ -343,18 +339,13 @@ if (!generalInfo.nombreEmpresa) {
             const img = new Image();
             img.onload = function() {
                 try {
-                    // Agregar logo en la esquina superior izquierda
                     const logoWidth = 25;
                     const logoHeight = 25;
                     doc.addImage(img, 'PNG', 15, 8, logoWidth, logoHeight);
-                    
-                    // Agregar logo también en la esquina superior derecha para balance
                     doc.addImage(img, 'PNG', 170, 8, logoWidth, logoHeight);
-                    
                     console.log('Logos agregados al PDF exitosamente');
                 } catch (error) {
                     console.log('Error al agregar foto/logo.png al PDF:', error);
-                    // Agregar texto alternativo si no se puede cargar la imagen
                     doc.setFontSize(12);
                     doc.setTextColor(45, 80, 22);
                     doc.text('🏛️', 15, 20);
@@ -364,7 +355,6 @@ if (!generalInfo.nombreEmpresa) {
             };
             img.onerror = function() {
                 console.log('No se pudo cargar foto/logo.png para el PDF');
-                // Agregar iconos alternativos
                 doc.setFontSize(16);
                 doc.setTextColor(45, 80, 22);
                 doc.text('🏛️', 20, 22);
@@ -373,10 +363,8 @@ if (!generalInfo.nombreEmpresa) {
             };
             img.src = 'foto/logo.png';
             
-            // Timeout de 2 segundos para evitar bloqueo
             setTimeout(() => {
                 console.log('Timeout al cargar foto/logo.png, continuando...');
-                // Agregar iconos alternativos por timeout
                 doc.setFontSize(16);
                 doc.setTextColor(45, 80, 22);
                 doc.text('🏛️', 20, 22);
@@ -389,95 +377,78 @@ if (!generalInfo.nombreEmpresa) {
     // Agregar logo al PDF
     await agregarLogoPDF();
 
-    // Añadir encabezado al PDF (solo con el título del requisito)
-    doc.setFontSize(20); // Aumentado para hacer más prominente el título principal
-    doc.setTextColor(45, 80, 22); // Verde oscuro
-    doc.text(sectionTitle, 105, 25, null, null, 'center'); // Título principal centrado
+    // Añadir encabezado al PDF
+    doc.setFontSize(20);
+    doc.setTextColor(45, 80, 22);
+    doc.text(sectionTitle, 105, 25, null, null, 'center');
     
     let yOffsetHeader = 32;
     
-    // Si es directiva de funcionamiento, agregar el tipo específico
     if (sectionId === 'directiva-funcionamiento' && tipoDirectiva) {
         doc.setFontSize(14);
-        doc.setTextColor(0, 0, 0); // Negro para el tipo
+        doc.setTextColor(0, 0, 0);
         doc.text(tipoDirectiva, 105, yOffsetHeader, null, null, 'center');
-        yOffsetHeader += 7; // Espaciado adicional
+        yOffsetHeader += 7;
     }
     
     doc.setFontSize(11);
-    doc.setTextColor(74, 124, 34); // Verde más claro
+    doc.setTextColor(74, 124, 34);
     doc.text('OS10 Coquimbo - Carabineros de Chile', 105, yOffsetHeader, null, null, 'center');
     
     doc.setFontSize(9);
-    doc.setTextColor(100, 100, 100); // Gris para el subtítulo
+    doc.setTextColor(100, 100, 100);
     doc.text(sectionSubtitle, 105, yOffsetHeader + 6, null, null, 'center');
 
-    // Agregar línea separadora decorativa (ajustada según el contenido)
+    // Agregar línea separadora decorativa
     const lineY = yOffsetHeader + 12;
-    doc.setDrawColor(45, 80, 22); // Verde oscuro
+    doc.setDrawColor(45, 80, 22);
     doc.setLineWidth(0.5);
     doc.line(20, lineY, 190, lineY);
 
-    let yOffset = lineY + 10; // Ajustado para el nuevo layout
+    let yOffset = lineY + 10;
 
-    // Añadir información general
-    doc.setFontSize(9); // Reducido de 11 a 9
+    // ✅ ÚNICA SECCIÓN DE INFORMACIÓN GENERAL (SIN DUPLICACIÓN)
+    doc.setFontSize(9);
     doc.setTextColor(0, 0, 0);
     doc.setFont(undefined, 'bold');
-    doc.text('DATOS DEL ESTABLECIMIENTO FISCALIZADO:', 20, yOffset);
-    yOffset += 6; // Reducido espaciado
+    doc.text('DATOS DE LA EMPRESA O ENTIDAD Y DATOS DEL ESTABLECIMIENTO:', 20, yOffset);
+    yOffset += 6;
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8); // Reducido de 11 a 8
+    doc.setFontSize(8);
+    doc.text(`Nombre de la Empresa: ${generalInfo.nombreEmpresa}`, 20, yOffset);
+    yOffset += 5;
+    doc.text(`RUT de la Empresa: ${generalInfo.rutEmpresa}`, 20, yOffset);
+    yOffset += 5;
     doc.text(`Nombre del Establecimiento: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
-    yOffset += 5; // Reducido espaciado
-    doc.text(`Dirección: ${generalInfo.direccion}`, 20, yOffset);
-    yOffset += 8; // Reducido espaciado
+    yOffset += 5;
+    doc.text(`Dirección del Establecimiento: ${generalInfo.direccion}`, 20, yOffset);
+    yOffset += 8;
 
     doc.setFont(undefined, 'bold');
-    // Añadir información general en el PDF (busca esta sección y reemplázala):
-doc.setFontSize(9);
-doc.setTextColor(0, 0, 0);
-doc.setFont(undefined, 'bold');
-doc.text('DATOS DE LA EMPRESA O ENTIDAD Y DATOS DEL ESTABLECIMIENTO:', 20, yOffset);
-yOffset += 6;
-
-doc.setFont(undefined, 'normal');
-doc.setFontSize(8);
-doc.text(`Nombre de la Empresa o Entidad: ${generalInfo.nombreEmpresa}`, 20, yOffset);
-yOffset += 5;
-doc.text(`RUT de la Empresa o Entidad: ${generalInfo.rutEmpresa}`, 20, yOffset);
-yOffset += 5;
-doc.text(`Nombre del Establecimiento: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
-yOffset += 5;
-doc.text(`Dirección del Establecimiento: ${generalInfo.direccion}`, 20, yOffset);
-yOffset += 8;
-
-doc.setFont(undefined, 'bold');
-doc.setFontSize(9);
-doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
-yOffset += 6;
-
-doc.setFont(undefined, 'normal');
-doc.setFontSize(8);
-doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
-yOffset += 5;
+    doc.setFontSize(9);
+    doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
+    yOffset += 6;
+    
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(8);
+    doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
+    yOffset += 5;
     
     // Agregar fecha y hora del reporte
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toLocaleDateString('es-CL');
     const horaFormateada = fechaActual.toLocaleTimeString('es-CL');
-    doc.setFontSize(7); // Reducido para fecha
-    doc.setTextColor(100, 100, 100); // Gris para la fecha
+    doc.setFontSize(7);
+    doc.setTextColor(100, 100, 100);
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
-    yOffset += 10; // Espaciado antes de la tabla
+    yOffset += 10;
 
-    // CORREGIDO: Añadir tabla de requisitos
+    // Añadir tabla de requisitos
     doc.setFontSize(10);
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
 
-    // Buscar requisitos con el ID correcto
     let requisitosSelector;
     if (sectionId === 'sobre-500uf') {
         requisitosSelector = '#requisitos-sobre-500uf .requisito-item';
@@ -500,7 +471,7 @@ yOffset += 5;
         body: data,
         theme: 'grid',
         headStyles: {
-            fillColor: [45, 80, 22], // Verde oscuro
+            fillColor: [45, 80, 22],
             textColor: [255, 255, 255],
             fontStyle: 'bold',
             halign: 'center'
@@ -511,18 +482,18 @@ yOffset += 5;
             valign: 'middle'
         },
         columnStyles: {
-            0: { cellWidth: 10, halign: 'center' }, // N°
-            1: { cellWidth: 80 }, // Requisito
-            2: { cellWidth: 20, halign: 'center' }, // Estado
-            3: { cellWidth: 70 } // Observaciones
+            0: { cellWidth: 10, halign: 'center' },
+            1: { cellWidth: 80 },
+            2: { cellWidth: 20, halign: 'center' },
+            3: { cellWidth: 70 }
         },
         didParseCell: function (data) {
-            if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
+            if (data.section === 'body' && data.column.index === 2) {
                 if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
+                    data.cell.styles.fillColor = [40, 167, 69];
                     data.cell.styles.textColor = [255, 255, 255];
                 } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
+                    data.cell.styles.fillColor = [243, 156, 18];
                     data.cell.styles.textColor = [255, 255, 255];
                 }
             }
@@ -536,22 +507,18 @@ yOffset += 5;
 
 // Eventos para mejorar la impresión
 window.addEventListener('beforeprint', function() {
-    // Mostrar headers de desktop para impresión
     document.querySelectorAll('.header-requisitos-desktop').forEach(header => {
         header.style.display = 'grid';
     });
-    // Ocultar headers mobile para impresión
     document.querySelectorAll('.header-requisitos-mobile').forEach(header => {
         header.style.display = 'none';
     });
 });
 
 window.addEventListener('afterprint', function() {
-    // Restaurar headers después de imprimir
     document.querySelectorAll('.header-requisitos-desktop').forEach(header => {
         header.style.display = 'none';
     });
-    // Restaurar headers mobile si es necesario (en mobile)
     if (window.innerWidth <= 768) {
         document.querySelectorAll('.header-requisitos-mobile').forEach(header => {
             header.style.display = 'block';
@@ -561,10 +528,8 @@ window.addEventListener('afterprint', function() {
 
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
-    // Al cargar la página, se muestra la sección de inicio por defecto
     mostrarSeccion('inicio');
     
-    // Manejar error de carga del logo
     const logoImg = document.querySelector('.logo-imagen');
     if (logoImg) {
         logoImg.onerror = function() {
@@ -582,13 +547,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     
-    // Configurar eventos de teclado para navegación
     document.addEventListener('keydown', function(event) {
-        // ESC para volver atrás
         if (event.key === 'Escape' && currentSection !== 'inicio') {
             volverAtras();
         }
-        // Ctrl+P para imprimir
         if (event.ctrlKey && event.key === 'p' && currentSection !== 'inicio') {
             event.preventDefault();
             window.print();
