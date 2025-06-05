@@ -100,6 +100,9 @@ let sectionHistory = []; // Historial de navegación
 // Función para mostrar la sección seleccionada y ocultar las demás
 function mostrarSeccion(sectionId) {
     console.log(`Mostrando sección: ${sectionId}`);
+
+// Cambiar clase del body para el fondo
+document.body.className = sectionId;
     
     // Guardar sección actual en el historial si no es inicio
     if (currentSection !== 'inicio') {
@@ -154,6 +157,8 @@ function volverAtras() {
     } else {
         mostrarSeccion('inicio');
     }
+    // Actualizar clase del body
+    document.body.className = currentSection;
 }
 
 // Función para cargar los requisitos dinámicamente
@@ -612,6 +617,8 @@ window.addEventListener('afterprint', function() {
 
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
+    // Establecer clase inicial del body
+    document.body.className = 'inicio';
     mostrarSeccion('inicio');
     
     const logoImg = document.querySelector('.logo-imagen');
