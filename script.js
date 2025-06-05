@@ -517,18 +517,18 @@ async function generarReporte(sectionId) {
         },
         // ✅ AGREGAR FOOTER Y NUMERACIÓN EN CADA PÁGINA
         didDrawPage: function (data) {
-            // ✅ FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo." - AJUSTADO PARA ALINEACIÓN
+            // ✅ FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo." - ALINEADO CON NUMERACIÓN
             doc.setFontSize(10);
             doc.setTextColor(100, 100, 100); // Gris
             doc.setFont(undefined, 'normal');
             
-            // Texto centrado en la parte inferior - AJUSTADO: bajado un poco para alineación
+            // Texto centrado en la parte inferior - AJUSTADO: a la misma altura que numeración
             const pageWidth = doc.internal.pageSize.width;
             const footerText = 'Seguridad Privada - OS10 Coquimbo.';
             const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
             const textX = (pageWidth - textWidth) / 2;
             
-            doc.text(footerText, textX, doc.internal.pageSize.height - 12);
+            doc.text(footerText, textX, doc.internal.pageSize.height - 8);
             
             // ✅ NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
             doc.setFontSize(9);
@@ -553,7 +553,7 @@ async function generarReporte(sectionId) {
     for (let i = 1; i <= totalPages; i++) {
         doc.setPage(i);
         
-        // Footer centrado - AJUSTADO PARA ALINEACIÓN CON NUMERACIÓN
+        // Footer centrado - ALINEADO A LA MISMA ALTURA QUE NUMERACIÓN
         doc.setFontSize(10);
         doc.setTextColor(100, 100, 100);
         doc.setFont(undefined, 'normal');
@@ -563,8 +563,8 @@ async function generarReporte(sectionId) {
         const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
         const textX = (pageWidth - textWidth) / 2;
         
-        // AJUSTADO: bajado un poco de -15 a -12 para mejor alineación
-        doc.text(footerText, textX, doc.internal.pageSize.height - 12);
+        // AJUSTADO: bajado de -12 a -8 para alinearse con la numeración
+        doc.text(footerText, textX, doc.internal.pageSize.height - 8);
         
         // Numeración de páginas
         doc.setFontSize(9);
@@ -574,7 +574,7 @@ async function generarReporte(sectionId) {
         const pageTextWidth = doc.getStringUnitWidth(pageText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
         const pageTextX = pageWidth - pageTextWidth - 20;
         
-        // AJUSTADO: bajado un poquitito de -10 a -8 para alineación
+        // Mantenido en -8 para misma altura que el footer
         doc.text(pageText, pageTextX, doc.internal.pageSize.height - 8);
     }
 
