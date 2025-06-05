@@ -1,4 +1,4 @@
-// script.js - Versión Completa Final con footer, numeración y símbolos personalizados
+// script.js - Versión Completa Final con colores personalizados en PDF y botones
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -155,6 +155,37 @@ function volverAtras() {
     }
 }
 
+// Función para aplicar colores personalizados a los botones
+function aplicarColoresPersonalizados() {
+    // Aplicar estilos personalizados a los botones
+    const style = document.createElement('style');
+    style.textContent = `
+        .btn-cumple {
+            background: linear-gradient(135deg, rgb(144, 238, 144) 0%, rgb(102, 205, 170) 100%) !important;
+            color: rgb(0, 100, 0) !important;
+            font-weight: bold !important;
+        }
+        
+        .btn-cumple:hover {
+            background: linear-gradient(135deg, rgb(134, 228, 134) 0%, rgb(92, 195, 160) 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(144, 238, 144, 0.4) !important;
+        }
+        
+        .btn-no-cumple {
+            background: linear-gradient(135deg, rgb(255, 182, 193) 0%, rgb(255, 160, 180) 100%) !important;
+            color: rgb(139, 0, 0) !important;
+            font-weight: bold !important;
+        }
+        
+        .btn-no-cumple:hover {
+            background: linear-gradient(135deg, rgb(245, 172, 183) 0%, rgb(245, 150, 170) 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4) !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
 // Función para cargar los requisitos dinámicamente
 function cargarRequisitos(sectionId, directivaType = null) {
     console.log(`Intentando cargar requisitos para: ${sectionId}`);
@@ -211,6 +242,9 @@ function cargarRequisitos(sectionId, directivaType = null) {
         `;
         requisitosContainer.appendChild(requisitoItem);
     });
+    
+    // NUEVO: Aplicar colores personalizados después de cargar los requisitos
+    aplicarColoresPersonalizados();
     
     console.log(`Requisitos cargados exitosamente para: ${sectionId}`);
 }
@@ -469,8 +503,8 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        // MODIFICADO: Usar símbolos personalizados
-        const estado = item.classList.contains('cumple') ? 'OK' : (item.classList.contains('no-cumple') ? 'X' : 'Pendiente');
+        // RESTAURADO: Usar palabras completas en lugar de símbolos
+        const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
@@ -501,13 +535,13 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                // MODIFICADO: Colores personalizados para símbolos
-                if (data.cell.text[0] === 'OK') {
+                // MODIFICADO: Reconocer palabras completas con colores personalizados
+                if (data.cell.text[0] === 'Cumple') {
                     data.cell.styles.fillColor = [144, 238, 144]; // Fondo verde agua claro
                     data.cell.styles.textColor = [0, 100, 0]; // Texto verde oscuro
                     data.cell.styles.fontSize = 9;
                     data.cell.styles.fontStyle = 'bold';
-                } else if (data.cell.text[0] === 'X') {
+                } else if (data.cell.text[0] === 'No Cumple') {
                     data.cell.styles.fillColor = [255, 182, 193]; // Fondo rojo claro
                     data.cell.styles.textColor = [139, 0, 0]; // Texto rojo oscuro
                     data.cell.styles.fontSize = 9;
@@ -612,6 +646,9 @@ window.addEventListener('afterprint', function() {
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
     mostrarSeccion('inicio');
+    
+    // NUEVO: Aplicar colores personalizados al cargar la página
+    aplicarColoresPersonalizados();
     
     const logoImg = document.querySelector('.logo-imagen');
     if (logoImg) {
