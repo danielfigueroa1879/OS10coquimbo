@@ -470,14 +470,14 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        // MODIFICADO: Usar caracteres más básicos y la palabra completa
+        // MODIFICADO: Usar palabras completas "CUMPLE" y "NO CUMPLE"
         let estadoDisplay = '';
         if (item.classList.contains('cumple')) {
-            estadoDisplay = '+ Cumple'; 
+            estadoDisplay = 'CUMPLE'; 
         } else if (item.classList.contains('no-cumple')) {
-            estadoDisplay = '- No Cumple'; 
+            estadoDisplay = 'NO CUMPLE'; 
         } else {
-            estadoDisplay = 'Pendiente'; 
+            estadoDisplay = 'PENDIENTE'; 
         }
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estadoDisplay, observacion]);
@@ -510,13 +510,13 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0].includes('Cumple')) { // Buscar la palabra "Cumple"
+                if (data.cell.text[0] === 'CUMPLE') { 
                     data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
                     data.cell.styles.textColor = [0, 140, 44];
-                } else if (data.cell.text[0].includes('No Cumple')) { // Buscar la palabra "No Cumple"
+                } else if (data.cell.text[0] === 'NO CUMPLE') { 
                     data.cell.styles.fillColor = [247, 202, 209]; // ROJO para No Cumple
                     data.cell.styles.textColor = [247, 49, 9];
-                } else { // Para "Pendiente"
+                } else { // Para "PENDIENTE"
                     data.cell.styles.fillColor = [255, 255, 204]; // Amarillo claro
                     data.cell.styles.textColor = [153, 153, 0]; // Amarillo oscuro
                 }
