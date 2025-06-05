@@ -1131,3 +1131,61 @@ html {
         transform: scale(0.95);
     }
 }
+/* Números de requisitos por sección con menos sombra */
+.requisito-numero {
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(45, 80, 22, 0.2); /* Menos sombra */
+}
+
+/* Plan de Seguridad - Azul oscuro */
+.plan-seguridad .requisito-numero {
+    background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+    box-shadow: 0 2px 6px rgba(26, 54, 93, 0.2);
+}
+
+/* Servicentros - Verde */
+.servicentros .requisito-numero {
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
+    box-shadow: 0 2px 6px rgba(45, 80, 22, 0.2);
+}
+
+/* Sobre 500 UF - Naranja */
+.sobre-500uf .requisito-numero {
+    background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+    box-shadow: 0 2px 6px rgba(230, 126, 34, 0.2);
+}
+
+/* Directiva de Funcionamiento - Azul */
+.directiva-funcionamiento .requisito-numero {
+    background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+    box-shadow: 0 2px 6px rgba(41, 128, 185, 0.2);
+}
+
+/* Hover con menos sombra */
+.requisito-item:hover .requisito-numero {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover específico por sección */
+.plan-seguridad .requisito-item:hover .requisito-numero {
+    box-shadow: 0 3px 8px rgba(26, 54, 93, 0.3);
+}
+
+.servicentros .requisito-item:hover .requisito-numero {
+    box-shadow: 0 3px 8px rgba(45, 80, 22, 0.3);
+}
+
+.sobre-500uf .requisito-item:hover .requisito-numero {
+    box-shadow: 0 3px 8px rgba(230, 126, 34, 0.3);
+}
+
+.directiva-funcionamiento .requisito-item:hover .requisito-numero {
+    box-shadow: 0 3px 8px rgba(41, 128, 185, 0.3);
+}
