@@ -469,8 +469,8 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        // MODIFICADO: Usar símbolos en lugar de texto
-        const estado = item.classList.contains('cumple') ? '✓' : (item.classList.contains('no-cumple') ? '✗' : 'Pendiente');
+        // MODIFICADO: Probar con símbolos básicos
+        const estado = item.classList.contains('cumple') ? '√' : (item.classList.contains('no-cumple') ? 'X' : 'Pendiente');
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
@@ -502,15 +502,17 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                // MODIFICADO: Usar símbolos y verde más claro
-                if (data.cell.text[0] === '✓') {
-                    data.cell.styles.fillColor = [72, 187, 120]; // Verde más claro (era [40, 167, 69])
+                // MODIFICADO: Usar símbolos básicos
+                if (data.cell.text[0] === '√') {
+                    data.cell.styles.fillColor = [72, 187, 120]; // Verde más claro
                     data.cell.styles.textColor = [255, 255, 255];
-                    data.cell.styles.fontSize = 12; // Hacer el símbolo un poco más grande
-                } else if (data.cell.text[0] === '✗') {
-                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para ✗
+                    data.cell.styles.fontSize = 14;
+                    data.cell.styles.fontStyle = 'bold';
+                } else if (data.cell.text[0] === 'X') {
+                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para X
                     data.cell.styles.textColor = [255, 255, 255];
-                    data.cell.styles.fontSize = 12; // Hacer el símbolo un poco más grande
+                    data.cell.styles.fontSize = 14;
+                    data.cell.styles.fontStyle = 'bold';
                 }
             }
             // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
