@@ -1204,14 +1204,10 @@ body.servicentros {
     background: linear-gradient(135deg, #2d5016 0%, #4a7c22 30%, #68a83a 100%);
 }
 
-/* Sobre 500 UF - Naranja mucho más oscuro */
+/* Sobre 500 UF - Ocre */
 .sobre-500uf .requisito-numero {
-    background: linear-gradient(135deg, #7d4419 0%, #8e5a0d 100%);
-    box-shadow: 0 2px 6px rgba(125, 68, 25, 0.2);
-}
-
-.sobre-500uf .requisito-item:hover .requisito-numero {
-    box-shadow: 0 3px 8px rgba(125, 68, 25, 0.3);
+    background: linear-gradient(135deg, #8B7355 0%, #A0892C 100%);
+    box-shadow: 0 2px 6px rgba(139, 115, 85, 0.2);
 }
 
 /* Fondo para Directiva de Funcionamiento - Azul claro */
