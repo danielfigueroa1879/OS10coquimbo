@@ -503,8 +503,8 @@ async function generarReporte(sectionId) {
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
                 if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
-                    data.cell.styles.textColor = [255, 255, 255];
+                    data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
+                    data.cell.styles.textColor = [0, 140, 44];
                 } else if (data.cell.text[0] === 'No Cumple') {
                     // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
                     data.cell.styles.fillColor = [255, 186, 210]; // ROJO para No Cumple
