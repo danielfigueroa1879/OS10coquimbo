@@ -1,4 +1,4 @@
-// script.js - Versión 9 restaurada con correcciones
+// script.js - Versión Completa Final con footer y numeración de páginas
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -246,7 +246,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - CORREGIDA
+// Función para generar el reporte PDF - VERSIÓN COMPLETA CON FOOTER Y NUMERACIÓN
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -257,48 +257,58 @@ async function generarReporte(sectionId) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    // CORREGIDO: Recopilar datos del formulario con IDs correctos
+    // Recopilar datos del formulario con IDs correctos
     const getInputValue = (id) => {
         const element = document.getElementById(id);
         return element ? element.value.trim() : '';
     };
 
     // Mapear correctamente los IDs según la sección
-    let nombreEstablecimientoId, direccionId, funcionarioGradoId;
+    let nombreEmpresaId, rutEmpresaId, nombreEstablecimientoId, direccionId, funcionarioGradoId;
     
     if (sectionId === 'plan-seguridad') {
+        nombreEmpresaId = 'nombre-empresa-plan';
+        rutEmpresaId = 'rut-empresa-plan';
         nombreEstablecimientoId = 'nombre-establecimiento-plan';
         direccionId = 'direccion-plan';
         funcionarioGradoId = 'funcionario-grado-plan';
     } else if (sectionId === 'servicentros') {
+        nombreEmpresaId = 'nombre-empresa-servicentros';
+        rutEmpresaId = 'rut-empresa-servicentros';
         nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
         direccionId = 'direccion-servicentros';
         funcionarioGradoId = 'funcionario-grado-servicentros';
     } else if (sectionId === 'sobre-500uf') {
+        nombreEmpresaId = 'nombre-empresa-500uf';
+        rutEmpresaId = 'rut-empresa-500uf';
         nombreEstablecimientoId = 'nombre-establecimiento-500uf';
         direccionId = 'direccion-500uf';
         funcionarioGradoId = 'funcionario-grado-500uf';
     } else if (sectionId === 'directiva-funcionamiento') {
+        nombreEmpresaId = 'nombre-empresa-directiva';
+        rutEmpresaId = 'rut-empresa-directiva';
         nombreEstablecimientoId = 'nombre-establecimiento-directiva';
         direccionId = 'direccion-directiva';
         funcionarioGradoId = 'funcionario-grado-directiva';
     }
 
     const generalInfo = {
+        nombreEmpresa: getInputValue(nombreEmpresaId),
+        rutEmpresa: getInputValue(rutEmpresaId),
         nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
         direccion: getInputValue(direccionId),
         funcionarioGrado: getInputValue(funcionarioGradoId)
     };
 
-    // Validar que al menos el nombre del establecimiento esté lleno
-    if (!generalInfo.nombreEstablecimiento) {
-        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
+    // Validar que al menos el nombre de la empresa esté lleno
+    if (!generalInfo.nombreEmpresa) {
+        alert('Por favor, complete al menos el nombre de la empresa antes de generar el reporte.');
         return;
     }
 
     let sectionTitle = '';
     let sectionSubtitle = '';
-    let tipoDirectiva = ''; // Nueva variable para el tipo de directiva
+    let tipoDirectiva = '';
     
     if (sectionId === 'plan-seguridad') {
         sectionTitle = 'PLAN DE SEGURIDAD';
@@ -312,7 +322,6 @@ async function generarReporte(sectionId) {
     } else if (sectionId === 'directiva-funcionamiento') {
         sectionTitle = 'DIRECTIVA DE FUNCIONAMIENTO';
         
-        // Definir el tipo de directiva según la selección
         if (selectedDirectivaType === 'instalacion') {
             tipoDirectiva = 'INSTALACIÓN';
         } else if (selectedDirectivaType === 'evento-deportivo') {
@@ -376,76 +385,78 @@ async function generarReporte(sectionId) {
     // Agregar logo al PDF
     await agregarLogoPDF();
 
-    // Añadir encabezado al PDF (solo con el título del requisito)
-    doc.setFontSize(20); // Aumentado para hacer más prominente el título principal
-    doc.setTextColor(45, 80, 22); // Verde oscuro
-    doc.text(sectionTitle, 105, 25, null, null, 'center'); // Título principal centrado
+    // Añadir encabezado al PDF
+    doc.setFontSize(20);
+    doc.setTextColor(45, 80, 22);
+    doc.text(sectionTitle, 105, 25, null, null, 'center');
     
     let yOffsetHeader = 32;
     
-    // Si es directiva de funcionamiento, agregar el tipo específico
     if (sectionId === 'directiva-funcionamiento' && tipoDirectiva) {
         doc.setFontSize(14);
-        doc.setTextColor(0, 0, 0); // Negro para el tipo
+        doc.setTextColor(0, 0, 0);
         doc.text(tipoDirectiva, 105, yOffsetHeader, null, null, 'center');
-        yOffsetHeader += 7; // Espaciado adicional
+        yOffsetHeader += 7;
     }
     
     doc.setFontSize(11);
-    doc.setTextColor(74, 124, 34); // Verde más claro
+    doc.setTextColor(74, 124, 34);
     doc.text('OS10 Coquimbo - Carabineros de Chile', 105, yOffsetHeader, null, null, 'center');
     
     doc.setFontSize(9);
-    doc.setTextColor(100, 100, 100); // Gris para el subtítulo
+    doc.setTextColor(100, 100, 100);
     doc.text(sectionSubtitle, 105, yOffsetHeader + 6, null, null, 'center');
 
-    // Agregar línea separadora decorativa (ajustada según el contenido)
+    // Agregar línea separadora decorativa
     const lineY = yOffsetHeader + 12;
-    doc.setDrawColor(45, 80, 22); // Verde oscuro
+    doc.setDrawColor(45, 80, 22);
     doc.setLineWidth(0.5);
     doc.line(20, lineY, 190, lineY);
 
-    let yOffset = lineY + 10; // Ajustado para el nuevo layout
+    let yOffset = lineY + 10;
 
     // Añadir información general
-    doc.setFontSize(9); // Reducido de 11 a 9
+    doc.setFontSize(9);
     doc.setTextColor(0, 0, 0);
     doc.setFont(undefined, 'bold');
-    doc.text('DATOS DEL ESTABLECIMIENTO FISCALIZADO:', 20, yOffset);
-    yOffset += 6; // Reducido espaciado
+    doc.text('DATOS DE LA EMPRESA O ENTIDAD Y DATOS DEL ESTABLECIMIENTO:', 20, yOffset);
+    yOffset += 6;
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8); // Reducido de 11 a 8
+    doc.setFontSize(8);
+    doc.text(`Nombre de la Empresa: ${generalInfo.nombreEmpresa}`, 20, yOffset);
+    yOffset += 5;
+    doc.text(`RUT de la Empresa: ${generalInfo.rutEmpresa}`, 20, yOffset);
+    yOffset += 5;
     doc.text(`Nombre del Establecimiento: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
-    yOffset += 5; // Reducido espaciado
-    doc.text(`Dirección: ${generalInfo.direccion}`, 20, yOffset);
-    yOffset += 8; // Reducido espaciado
+    yOffset += 5;
+    doc.text(`Dirección del Establecimiento: ${generalInfo.direccion}`, 20, yOffset);
+    yOffset += 8;
 
     doc.setFont(undefined, 'bold');
-    doc.setFontSize(9); // Reducido de 11 a 9
+    doc.setFontSize(9);
     doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
-    yOffset += 6; // Reducido espaciado
+    yOffset += 6;
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8); // Reducido de 11 a 8
+    doc.setFontSize(8);
     doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
-    yOffset += 5; // Reducido espaciado
+    yOffset += 5;
     
     // Agregar fecha y hora del reporte
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toLocaleDateString('es-CL');
     const horaFormateada = fechaActual.toLocaleTimeString('es-CL');
-    doc.setFontSize(7); // Reducido para fecha
-    doc.setTextColor(100, 100, 100); // Gris para la fecha
+    doc.setFontSize(7);
+    doc.setTextColor(100, 100, 100);
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
-    yOffset += 10; // Espaciado antes de la tabla
+    yOffset += 10;
 
-    // CORREGIDO: Añadir tabla de requisitos
+    // Añadir tabla de requisitos CON FOOTER Y NUMERACIÓN
     doc.setFontSize(10);
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
 
-    // Buscar requisitos con el ID correcto
     let requisitosSelector;
     if (sectionId === 'sobre-500uf') {
         requisitosSelector = '#requisitos-sobre-500uf .requisito-item';
@@ -462,53 +473,107 @@ async function generarReporte(sectionId) {
         data.push([numero, titulo, estado, observacion]);
     });
 
-// BUSCA esta sección en tu función generarReporte y REEMPLÁZALA:
-
-doc.autoTable({
-    startY: yOffset,
-    head: headers,
-    body: data,
-    theme: 'grid',
-    headStyles: {
-        fillColor: [45, 80, 22], // Verde oscuro
-        textColor: [255, 255, 255],
-        fontStyle: 'bold',
-        halign: 'center'
-    },
-    styles: {
-        fontSize: 8,
-        cellPadding: 2,
-        valign: 'middle',
-        // ✅ TEXTO MÁS OSCURO EN LOS CUADROS (sin negritas)
-        textColor: [0, 0, 0],          // Negro puro para mejor contraste
-        fontStyle: 'normal',           // Sin negritas
-        // ✅ LÍNEAS MÁS OSCURAS
-        // lineColor: [0, 0, 0],          // Líneas negras
-        
-    },
-    columnStyles: {
-        0: { cellWidth: 10, halign: 'center' }, // N°
-        1: { cellWidth: 80 }, // Requisito
-        2: { cellWidth: 20, halign: 'center' }, // Estado
-        3: { cellWidth: 70 } // Observaciones
-    },
-    didParseCell: function (data) {
-        if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-            if (data.cell.text[0] === 'Cumple') {
-                data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
-                data.cell.styles.textColor = [255, 255, 255];
-            } else if (data.cell.text[0] === 'No Cumple') {
-                data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
-                data.cell.styles.textColor = [255, 255, 255];
+    doc.autoTable({
+        startY: yOffset,
+        head: headers,
+        body: data,
+        theme: 'grid',
+        headStyles: {
+            fillColor: [45, 80, 22], // Verde oscuro
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            halign: 'center'
+        },
+        styles: {
+            fontSize: 8,
+            cellPadding: 2,
+            valign: 'middle',
+            // ✅ TEXTO MÁS OSCURO EN LOS CUADROS (sin negritas)
+            textColor: [0, 0, 0],          // Negro puro para mejor contraste
+            fontStyle: 'normal'            // Sin negritas
+        },
+        columnStyles: {
+            0: { cellWidth: 10, halign: 'center' }, // N°
+            1: { cellWidth: 80 }, // Requisito
+            2: { cellWidth: 20, halign: 'center' }, // Estado
+            3: { cellWidth: 70 } // Observaciones
+        },
+        didParseCell: function (data) {
+            if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
+                if (data.cell.text[0] === 'Cumple') {
+                    data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
+                    data.cell.styles.textColor = [255, 255, 255];
+                } else if (data.cell.text[0] === 'No Cumple') {
+                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
+                    data.cell.styles.textColor = [255, 255, 255];
+                }
             }
+            // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
+            if (data.section === 'body' && data.column.index !== 2) {
+                data.cell.styles.textColor = [0, 0, 0];     // Negro puro
+                data.cell.styles.fontStyle = 'normal';      // Sin negritas
+            }
+        },
+        // ✅ AGREGAR FOOTER Y NUMERACIÓN EN CADA PÁGINA
+        didDrawPage: function (data) {
+            // ✅ FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo."
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100); // Gris
+            doc.setFont(undefined, 'normal');
+            
+            // Texto centrado en la parte inferior
+            const pageWidth = doc.internal.pageSize.width;
+            const footerText = 'Seguridad Privada - OS10 Coquimbo.';
+            const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+            const textX = (pageWidth - textWidth) / 2;
+            
+            doc.text(footerText, textX, doc.internal.pageSize.height - 15);
+            
+            // ✅ NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
+            doc.setFontSize(9);
+            doc.setTextColor(80, 80, 80); // Gris más oscuro para números
+            
+            // Obtener número de página actual y total
+            const currentPage = data.pageNumber;
+            const totalPages = doc.internal.getNumberOfPages();
+            const pageText = `Página ${currentPage} de ${totalPages}`;
+            
+            // Posicionar en esquina inferior derecha
+            const pageTextWidth = doc.getStringUnitWidth(pageText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+            const pageTextX = pageWidth - pageTextWidth - 20; // 20mm del margen derecho
+            
+            doc.text(pageText, pageTextX, doc.internal.pageSize.height - 10);
         }
-        // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
-        if (data.section === 'body' && data.column.index !== 2) {
-            data.cell.styles.textColor = [0, 0, 0];     // Negro puro
-            data.cell.styles.fontStyle = 'normal';      // Sin negritas
-        }
+    });
+
+    // ✅ ACTUALIZAR NUMERACIÓN DE PÁGINAS EN TODAS LAS PÁGINAS
+    const totalPages = doc.internal.getNumberOfPages();
+
+    for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        
+        // Footer centrado
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.setFont(undefined, 'normal');
+        
+        const pageWidth = doc.internal.pageSize.width;
+        const footerText = 'Seguridad Privada - OS10 Coquimbo.';
+        const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        const textX = (pageWidth - textWidth) / 2;
+        
+        doc.text(footerText, textX, doc.internal.pageSize.height - 15);
+        
+        // Numeración de páginas
+        doc.setFontSize(9);
+        doc.setTextColor(80, 80, 80);
+        
+        const pageText = `Página ${i} de ${totalPages}`;
+        const pageTextWidth = doc.getStringUnitWidth(pageText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        const pageTextX = pageWidth - pageTextWidth - 20;
+        
+        doc.text(pageText, pageTextX, doc.internal.pageSize.height - 10);
     }
-});
 
     // Generar fecha actual para el nombre del archivo
     const fecha = new Date().toISOString().split('T')[0];
@@ -517,22 +582,18 @@ doc.autoTable({
 
 // Eventos para mejorar la impresión
 window.addEventListener('beforeprint', function() {
-    // Mostrar headers de desktop para impresión
     document.querySelectorAll('.header-requisitos-desktop').forEach(header => {
         header.style.display = 'grid';
     });
-    // Ocultar headers mobile para impresión
     document.querySelectorAll('.header-requisitos-mobile').forEach(header => {
         header.style.display = 'none';
     });
 });
 
 window.addEventListener('afterprint', function() {
-    // Restaurar headers después de imprimir
     document.querySelectorAll('.header-requisitos-desktop').forEach(header => {
         header.style.display = 'none';
     });
-    // Restaurar headers mobile si es necesario (en mobile)
     if (window.innerWidth <= 768) {
         document.querySelectorAll('.header-requisitos-mobile').forEach(header => {
             header.style.display = 'block';
@@ -542,10 +603,8 @@ window.addEventListener('afterprint', function() {
 
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
-    // Al cargar la página, se muestra la sección de inicio por defecto
     mostrarSeccion('inicio');
     
-    // Manejar error de carga del logo
     const logoImg = document.querySelector('.logo-imagen');
     if (logoImg) {
         logoImg.onerror = function() {
@@ -563,13 +622,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     
-    // Configurar eventos de teclado para navegación
     document.addEventListener('keydown', function(event) {
-        // ESC para volver atrás
         if (event.key === 'Escape' && currentSection !== 'inicio') {
             volverAtras();
         }
-        // Ctrl+P para imprimir
         if (event.ctrlKey && event.key === 'p' && currentSection !== 'inicio') {
             event.preventDefault();
             window.print();
