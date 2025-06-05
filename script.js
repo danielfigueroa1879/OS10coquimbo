@@ -255,7 +255,8 @@ async function generarReporte(sectionId) {
     }
 
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'mm', 'a4');
+    // MODIFICADO: Tamaño personalizado 21.59 cm x 33.02 cm (215.9mm x 330.2mm)
+    const doc = new jsPDF('p', 'mm', [215.9, 330.2]);
 
     // Recopilar datos del formulario con IDs correctos
     const getInputValue = (id) => {
