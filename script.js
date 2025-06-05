@@ -1,4 +1,4 @@
-// script.js - Versión Completa Final con footer y numeración de páginas
+// script.js - Versión Completa Final con footer, numeración y símbolos personalizados
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -246,7 +246,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - VERSIÓN COMPLETA CON FOOTER Y NUMERACIÓN
+// Función para generar el reporte PDF - VERSIÓN COMPLETA CON SÍMBOLOS PERSONALIZADOS
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -453,7 +453,7 @@ async function generarReporte(sectionId) {
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
     yOffset += 10;
 
-    // Añadir tabla de requisitos CON FOOTER Y NUMERACIÓN
+    // Añadir tabla de requisitos CON SÍMBOLOS PERSONALIZADOS
     doc.setFontSize(10);
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
@@ -469,7 +469,8 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
+        // MODIFICADO: Usar símbolos personalizados
+        const estado = item.classList.contains('cumple') ? 'OK' : (item.classList.contains('no-cumple') ? 'X' : 'Pendiente');
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
@@ -489,7 +490,6 @@ async function generarReporte(sectionId) {
             fontSize: 8,
             cellPadding: 2,
             valign: 'middle',
-            // ✅ TEXTO MÁS OSCURO EN LOS CUADROS (sin negritas)
             textColor: [0, 0, 0],          // Negro puro para mejor contraste
             fontStyle: 'normal'            // Sin negritas
         },
@@ -501,12 +501,17 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
-                    data.cell.styles.textColor = [255, 255, 255];
-                } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
-                    data.cell.styles.textColor = [255, 255, 255];
+                // MODIFICADO: Colores personalizados para símbolos
+                if (data.cell.text[0] === 'OK') {
+                    data.cell.styles.fillColor = [144, 238, 144]; // Fondo verde agua claro
+                    data.cell.styles.textColor = [0, 100, 0]; // Texto verde oscuro
+                    data.cell.styles.fontSize = 9;
+                    data.cell.styles.fontStyle = 'bold';
+                } else if (data.cell.text[0] === 'X') {
+                    data.cell.styles.fillColor = [255, 182, 193]; // Fondo rojo claro
+                    data.cell.styles.textColor = [139, 0, 0]; // Texto rojo oscuro
+                    data.cell.styles.fontSize = 9;
+                    data.cell.styles.fontStyle = 'bold';
                 }
             }
             // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
@@ -563,7 +568,7 @@ async function generarReporte(sectionId) {
         const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
         const textX = (pageWidth - textWidth) / 2;
         
-        // AJUSTADO: bajado de -12 a -8 para alinearse con la numeración
+        // AJUSTADO: alineado con la numeración a -8
         doc.text(footerText, textX, doc.internal.pageSize.height - 8);
         
         // Numeración de páginas
