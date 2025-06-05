@@ -1,4 +1,4 @@
-// script.js - Versión Completa Final con colores personalizados en PDF y botones
+// script.js - Versión Completa Final con footer y numeración de páginas
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -155,37 +155,6 @@ function volverAtras() {
     }
 }
 
-// Función para aplicar colores personalizados a los botones
-function aplicarColoresPersonalizados() {
-    // Aplicar estilos personalizados a los botones
-    const style = document.createElement('style');
-    style.textContent = `
-        .btn-cumple {
-            background: linear-gradient(135deg, rgb(144, 238, 144) 0%, rgb(102, 205, 170) 100%) !important;
-            color: rgb(0, 100, 0) !important;
-            font-weight: bold !important;
-        }
-        
-        .btn-cumple:hover {
-            background: linear-gradient(135deg, rgb(134, 228, 134) 0%, rgb(92, 195, 160) 100%) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(144, 238, 144, 0.4) !important;
-        }
-        
-        .btn-no-cumple {
-            background: linear-gradient(135deg, rgb(255, 182, 193) 0%, rgb(255, 160, 180) 100%) !important;
-            color: rgb(139, 0, 0) !important;
-            font-weight: bold !important;
-        }
-        
-        .btn-no-cumple:hover {
-            background: linear-gradient(135deg, rgb(245, 172, 183) 0%, rgb(245, 150, 170) 100%) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4) !important;
-        }
-    `;
-    document.head.appendChild(style);
-}
 // Función para cargar los requisitos dinámicamente
 function cargarRequisitos(sectionId, directivaType = null) {
     console.log(`Intentando cargar requisitos para: ${sectionId}`);
@@ -243,9 +212,6 @@ function cargarRequisitos(sectionId, directivaType = null) {
         requisitosContainer.appendChild(requisitoItem);
     });
     
-    // NUEVO: Aplicar colores personalizados después de cargar los requisitos
-    aplicarColoresPersonalizados();
-    
     console.log(`Requisitos cargados exitosamente para: ${sectionId}`);
 }
 
@@ -280,7 +246,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - VERSIÓN COMPLETA CON SÍMBOLOS PERSONALIZADOS
+// Función para generar el reporte PDF - VERSIÓN COMPLETA CON FOOTER Y NUMERACIÓN
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -487,7 +453,7 @@ async function generarReporte(sectionId) {
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
     yOffset += 10;
 
-    // Añadir tabla de requisitos CON SÍMBOLOS PERSONALIZADOS
+    // Añadir tabla de requisitos CON FOOTER Y NUMERACIÓN
     doc.setFontSize(10);
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
@@ -503,7 +469,6 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        // RESTAURADO: Usar palabras completas en lugar de símbolos
         const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
@@ -524,6 +489,7 @@ async function generarReporte(sectionId) {
             fontSize: 8,
             cellPadding: 2,
             valign: 'middle',
+            // ✅ TEXTO MÁS OSCURO EN LOS CUADROS (sin negritas)
             textColor: [0, 0, 0],          // Negro puro para mejor contraste
             fontStyle: 'normal'            // Sin negritas
         },
@@ -535,17 +501,12 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                // MODIFICADO: Reconocer palabras completas con colores personalizados
                 if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [144, 238, 144]; // Fondo verde agua claro
-                    data.cell.styles.textColor = [0, 100, 0]; // Texto verde oscuro
-                    data.cell.styles.fontSize = 9;
-                    data.cell.styles.fontStyle = 'bold';
+                    data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
+                    data.cell.styles.textColor = [255, 255, 255];
                 } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [255, 182, 193]; // Fondo rojo claro
-                    data.cell.styles.textColor = [139, 0, 0]; // Texto rojo oscuro
-                    data.cell.styles.fontSize = 9;
-                    data.cell.styles.fontStyle = 'bold';
+                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
+                    data.cell.styles.textColor = [255, 255, 255];
                 }
             }
             // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
@@ -602,7 +563,7 @@ async function generarReporte(sectionId) {
         const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
         const textX = (pageWidth - textWidth) / 2;
         
-        // AJUSTADO: alineado con la numeración a -8
+        // AJUSTADO: bajado de -12 a -8 para alinearse con la numeración
         doc.text(footerText, textX, doc.internal.pageSize.height - 8);
         
         // Numeración de páginas
@@ -646,9 +607,6 @@ window.addEventListener('afterprint', function() {
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
     mostrarSeccion('inicio');
-    
-    // NUEVO: Aplicar colores personalizados al cargar la página
-    aplicarColoresPersonalizados();
     
     const logoImg = document.querySelector('.logo-imagen');
     if (logoImg) {
