@@ -1205,11 +1205,9 @@ body.servicentros {
 }
 
 /* Sobre 500 UF - Ocre */
-.sobre-500uf .requisito-numero {
-    background: linear-gradient(135deg, #8B7355 0%, #A0892C 100%);
-    box-shadow: 0 2px 6px rgba(139, 115, 85, 0.2);
+body.sobre-500uf {
+    background: linear-gradient(135deg, #8B7355 0%, #A0892C 30%, #B8860B 100%);
 }
-
 /* Fondo para Directiva de Funcionamiento - Azul claro */
 body.directiva-funcionamiento {
     background: linear-gradient(135deg, #2980b9 0%, #3498db 30%, #5dade2 100%);
