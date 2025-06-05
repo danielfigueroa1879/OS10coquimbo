@@ -1189,3 +1189,32 @@ html {
 .directiva-funcionamiento .requisito-item:hover .requisito-numero {
     box-shadow: 0 3px 8px rgba(41, 128, 185, 0.3);
 }
+/* Fondos de página por sección */
+body {
+    transition: background 0.5s ease;
+}
+
+/* Fondo para Plan de Seguridad - Azul suave */
+body.plan-seguridad {
+    background: linear-gradient(135deg, #1a365d 0%, #2c5282 30%, #4a90a4 100%);
+}
+
+/* Fondo para Servicentros - Verde suave */
+body.servicentros {
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c22 30%, #68a83a 100%);
+}
+
+/* Fondo para Sobre 500 UF - Naranja suave */
+body.sobre-500uf {
+    background: linear-gradient(135deg, #e67e22 0%, #f39c12 30%, #f1c40f 100%);
+}
+
+/* Fondo para Directiva de Funcionamiento - Azul claro */
+body.directiva-funcionamiento {
+    background: linear-gradient(135deg, #2980b9 0%, #3498db 30%, #5dade2 100%);
+}
+
+/* Fondo para página de inicio - Verde original */
+body.inicio {
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
+}
