@@ -506,8 +506,8 @@ async function generarReporte(sectionId) {
                     data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
                     data.cell.styles.textColor = [255, 255, 255];
                 } else if (data.cell.text[0] === 'No Cumple') {
-                    // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [220, 53, 69]
-                    data.cell.styles.fillColor = [220, 53, 69]; // ROJO para No Cumple
+                    // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
+                    data.cell.styles.fillColor = [255, 186, 210]; // ROJO para No Cumple
                     data.cell.styles.textColor = [255, 255, 255];
                 }
             }
