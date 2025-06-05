@@ -1204,9 +1204,9 @@ body.servicentros {
     background: linear-gradient(135deg, #2d5016 0%, #4a7c22 30%, #68a83a 100%);
 }
 
-/* Fondo para Sobre 500 UF - Naranja suave */
+/* Fondo para Sobre 500 UF - Naranja/amarillo muy oscuro */
 body.sobre-500uf {
-    background: linear-gradient(135deg, #b8651b 0%, #d68910 30%, #c29d00 100%);
+    background: linear-gradient(135deg, #9c5518 0%, #b7740e 30%, #a68600 100%);
 }
 
 /* Fondo para Directiva de Funcionamiento - Azul claro */
