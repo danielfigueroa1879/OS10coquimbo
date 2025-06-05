@@ -1,4 +1,4 @@
-// script.js - Versión Completa Corregida con Empresa y RUT
+// script.js - Versión Completa Final con todas las correcciones
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -246,7 +246,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - CORREGIDA Y COMPLETA
+// Función para generar el reporte PDF - VERSIÓN FINAL CORREGIDA
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -333,23 +333,22 @@ async function generarReporte(sectionId) {
         sectionSubtitle = 'Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos';
     }
 
-    // Función para agregar el logo al PDF
+    // ✅ Función para agregar UN SOLO LOGO MÁS PEQUEÑO
     const agregarLogoPDF = () => {
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = function() {
                 try {
-                    const logoWidth = 25;
-                    const logoHeight = 25;
+                    // ✅ SOLO UN LOGO EN EL LADO IZQUIERDO, MÁS PEQUEÑO
+                    const logoWidth = 20;    // Reducido de 25 a 20
+                    const logoHeight = 20;   // Reducido de 25 a 20
                     doc.addImage(img, 'PNG', 15, 8, logoWidth, logoHeight);
-                    doc.addImage(img, 'PNG', 170, 8, logoWidth, logoHeight);
-                    console.log('Logos agregados al PDF exitosamente');
+                    console.log('Logo agregado al PDF exitosamente');
                 } catch (error) {
                     console.log('Error al agregar foto/logo.png al PDF:', error);
                     doc.setFontSize(12);
                     doc.setTextColor(45, 80, 22);
                     doc.text('🏛️', 15, 20);
-                    doc.text('🏛️', 185, 20);
                 }
                 resolve();
             };
@@ -358,7 +357,6 @@ async function generarReporte(sectionId) {
                 doc.setFontSize(16);
                 doc.setTextColor(45, 80, 22);
                 doc.text('🏛️', 20, 22);
-                doc.text('🏛️', 180, 22);
                 resolve();
             };
             img.src = 'foto/logo.png';
@@ -368,7 +366,6 @@ async function generarReporte(sectionId) {
                 doc.setFontSize(16);
                 doc.setTextColor(45, 80, 22);
                 doc.text('🏛️', 20, 22);
-                doc.text('🏛️', 180, 22);
                 resolve();
             }, 2000);
         });
@@ -444,7 +441,7 @@ async function generarReporte(sectionId) {
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
     yOffset += 10;
 
-    // Añadir tabla de requisitos
+    // ✅ Tabla de requisitos CON LÍNEAS Y TEXTO MÁS OSCUROS
     doc.setFontSize(10);
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
@@ -479,7 +476,13 @@ async function generarReporte(sectionId) {
         styles: {
             fontSize: 8,
             cellPadding: 2,
-            valign: 'middle'
+            valign: 'middle',
+            // ✅ TEXTO MÁS OSCURO (sin negritas)
+            textColor: [0, 0, 0],          // Negro puro para mejor contraste
+            fontStyle: 'normal',           // Asegurar que no esté en negritas
+            // ✅ LÍNEAS MÁS OSCURAS
+            lineColor: [0, 0, 0],          // Líneas negras en lugar de grises
+            lineWidth: 0.3                 // Líneas un poco más gruesas
         },
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' },
@@ -496,6 +499,11 @@ async function generarReporte(sectionId) {
                     data.cell.styles.fillColor = [243, 156, 18];
                     data.cell.styles.textColor = [255, 255, 255];
                 }
+            }
+            // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS CELDAS (sin negritas)
+            if (data.section === 'body') {
+                data.cell.styles.textColor = [0, 0, 0];     // Negro puro
+                data.cell.styles.fontStyle = 'normal';      // Sin negritas
             }
         }
     });
