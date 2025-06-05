@@ -205,8 +205,8 @@ function cargarRequisitos(sectionId, directivaType = null) {
             <div class="requisito-numero">${req.id}</div>
             <div class="requisito-titulo">${req.text}</div>
             <div class="estado-buttons">
-                <button class="btn-estado btn-cumple" data-estado="CUMPLE" onclick="marcarEstado(this, 'cumple')">Cumple</button>
-                <button class="btn-estado btn-no-cumple" data-estado="no-cumple" onclick="marcarEstado(this, 'no-cumple')">No Cumple</button>
+                <button class="btn-estado btn-cumple" data-estado="CUMPLE" onclick="marcarEstado(this, 'cumple')">CUMPLE</button>
+                <button class="btn-estado btn-no-cumple" data-estado="no-cumple" onclick="marcarEstado(this, 'no-cumple')">NO CUMPLE</button>
             </div>
             <textarea class="observacion-input" placeholder="Observaciones (opcional)"></textarea>
         `;
@@ -470,7 +470,7 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
+        const estado = item.classList.contains('cumple') ? 'CUMPLE' : (item.classList.contains('no-cumple') ? 'NO CUMPLE' : 'PENDIENTE');
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
@@ -502,10 +502,10 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === 'Cumple') {
+                if (data.cell.text[0] === 'CUMPLE') {
                     data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
                     data.cell.styles.textColor = [0, 140, 44];
-                } else if (data.cell.text[0] === 'No Cumple') {
+                } else if (data.cell.text[0] === 'NO CUMPLE') {
                     // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
                     data.cell.styles.fillColor = [247, 202, 209]; // ROJO para No Cumple
                     data.cell.styles.textColor = [247, 49, 9];
