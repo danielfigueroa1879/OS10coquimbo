@@ -470,7 +470,15 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
+        // MODIFICADO: Reemplazar "Cumple" y "No Cumple" por emojis
+        let estado = '';
+        if (item.classList.contains('cumple')) {
+            estado = '✅'; // Emoji de aprobado
+        } else if (item.classList.contains('no-cumple')) {
+            estado = '❌'; // Emoji de rechazo
+        } else {
+            estado = '➖'; // Emoji para pendiente
+        }
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
@@ -502,13 +510,16 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === 'Cumple') {
+                if (data.cell.text[0] === '✅') {
                     data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
                     data.cell.styles.textColor = [0, 140, 44];
-                } else if (data.cell.text[0] === 'No Cumple') {
+                } else if (data.cell.text[0] === '❌') {
                     // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
                     data.cell.styles.fillColor = [247, 202, 209]; // ROJO para No Cumple
                     data.cell.styles.textColor = [247, 49, 9];
+                } else { // Para "Pendiente"
+                    data.cell.styles.fillColor = [255, 255, 204]; // Amarillo claro
+                    data.cell.styles.textColor = [153, 153, 0]; // Amarillo oscuro
                 }
             }
             // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
