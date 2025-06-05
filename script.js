@@ -1,4 +1,5 @@
 // script.js - Versión Completa Final con footer y numeración de páginas
+// MODIFICADO: Cambio de colores naranjas por rojos para "No Cumple"
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -505,7 +506,8 @@ async function generarReporte(sectionId) {
                     data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
                     data.cell.styles.textColor = [255, 255, 255];
                 } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
+                    // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [220, 53, 69]
+                    data.cell.styles.fillColor = [220, 53, 69]; // ROJO para No Cumple
                     data.cell.styles.textColor = [255, 255, 255];
                 }
             }
