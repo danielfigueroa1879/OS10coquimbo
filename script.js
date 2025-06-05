@@ -391,9 +391,6 @@ async function generarReporte(sectionId) {
         yOffsetHeader += 7; // Espaciado adicional
     }
     
-    // MODIFICACIÓN: Agregar más espacio antes del texto "OS10 Coquimbo - Carabineros de Chile"
-    yOffsetHeader += 8; // Incrementamos el espacio para mover el texto más abajo
-    
     doc.setFontSize(11);
     doc.setTextColor(74, 124, 34); // Verde más claro
     doc.text('OS10 Coquimbo - Carabineros de Chile', 105, yOffsetHeader, null, null, 'center');
@@ -464,6 +461,8 @@ async function generarReporte(sectionId) {
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
+
+// BUSCA esta sección en tu función generarReporte y REEMPLÁZALA:
 
 doc.autoTable({
     startY: yOffset,
