@@ -1204,9 +1204,9 @@ body.plan-seguridad {
     background: linear-gradient(135deg, #1a365d 0%, #2c5282 30%, #4a90a4 100%);
 }
 
-/* Fondo para Servicentros - Verde suave */
+/* Fondo para Servicentros - Verde más oscuro */
 body.servicentros {
-    background: linear-gradient(135deg, #2d5016 0%, #4a7c22 30%, #68a83a 100%);
+    background: linear-gradient(135deg, #1a2c0e 0%, #2d5016 30%, #3a6b1f 100%);
 }
 
 /* Sobre 500 UF - Ocre */
