@@ -1156,14 +1156,14 @@ html {
 }
 
 
-/* Sobre 500 UF - Ocre */
+/* Sobre 500 UF - Ocre más claro */
 .sobre-500uf .requisito-numero {
-    background: linear-gradient(135deg, #8B7355 0%, #A0892C 100%);
-    box-shadow: 0 2px 6px rgba(139, 115, 85, 0.2);
+    background: linear-gradient(135deg, #B8A082 0%, #D4AF37 100%);
+    box-shadow: 0 2px 6px rgba(184, 160, 130, 0.2);
 }
 
 .sobre-500uf .requisito-item:hover .requisito-numero {
-    box-shadow: 0 3px 8px rgba(139, 115, 85, 0.3);
+    box-shadow: 0 3px 8px rgba(184, 160, 130, 0.3);
 }
 
 /* Directiva de Funcionamiento - Azul */
