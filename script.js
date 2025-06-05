@@ -1,4 +1,4 @@
-// script.js - Versión Completa Final con cuadros más claros en PDF
+// script.js - Versión 9 restaurada con correcciones
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -246,7 +246,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - VERSIÓN FINAL CON CUADROS MÁS CLAROS
+// Función para generar el reporte PDF - CORREGIDA
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -257,58 +257,48 @@ async function generarReporte(sectionId) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    // Recopilar datos del formulario con IDs correctos
+    // CORREGIDO: Recopilar datos del formulario con IDs correctos
     const getInputValue = (id) => {
         const element = document.getElementById(id);
         return element ? element.value.trim() : '';
     };
 
     // Mapear correctamente los IDs según la sección
-    let nombreEmpresaId, rutEmpresaId, nombreEstablecimientoId, direccionId, funcionarioGradoId;
+    let nombreEstablecimientoId, direccionId, funcionarioGradoId;
     
     if (sectionId === 'plan-seguridad') {
-        nombreEmpresaId = 'nombre-empresa-plan';
-        rutEmpresaId = 'rut-empresa-plan';
         nombreEstablecimientoId = 'nombre-establecimiento-plan';
         direccionId = 'direccion-plan';
         funcionarioGradoId = 'funcionario-grado-plan';
     } else if (sectionId === 'servicentros') {
-        nombreEmpresaId = 'nombre-empresa-servicentros';
-        rutEmpresaId = 'rut-empresa-servicentros';
         nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
         direccionId = 'direccion-servicentros';
         funcionarioGradoId = 'funcionario-grado-servicentros';
     } else if (sectionId === 'sobre-500uf') {
-        nombreEmpresaId = 'nombre-empresa-500uf';
-        rutEmpresaId = 'rut-empresa-500uf';
         nombreEstablecimientoId = 'nombre-establecimiento-500uf';
         direccionId = 'direccion-500uf';
         funcionarioGradoId = 'funcionario-grado-500uf';
     } else if (sectionId === 'directiva-funcionamiento') {
-        nombreEmpresaId = 'nombre-empresa-directiva';
-        rutEmpresaId = 'rut-empresa-directiva';
         nombreEstablecimientoId = 'nombre-establecimiento-directiva';
         direccionId = 'direccion-directiva';
         funcionarioGradoId = 'funcionario-grado-directiva';
     }
 
     const generalInfo = {
-        nombreEmpresa: getInputValue(nombreEmpresaId),
-        rutEmpresa: getInputValue(rutEmpresaId),
         nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
         direccion: getInputValue(direccionId),
         funcionarioGrado: getInputValue(funcionarioGradoId)
     };
 
-    // Validar que al menos el nombre de la empresa esté lleno
-    if (!generalInfo.nombreEmpresa) {
-        alert('Por favor, complete al menos el nombre de la empresa antes de generar el reporte.');
+    // Validar que al menos el nombre del establecimiento esté lleno
+    if (!generalInfo.nombreEstablecimiento) {
+        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
         return;
     }
 
     let sectionTitle = '';
     let sectionSubtitle = '';
-    let tipoDirectiva = '';
+    let tipoDirectiva = ''; // Nueva variable para el tipo de directiva
     
     if (sectionId === 'plan-seguridad') {
         sectionTitle = 'PLAN DE SEGURIDAD';
@@ -322,6 +312,7 @@ async function generarReporte(sectionId) {
     } else if (sectionId === 'directiva-funcionamiento') {
         sectionTitle = 'DIRECTIVA DE FUNCIONAMIENTO';
         
+        // Definir el tipo de directiva según la selección
         if (selectedDirectivaType === 'instalacion') {
             tipoDirectiva = 'INSTALACIÓN';
         } else if (selectedDirectivaType === 'evento-deportivo') {
@@ -333,39 +324,50 @@ async function generarReporte(sectionId) {
         sectionSubtitle = 'Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos';
     }
 
-    // ✅ Función para agregar UN SOLO LOGO MÁS PEQUEÑO
+    // Función para agregar el logo al PDF
     const agregarLogoPDF = () => {
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = function() {
                 try {
-                    // ✅ SOLO UN LOGO EN EL LADO IZQUIERDO, MÁS PEQUEÑO
-                    const logoWidth = 20;    // Reducido de 25 a 20
-                    const logoHeight = 20;   // Reducido de 25 a 20
+                    // Agregar logo en la esquina superior izquierda
+                    const logoWidth = 25;
+                    const logoHeight = 25;
                     doc.addImage(img, 'PNG', 15, 8, logoWidth, logoHeight);
-                    console.log('Logo agregado al PDF exitosamente');
+                    
+                    // Agregar logo también en la esquina superior derecha para balance
+                    doc.addImage(img, 'PNG', 170, 8, logoWidth, logoHeight);
+                    
+                    console.log('Logos agregados al PDF exitosamente');
                 } catch (error) {
                     console.log('Error al agregar foto/logo.png al PDF:', error);
+                    // Agregar texto alternativo si no se puede cargar la imagen
                     doc.setFontSize(12);
                     doc.setTextColor(45, 80, 22);
                     doc.text('🏛️', 15, 20);
+                    doc.text('🏛️', 185, 20);
                 }
                 resolve();
             };
             img.onerror = function() {
                 console.log('No se pudo cargar foto/logo.png para el PDF');
+                // Agregar iconos alternativos
                 doc.setFontSize(16);
                 doc.setTextColor(45, 80, 22);
                 doc.text('🏛️', 20, 22);
+                doc.text('🏛️', 180, 22);
                 resolve();
             };
             img.src = 'foto/logo.png';
             
+            // Timeout de 2 segundos para evitar bloqueo
             setTimeout(() => {
                 console.log('Timeout al cargar foto/logo.png, continuando...');
+                // Agregar iconos alternativos por timeout
                 doc.setFontSize(16);
                 doc.setTextColor(45, 80, 22);
                 doc.text('🏛️', 20, 22);
+                doc.text('🏛️', 180, 22);
                 resolve();
             }, 2000);
         });
@@ -374,78 +376,76 @@ async function generarReporte(sectionId) {
     // Agregar logo al PDF
     await agregarLogoPDF();
 
-    // Añadir encabezado al PDF
-    doc.setFontSize(20);
-    doc.setTextColor(45, 80, 22);
-    doc.text(sectionTitle, 105, 25, null, null, 'center');
+    // Añadir encabezado al PDF (solo con el título del requisito)
+    doc.setFontSize(20); // Aumentado para hacer más prominente el título principal
+    doc.setTextColor(45, 80, 22); // Verde oscuro
+    doc.text(sectionTitle, 105, 25, null, null, 'center'); // Título principal centrado
     
     let yOffsetHeader = 32;
     
+    // Si es directiva de funcionamiento, agregar el tipo específico
     if (sectionId === 'directiva-funcionamiento' && tipoDirectiva) {
         doc.setFontSize(14);
-        doc.setTextColor(0, 0, 0);
+        doc.setTextColor(0, 0, 0); // Negro para el tipo
         doc.text(tipoDirectiva, 105, yOffsetHeader, null, null, 'center');
-        yOffsetHeader += 7;
+        yOffsetHeader += 7; // Espaciado adicional
     }
     
     doc.setFontSize(11);
-    doc.setTextColor(74, 124, 34);
+    doc.setTextColor(74, 124, 34); // Verde más claro
     doc.text('OS10 Coquimbo - Carabineros de Chile', 105, yOffsetHeader, null, null, 'center');
     
     doc.setFontSize(9);
-    doc.setTextColor(100, 100, 100);
+    doc.setTextColor(100, 100, 100); // Gris para el subtítulo
     doc.text(sectionSubtitle, 105, yOffsetHeader + 6, null, null, 'center');
 
-    // Agregar línea separadora decorativa
+    // Agregar línea separadora decorativa (ajustada según el contenido)
     const lineY = yOffsetHeader + 12;
-    doc.setDrawColor(45, 80, 22);
+    doc.setDrawColor(45, 80, 22); // Verde oscuro
     doc.setLineWidth(0.5);
     doc.line(20, lineY, 190, lineY);
 
-    let yOffset = lineY + 10;
+    let yOffset = lineY + 10; // Ajustado para el nuevo layout
 
-    // ✅ ÚNICA SECCIÓN DE INFORMACIÓN GENERAL (SIN DUPLICACIÓN)
-    doc.setFontSize(9);
+    // Añadir información general
+    doc.setFontSize(9); // Reducido de 11 a 9
     doc.setTextColor(0, 0, 0);
     doc.setFont(undefined, 'bold');
-    doc.text('DATOS DE LA EMPRESA O ENTIDAD Y DATOS DEL ESTABLECIMIENTO:', 20, yOffset);
-    yOffset += 6;
+    doc.text('DATOS DEL ESTABLECIMIENTO FISCALIZADO:', 20, yOffset);
+    yOffset += 6; // Reducido espaciado
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8);
-    doc.text(`Nombre de la Empresa: ${generalInfo.nombreEmpresa}`, 20, yOffset);
-    yOffset += 5;
-    doc.text(`RUT de la Empresa: ${generalInfo.rutEmpresa}`, 20, yOffset);
-    yOffset += 5;
+    doc.setFontSize(8); // Reducido de 11 a 8
     doc.text(`Nombre del Establecimiento: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
-    yOffset += 5;
-    doc.text(`Dirección del Establecimiento: ${generalInfo.direccion}`, 20, yOffset);
-    yOffset += 8;
+    yOffset += 5; // Reducido espaciado
+    doc.text(`Dirección: ${generalInfo.direccion}`, 20, yOffset);
+    yOffset += 8; // Reducido espaciado
 
     doc.setFont(undefined, 'bold');
-    doc.setFontSize(9);
+    doc.setFontSize(9); // Reducido de 11 a 9
     doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
-    yOffset += 6;
+    yOffset += 6; // Reducido espaciado
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8);
+    doc.setFontSize(8); // Reducido de 11 a 8
     doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
-    yOffset += 5;
+    yOffset += 5; // Reducido espaciado
     
     // Agregar fecha y hora del reporte
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toLocaleDateString('es-CL');
     const horaFormateada = fechaActual.toLocaleTimeString('es-CL');
-    doc.setFontSize(7);
-    doc.setTextColor(100, 100, 100);
+    doc.setFontSize(7); // Reducido para fecha
+    doc.setTextColor(100, 100, 100); // Gris para la fecha
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
-    yOffset += 10;
+    yOffset += 10; // Espaciado antes de la tabla
 
-    // ✅ Tabla de requisitos CON CUADROS MÁS CLAROS
+    // CORREGIDO: Añadir tabla de requisitos
     doc.setFontSize(10);
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
 
+    // Buscar requisitos con el ID correcto
     let requisitosSelector;
     if (sectionId === 'sobre-500uf') {
         requisitosSelector = '#requisitos-sobre-500uf .requisito-item';
@@ -468,50 +468,31 @@ async function generarReporte(sectionId) {
         body: data,
         theme: 'grid',
         headStyles: {
-            fillColor: [45, 80, 22],           // Header verde oscuro (mantener)
-            textColor: [255, 255, 255],        // Texto blanco en header
+            fillColor: [45, 80, 22], // Verde oscuro
+            textColor: [255, 255, 255],
             fontStyle: 'bold',
             halign: 'center'
         },
         styles: {
             fontSize: 8,
             cellPadding: 2,
-            valign: 'middle',
-            // ✅ TEXTO MÁS OSCURO (sin negritas)
-            textColor: [0, 0, 0],              // Negro puro para mejor contraste
-            fontStyle: 'normal',               // Sin negritas
-            // ✅ LÍNEAS MÁS OSCURAS
-            lineColor: [0, 0, 0],              // Líneas negras
-            lineWidth: 0.3,                    // Líneas un poco más gruesas
-            // ✅ CUADROS MÁS CLAROS - FONDO GRIS MUY LIGERO
-            fillColor: [248, 249, 250]         // Fondo gris muy claro para todas las celdas
+            valign: 'middle'
         },
         columnStyles: {
-            0: { cellWidth: 10, halign: 'center' },  // N°
-            1: { cellWidth: 80 },                    // Requisito
+            0: { cellWidth: 10, halign: 'center' }, // N°
+            1: { cellWidth: 80 }, // Requisito
             2: { cellWidth: 20, halign: 'center' }, // Estado
-            3: { cellWidth: 70 }                     // Observaciones
+            3: { cellWidth: 70 } // Observaciones
         },
         didParseCell: function (data) {
-            // Colores para la columna de Estado
-            if (data.section === 'body' && data.column.index === 2) {
+            if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
                 if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [40, 167, 69];      // Verde para Cumple
-                    data.cell.styles.textColor = [255, 255, 255];    // Texto blanco
+                    data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
+                    data.cell.styles.textColor = [255, 255, 255];
                 } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [243, 156, 18];     // Naranja para No Cumple
-                    data.cell.styles.textColor = [255, 255, 255];    // Texto blanco
-                } else {
-                    // ✅ Para "Pendiente" mantener el fondo gris claro
-                    data.cell.styles.fillColor = [248, 249, 250];    // Gris muy claro
-                    data.cell.styles.textColor = [0, 0, 0];          // Texto negro
+                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
+                    data.cell.styles.textColor = [255, 255, 255];
                 }
-            }
-            // ✅ ASEGURAR FONDO CLARO Y TEXTO NEGRO EN TODAS LAS OTRAS CELDAS
-            if (data.section === 'body' && data.column.index !== 2) {
-                data.cell.styles.fillColor = [248, 249, 250];        // Fondo gris muy claro
-                data.cell.styles.textColor = [0, 0, 0];              // Texto negro puro
-                data.cell.styles.fontStyle = 'normal';               // Sin negritas
             }
         }
     });
@@ -523,18 +504,22 @@ async function generarReporte(sectionId) {
 
 // Eventos para mejorar la impresión
 window.addEventListener('beforeprint', function() {
+    // Mostrar headers de desktop para impresión
     document.querySelectorAll('.header-requisitos-desktop').forEach(header => {
         header.style.display = 'grid';
     });
+    // Ocultar headers mobile para impresión
     document.querySelectorAll('.header-requisitos-mobile').forEach(header => {
         header.style.display = 'none';
     });
 });
 
 window.addEventListener('afterprint', function() {
+    // Restaurar headers después de imprimir
     document.querySelectorAll('.header-requisitos-desktop').forEach(header => {
         header.style.display = 'none';
     });
+    // Restaurar headers mobile si es necesario (en mobile)
     if (window.innerWidth <= 768) {
         document.querySelectorAll('.header-requisitos-mobile').forEach(header => {
             header.style.display = 'block';
@@ -544,8 +529,10 @@ window.addEventListener('afterprint', function() {
 
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
+    // Al cargar la página, se muestra la sección de inicio por defecto
     mostrarSeccion('inicio');
     
+    // Manejar error de carga del logo
     const logoImg = document.querySelector('.logo-imagen');
     if (logoImg) {
         logoImg.onerror = function() {
@@ -563,10 +550,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     
+    // Configurar eventos de teclado para navegación
     document.addEventListener('keydown', function(event) {
+        // ESC para volver atrás
         if (event.key === 'Escape' && currentSection !== 'inicio') {
             volverAtras();
         }
+        // Ctrl+P para imprimir
         if (event.ctrlKey && event.key === 'p' && currentSection !== 'inicio') {
             event.preventDefault();
             window.print();
