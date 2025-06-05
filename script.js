@@ -257,44 +257,57 @@ async function generarReporte(sectionId) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    // CORREGIDO: Recopilar datos del formulario con IDs correctos
-    const getInputValue = (id) => {
-        const element = document.getElementById(id);
-        return element ? element.value.trim() : '';
-    };
+// Busca esta sección en tu script.js y reemplázala:
 
-    // Mapear correctamente los IDs según la sección
-    let nombreEstablecimientoId, direccionId, funcionarioGradoId;
+// CORREGIDO: Recopilar datos del formulario con IDs correctos
+const getInputValue = (id) => {
+    const element = document.getElementById(id);
+    return element ? element.value.trim() : '';
+};
+
+// Mapear correctamente los IDs según la sección
+let nombreEmpresaId, rutEmpresaId, nombreEstablecimientoId, direccionId, funcionarioGradoId;
+
+if (sectionId === 'plan-seguridad') {
+    nombreEmpresaId = 'nombre-empresa-plan';
+    rutEmpresaId = 'rut-empresa-plan';
+    nombreEstablecimientoId = 'nombre-establecimiento-plan';
+    direccionId = 'direccion-plan';
+    funcionarioGradoId = 'funcionario-grado-plan';
+} else if (sectionId === 'servicentros') {
+    nombreEmpresaId = 'nombre-empresa-servicentros';
+    rutEmpresaId = 'rut-empresa-servicentros';
+    nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
+    direccionId = 'direccion-servicentros';
+    funcionarioGradoId = 'funcionario-grado-servicentros';
+} else if (sectionId === 'sobre-500uf') {
+    nombreEmpresaId = 'nombre-empresa-500uf';
+    rutEmpresaId = 'rut-empresa-500uf';
+    nombreEstablecimientoId = 'nombre-establecimiento-500uf';
+    direccionId = 'direccion-500uf';
+    funcionarioGradoId = 'funcionario-grado-500uf';
+} else if (sectionId === 'directiva-funcionamiento') {
+    nombreEmpresaId = 'nombre-empresa-directiva';
+    rutEmpresaId = 'rut-empresa-directiva';
+    nombreEstablecimientoId = 'nombre-establecimiento-directiva';
+    direccionId = 'direccion-directiva';
+    funcionarioGradoId = 'funcionario-grado-directiva';
+}
+
+const generalInfo = {
+    nombreEmpresa: getInputValue(nombreEmpresaId),
+    rutEmpresa: getInputValue(rutEmpresaId),
+    nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
+    direccion: getInputValue(direccionId),
+    funcionarioGrado: getInputValue(funcionarioGradoId)
+};
+
+// Validar que al menos el nombre de la empresa esté lleno
+if (!generalInfo.nombreEmpresa) {
+    alert('Por favor, complete al menos el nombre de la empresa antes de generar el reporte.');
+    return;
+}
     
-    if (sectionId === 'plan-seguridad') {
-        nombreEstablecimientoId = 'nombre-establecimiento-plan';
-        direccionId = 'direccion-plan';
-        funcionarioGradoId = 'funcionario-grado-plan';
-    } else if (sectionId === 'servicentros') {
-        nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
-        direccionId = 'direccion-servicentros';
-        funcionarioGradoId = 'funcionario-grado-servicentros';
-    } else if (sectionId === 'sobre-500uf') {
-        nombreEstablecimientoId = 'nombre-establecimiento-500uf';
-        direccionId = 'direccion-500uf';
-        funcionarioGradoId = 'funcionario-grado-500uf';
-    } else if (sectionId === 'directiva-funcionamiento') {
-        nombreEstablecimientoId = 'nombre-establecimiento-directiva';
-        direccionId = 'direccion-directiva';
-        funcionarioGradoId = 'funcionario-grado-directiva';
-    }
-
-    const generalInfo = {
-        nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
-        direccion: getInputValue(direccionId),
-        funcionarioGrado: getInputValue(funcionarioGradoId)
-    };
-
-    // Validar que al menos el nombre del establecimiento esté lleno
-    if (!generalInfo.nombreEstablecimiento) {
-        alert('Por favor, complete al menos el nombre del establecimiento antes de generar el reporte.');
-        return;
-    }
 
     let sectionTitle = '';
     let sectionSubtitle = '';
@@ -422,14 +435,33 @@ async function generarReporte(sectionId) {
     yOffset += 8; // Reducido espaciado
 
     doc.setFont(undefined, 'bold');
-    doc.setFontSize(9); // Reducido de 11 a 9
-    doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
-    yOffset += 6; // Reducido espaciado
-    
-    doc.setFont(undefined, 'normal');
-    doc.setFontSize(8); // Reducido de 11 a 8
-    doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
-    yOffset += 5; // Reducido espaciado
+    // Añadir información general en el PDF (busca esta sección y reemplázala):
+doc.setFontSize(9);
+doc.setTextColor(0, 0, 0);
+doc.setFont(undefined, 'bold');
+doc.text('DATOS DE LA EMPRESA O ENTIDAD Y DATOS DEL ESTABLECIMIENTO:', 20, yOffset);
+yOffset += 6;
+
+doc.setFont(undefined, 'normal');
+doc.setFontSize(8);
+doc.text(`Nombre de la Empresa o Entidad: ${generalInfo.nombreEmpresa}`, 20, yOffset);
+yOffset += 5;
+doc.text(`RUT de la Empresa o Entidad: ${generalInfo.rutEmpresa}`, 20, yOffset);
+yOffset += 5;
+doc.text(`Nombre del Establecimiento: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
+yOffset += 5;
+doc.text(`Dirección del Establecimiento: ${generalInfo.direccion}`, 20, yOffset);
+yOffset += 8;
+
+doc.setFont(undefined, 'bold');
+doc.setFontSize(9);
+doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
+yOffset += 6;
+
+doc.setFont(undefined, 'normal');
+doc.setFontSize(8);
+doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
+yOffset += 5;
     
     // Agregar fecha y hora del reporte
     const fechaActual = new Date();
