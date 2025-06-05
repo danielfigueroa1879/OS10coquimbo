@@ -470,7 +470,7 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        const estado = item.classList.contains('cumple') ? 'Cumple' : (item.classList.contains('no-cumple') ? 'No Cumple' : 'Pendiente');
+        const estado = item.classList.contains('cumple') ? '✅ Cumple' : (item.classList.contains('no-cumple') ? '❌ No Cumple' : '? Pendiente');
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
@@ -496,16 +496,16 @@ async function generarReporte(sectionId) {
         },
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' }, // N°
-            1: { cellWidth: 80 }, // Requisito
-            2: { cellWidth: 20, halign: 'center' }, // Estado
+            1: { cellWidth: 75 }, // Requisito (un poco más angosta)
+            2: { cellWidth: 25, halign: 'center' }, // Estado (más ancha para emojis)
             3: { cellWidth: 70 } // Observaciones
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === 'Cumple') {
+                if (data.cell.text[0] === '✅ Cumple') {
                     data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
                     data.cell.styles.textColor = [0, 140, 44];
-                } else if (data.cell.text[0] === 'No Cumple') {
+                } else if (data.cell.text[0] === '❌ No Cumple') {
                     // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
                     data.cell.styles.fillColor = [247, 202, 209]; // ROJO para No Cumple
                     data.cell.styles.textColor = [247, 49, 9];
