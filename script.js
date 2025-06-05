@@ -1,4 +1,4 @@
-// script.js - Versión Completa Final con todas las correcciones
+// script.js - Versión Completa Final con cuadros más claros en PDF
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -246,7 +246,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - VERSIÓN FINAL CORREGIDA
+// Función para generar el reporte PDF - VERSIÓN FINAL CON CUADROS MÁS CLAROS
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -441,7 +441,7 @@ async function generarReporte(sectionId) {
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
     yOffset += 10;
 
-    // ✅ Tabla de requisitos CON LÍNEAS Y TEXTO MÁS OSCUROS
+    // ✅ Tabla de requisitos CON CUADROS MÁS CLAROS
     doc.setFontSize(10);
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
@@ -468,8 +468,8 @@ async function generarReporte(sectionId) {
         body: data,
         theme: 'grid',
         headStyles: {
-            fillColor: [45, 80, 22],
-            textColor: [255, 255, 255],
+            fillColor: [45, 80, 22],           // Header verde oscuro (mantener)
+            textColor: [255, 255, 255],        // Texto blanco en header
             fontStyle: 'bold',
             halign: 'center'
         },
@@ -478,32 +478,40 @@ async function generarReporte(sectionId) {
             cellPadding: 2,
             valign: 'middle',
             // ✅ TEXTO MÁS OSCURO (sin negritas)
-            textColor: [0, 0, 0],          // Negro puro para mejor contraste
-            fontStyle: 'normal',           // Asegurar que no esté en negritas
+            textColor: [0, 0, 0],              // Negro puro para mejor contraste
+            fontStyle: 'normal',               // Sin negritas
             // ✅ LÍNEAS MÁS OSCURAS
-            lineColor: [0, 0, 0],          // Líneas negras en lugar de grises
-            lineWidth: 0.3                 // Líneas un poco más gruesas
+            lineColor: [0, 0, 0],              // Líneas negras
+            lineWidth: 0.3,                    // Líneas un poco más gruesas
+            // ✅ CUADROS MÁS CLAROS - FONDO GRIS MUY LIGERO
+            fillColor: [248, 249, 250]         // Fondo gris muy claro para todas las celdas
         },
         columnStyles: {
-            0: { cellWidth: 10, halign: 'center' },
-            1: { cellWidth: 80 },
-            2: { cellWidth: 20, halign: 'center' },
-            3: { cellWidth: 70 }
+            0: { cellWidth: 10, halign: 'center' },  // N°
+            1: { cellWidth: 80 },                    // Requisito
+            2: { cellWidth: 20, halign: 'center' }, // Estado
+            3: { cellWidth: 70 }                     // Observaciones
         },
         didParseCell: function (data) {
+            // Colores para la columna de Estado
             if (data.section === 'body' && data.column.index === 2) {
                 if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [40, 167, 69];
-                    data.cell.styles.textColor = [255, 255, 255];
+                    data.cell.styles.fillColor = [40, 167, 69];      // Verde para Cumple
+                    data.cell.styles.textColor = [255, 255, 255];    // Texto blanco
                 } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [243, 156, 18];
-                    data.cell.styles.textColor = [255, 255, 255];
+                    data.cell.styles.fillColor = [243, 156, 18];     // Naranja para No Cumple
+                    data.cell.styles.textColor = [255, 255, 255];    // Texto blanco
+                } else {
+                    // ✅ Para "Pendiente" mantener el fondo gris claro
+                    data.cell.styles.fillColor = [248, 249, 250];    // Gris muy claro
+                    data.cell.styles.textColor = [0, 0, 0];          // Texto negro
                 }
             }
-            // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS CELDAS (sin negritas)
-            if (data.section === 'body') {
-                data.cell.styles.textColor = [0, 0, 0];     // Negro puro
-                data.cell.styles.fontStyle = 'normal';      // Sin negritas
+            // ✅ ASEGURAR FONDO CLARO Y TEXTO NEGRO EN TODAS LAS OTRAS CELDAS
+            if (data.section === 'body' && data.column.index !== 2) {
+                data.cell.styles.fillColor = [248, 249, 250];        // Fondo gris muy claro
+                data.cell.styles.textColor = [0, 0, 0];              // Texto negro puro
+                data.cell.styles.fontStyle = 'normal';               // Sin negritas
             }
         }
     });
