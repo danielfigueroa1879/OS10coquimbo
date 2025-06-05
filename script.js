@@ -469,8 +469,8 @@ async function generarReporte(sectionId) {
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
-        // MODIFICADO: Probar con símbolos básicos
-        const estado = item.classList.contains('cumple') ? '√' : (item.classList.contains('no-cumple') ? 'X' : 'Pendiente');
+        // MODIFICADO: Usar símbolos más apropiados
+        const estado = item.classList.contains('cumple') ? '✓' : (item.classList.contains('no-cumple') ? 'X' : 'Pendiente');
         const observacion = item.querySelector('.observacion-input').value || '';
         data.push([numero, titulo, estado, observacion]);
     });
@@ -502,16 +502,16 @@ async function generarReporte(sectionId) {
         },
         didParseCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                // MODIFICADO: Usar símbolos básicos
-                if (data.cell.text[0] === '√') {
-                    data.cell.styles.fillColor = [72, 187, 120]; // Verde más claro
-                    data.cell.styles.textColor = [255, 255, 255];
-                    data.cell.styles.fontSize = 14;
+                // MODIFICADO: Nuevos colores y tamaños según especificaciones
+                if (data.cell.text[0] === '✓') {
+                    data.cell.styles.fillColor = [144, 238, 144]; // Fondo verde agua claro
+                    data.cell.styles.textColor = [0, 100, 0]; // Check verde oscuro
+                    data.cell.styles.fontSize = 11; // Un poco más pequeño
                     data.cell.styles.fontStyle = 'bold';
                 } else if (data.cell.text[0] === 'X') {
-                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para X
-                    data.cell.styles.textColor = [255, 255, 255];
-                    data.cell.styles.fontSize = 14;
+                    data.cell.styles.fillColor = [255, 182, 193]; // Fondo rojo claro
+                    data.cell.styles.textColor = [139, 0, 0]; // X rojo oscuro
+                    data.cell.styles.fontSize = 11; // Un poco más pequeño
                     data.cell.styles.fontStyle = 'bold';
                 }
             }
