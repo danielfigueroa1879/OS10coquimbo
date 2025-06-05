@@ -331,8 +331,8 @@ async function generarReporte(sectionId) {
             img.onload = function() {
                 try {
                     // Agregar logo en la esquina superior izquierda
-                    const logoWidth = 25;
-                    const logoHeight = 25;
+                    const logoWidth = 24;
+                    const logoHeight = 24;
                     doc.addImage(img, 'PNG', 15, 8, logoWidth, logoHeight);
                     
                     // Agregar logo también en la esquina superior derecha para balance
