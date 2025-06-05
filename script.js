@@ -462,40 +462,53 @@ async function generarReporte(sectionId) {
         data.push([numero, titulo, estado, observacion]);
     });
 
-    doc.autoTable({
-        startY: yOffset,
-        head: headers,
-        body: data,
-        theme: 'grid',
-        headStyles: {
-            fillColor: [45, 80, 22], // Verde oscuro
-            textColor: [255, 255, 255],
-            fontStyle: 'bold',
-            halign: 'center'
-        },
-        styles: {
-            fontSize: 8,
-            cellPadding: 2,
-            valign: 'middle'
-        },
-        columnStyles: {
-            0: { cellWidth: 10, halign: 'center' }, // N°
-            1: { cellWidth: 80 }, // Requisito
-            2: { cellWidth: 20, halign: 'center' }, // Estado
-            3: { cellWidth: 70 } // Observaciones
-        },
-        didParseCell: function (data) {
-            if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
-                    data.cell.styles.textColor = [255, 255, 255];
-                } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
-                    data.cell.styles.textColor = [255, 255, 255];
-                }
+// BUSCA esta sección en tu función generarReporte y REEMPLÁZALA:
+
+doc.autoTable({
+    startY: yOffset,
+    head: headers,
+    body: data,
+    theme: 'grid',
+    headStyles: {
+        fillColor: [45, 80, 22], // Verde oscuro
+        textColor: [255, 255, 255],
+        fontStyle: 'bold',
+        halign: 'center'
+    },
+    styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        valign: 'middle',
+        // ✅ TEXTO MÁS OSCURO EN LOS CUADROS (sin negritas)
+        textColor: [0, 0, 0],          // Negro puro para mejor contraste
+        fontStyle: 'normal',           // Sin negritas
+        // ✅ LÍNEAS MÁS OSCURAS
+        lineColor: [0, 0, 0],          // Líneas negras
+        
+    },
+    columnStyles: {
+        0: { cellWidth: 10, halign: 'center' }, // N°
+        1: { cellWidth: 80 }, // Requisito
+        2: { cellWidth: 20, halign: 'center' }, // Estado
+        3: { cellWidth: 70 } // Observaciones
+    },
+    didParseCell: function (data) {
+        if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
+            if (data.cell.text[0] === 'Cumple') {
+                data.cell.styles.fillColor = [40, 167, 69]; // Verde para Cumple
+                data.cell.styles.textColor = [255, 255, 255];
+            } else if (data.cell.text[0] === 'No Cumple') {
+                data.cell.styles.fillColor = [243, 156, 18]; // Naranja para No Cumple
+                data.cell.styles.textColor = [255, 255, 255];
             }
         }
-    });
+        // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
+        if (data.section === 'body' && data.column.index !== 2) {
+            data.cell.styles.textColor = [0, 0, 0];     // Negro puro
+            data.cell.styles.fontStyle = 'normal';      // Sin negritas
+        }
+    }
+});
 
     // Generar fecha actual para el nombre del archivo
     const fecha = new Date().toISOString().split('T')[0];
