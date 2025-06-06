@@ -824,20 +824,7 @@ body {
         position: relative;
     }
     
-    .requisito-item::before {
-        content: "REQUISITO N° " attr(data-numero);
-        position: absolute;
-        top: -12px;
-        left: 20px;
-        background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
-        color: white;
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 12px;
-        box-shadow: 0 4px 12px rgba(45, 80, 22, 0.3);
-    }
-    
+        
     .requisito-numero {
         justify-self: center;
         width: fit-content;
