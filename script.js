@@ -325,7 +325,7 @@ async function generarReporte(sectionId) {
         sectionTitle = 'PLAN DE SEGURIDAD';
         sectionSubtitle = 'Vigencia según estudio (2 años) - Decreto Exento N° 32 del 31.01.2024';
     } else if (sectionId === 'servicentros') {
-        sectionTitle = 'MEDIDAS DE SEGURIDAD DE SERVICENTROS';
+        sectionTitle = 'MEDIDAS DE SEG. SERVICENTROS';
         sectionSubtitle = 'Vigencia 3 años - Ley 19.303 - Decreto Exento N° 32 Exento del 31.01.2024.';
     } else if (sectionId === 'sobre-500uf') {
         sectionTitle = 'MEDIDAS SOBRE 500 UF';
