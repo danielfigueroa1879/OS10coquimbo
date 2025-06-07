@@ -1,5 +1,6 @@
 // script.js - Versión Completa Final con footer y numeración de páginas
 // MODIFICADO: Cambio de colores naranjas por rojos para "No Cumple"
+// MODIFICADO: Muestra imágenes en el PDF para "Cumple" y "No Cumple"
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -101,8 +102,8 @@ let sectionHistory = []; // Historial de navegación
 function mostrarSeccion(sectionId) {
     console.log(`Mostrando sección: ${sectionId}`);
 
-// Cambiar clase del body para el fondo
-document.body.className = sectionId;
+    // Cambiar clase del body para el fondo
+    document.body.className = sectionId;
     
     // Guardar sección actual en el historial si no es inicio
     if (currentSection !== 'inicio') {
@@ -256,7 +257,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - VERSIÓN COMPLETA CON FOOTER Y NUMERACIÓN
+// Función para generar el reporte PDF - VERSIÓN COMPLETA CON FOOTER Y NUMERACIÓN E IMÁGENES
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -267,6 +268,43 @@ async function generarReporte(sectionId) {
     const { jsPDF } = window.jspdf;
     // MODIFICADO: Tamaño personalizado 21.59 cm x 33.02 cm (215.9mm x 330.2mm)
     const doc = new jsPDF('p', 'mm', [215.9, 330.2]);
+
+    // ** Función para cargar imágenes y convertirlas a Base64 **
+    const getImageBase64 = (url) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                resolve(canvas.toDataURL('image/png'));
+            };
+            img.onerror = (error) => {
+                console.error(`Error loading image ${url}:`, error);
+                reject(error);
+            };
+            img.src = url;
+        });
+    };
+
+    let cumpleImageBase64 = '';
+    let noCumpleImageBase64 = '';
+    let logoImageBase64 = '';
+
+    try {
+        cumpleImageBase64 = await getImageBase64('cumple.png');
+        noCumpleImageBase64 = await getImageBase64('nocumple.png');
+        logoImageBase64 = await getImageBase64('foto/logo.png');
+    } catch (error) {
+        console.error('Error al cargar una o más imágenes:', error);
+        // Fallback para las imágenes de estado si fallan
+        cumpleImageBase64 = null;
+        noCumpleImageBase64 = null;
+        logoImageBase64 = null;
+    }
+
 
     // Recopilar datos del formulario con IDs correctos
     const getInputValue = (id) => {
@@ -345,56 +383,31 @@ async function generarReporte(sectionId) {
     }
 
     // Función para agregar el logo al PDF
-    const agregarLogoPDF = () => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = function() {
-                try {
-                    // Agregar logo en la esquina superior izquierda
-                    const logoWidth = 24;
-                    const logoHeight = 24;
-                    doc.addImage(img, 'PNG', 15, 8, logoWidth, logoHeight);
-                    
-                    // Agregar logo también en la esquina superior derecha para balance
-                    doc.addImage(img, 'PNG', 170, 8, logoWidth, logoHeight);
-                    
-                    console.log('Logos agregados al PDF exitosamente');
-                } catch (error) {
-                    console.log('Error al agregar foto/logo.png al PDF:', error);
-                    // Agregar texto alternativo si no se puede cargar la imagen
-                    doc.setFontSize(12);
-                    doc.setTextColor(45, 80, 22);
-                    doc.text('🏛️', 15, 20);
-                    doc.text('🏛️', 185, 20);
-                }
-                resolve();
-            };
-            img.onerror = function() {
-                console.log('No se pudo cargar foto/logo.png para el PDF');
-                // Agregar iconos alternativos
-                doc.setFontSize(16);
+    const agregarLogoPDF = (logoBase64) => {
+        if (logoBase64) {
+            try {
+                const logoWidth = 24;
+                const logoHeight = 24;
+                doc.addImage(logoBase64, 'PNG', 15, 8, logoWidth, logoHeight);
+                doc.addImage(logoBase64, 'PNG', 170, 8, logoWidth, logoHeight);
+                console.log('Logos agregados al PDF exitosamente');
+            } catch (error) {
+                console.log('Error al agregar foto/logo.png (base64) al PDF:', error);
+                doc.setFontSize(12);
                 doc.setTextColor(45, 80, 22);
-                doc.text('🏛️', 20, 22);
-                doc.text('🏛️', 180, 22);
-                resolve();
-            };
-            img.src = 'foto/logo.png';
-            
-            // Timeout de 2 segundos para evitar bloqueo
-            setTimeout(() => {
-                console.log('Timeout al cargar foto/logo.png, continuando...');
-                // Agregar iconos alternativos por timeout
-                doc.setFontSize(16);
-                doc.setTextColor(45, 80, 22);
-                doc.text('🏛️', 20, 22);
-                doc.text('🏛️', 180, 22);
-                resolve();
-            }, 2000);
-        });
+                doc.text('🏛️', 15, 20);
+                doc.text('🏛️', 185, 20);
+            }
+        } else {
+            console.log('No se pudo cargar foto/logo.png, usando iconos alternativos.');
+            doc.setFontSize(16);
+            doc.setTextColor(45, 80, 22);
+            doc.text('🏛️', 20, 22);
+            doc.text('🏛️', 180, 22);
+        }
     };
 
-    // Agregar logo al PDF
-    await agregarLogoPDF();
+    agregarLogoPDF(logoImageBase64);
 
     // Añadir encabezado al PDF
     doc.setFontSize(20);
@@ -499,41 +512,43 @@ async function generarReporte(sectionId) {
             fontSize: 8,
             cellPadding: 2,
             valign: 'middle',
-            // ✅ TEXTO MÁS OSCURO EN LOS CUADROS (sin negritas)
             textColor: [0, 0, 0],          // Negro puro para mejor contraste
             fontStyle: 'normal'            // Sin negritas
         },
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' }, // N°
             1: { cellWidth: 80 }, // Requisito
-            2: { cellWidth: 20, halign: 'center' }, // Estado
+            2: { cellWidth: 20, halign: 'center' }, // Estado - Aumentar ancho para imágenes
             3: { cellWidth: 70 } // Observaciones
         },
-        didParseCell: function (data) {
+        // Hook para dibujar contenido en la celda
+        didDrawCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                if (data.cell.text[0] === 'CUMPLE') {
-                    data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
-                    data.cell.styles.textColor = [0, 140, 44];
-                } else if (data.cell.text[0] === 'NO CUMPLE') {
-                    // MODIFICADO: Cambié el naranja [243, 156, 18] por rojo [255, 186, 210]
-                    data.cell.styles.fillColor = [247, 202, 209]; // ROJO para No Cumple
-                    data.cell.styles.textColor = [247, 49, 9];
+                const estado = data.cell.text[0]; // Obtener el texto del estado
+                const imgWidth = 10; // Ancho deseado de la imagen
+                const imgHeight = 10; // Alto deseado de la imagen
+
+                let imageToDraw = null;
+                if (estado === 'CUMPLE' && cumpleImageBase64) {
+                    imageToDraw = cumpleImageBase64;
+                } else if (estado === 'NO CUMPLE' && noCumpleImageBase64) {
+                    imageToDraw = noCumpleImageBase64;
+                }
+
+                if (imageToDraw) {
+                    const x = data.cell.x + (data.cell.width / 2) - (imgWidth / 2);
+                    const y = data.cell.y + (data.cell.height / 2) - (imgHeight / 2);
+                    doc.addImage(imageToDraw, 'PNG', x, y, imgWidth, imgHeight);
+                    data.cell.text = ''; // Limpiar el texto para que solo se vea la imagen
                 }
             }
-            // ✅ ASEGURAR TEXTO NEGRO EN TODAS LAS OTRAS CELDAS (sin negritas)
-            if (data.section === 'body' && data.column.index !== 2) {
-                data.cell.styles.textColor = [0, 0, 0];     // Negro puro
-                data.cell.styles.fontStyle = 'normal';      // Sin negritas
-            }
         },
-        // ✅ AGREGAR FOOTER Y NUMERACIÓN EN CADA PÁGINA
         didDrawPage: function (data) {
-            // ✅ FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo." - ALINEADO CON NUMERACIÓN
+            // FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo." - ALINEADO CON NUMERACIÓN
             doc.setFontSize(10);
             doc.setTextColor(100, 100, 100); // Gris
             doc.setFont(undefined, 'normal');
             
-            // Texto centrado en la parte inferior - AJUSTADO: a la misma altura que numeración
             const pageWidth = doc.internal.pageSize.width;
             const footerText = 'Seguridad Privada - OS10 Coquimbo.';
             const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
@@ -541,7 +556,7 @@ async function generarReporte(sectionId) {
             
             doc.text(footerText, textX, doc.internal.pageSize.height - 8);
             
-            // ✅ NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
+            // NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
             doc.setFontSize(9);
             doc.setTextColor(80, 80, 80); // Gris más oscuro para números
             
@@ -558,7 +573,7 @@ async function generarReporte(sectionId) {
         }
     });
 
-    // ✅ ACTUALIZAR NUMERACIÓN DE PÁGINAS EN TODAS LAS PÁGINAS
+    // ACTUALIZAR NUMERACIÓN DE PÁGINAS EN TODAS LAS PÁGINAS
     const totalPages = doc.internal.getNumberOfPages();
 
     for (let i = 1; i <= totalPages; i++) {
