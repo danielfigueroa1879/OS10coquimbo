@@ -556,13 +556,13 @@ async function generarReporte(sectionId) {
 
                 let imageToDraw = null;
                 if (estadoOriginal === 'CUMPLE' && cumpleImageBase64) {
-                    imgWidth = 6; // Ancho para cumple.png (más pequeña)
-                    imgHeight = 6; // Alto para cumple.png (más pequeña)
+                    imgWidth = 5; // Ancho para cumple.png (más pequeña)
+                    imgHeight = 5; // Alto para cumple.png (más pequeña)
                     imageToDraw = cumpleImageBase64;
                     console.log('Dibujando imagen CUMPLE.');
                 } else if (estadoOriginal === 'NO CUMPLE' && noCumpleImageBase64) {
-                    imgWidth = 7; // Ancho para nocumple.png (sin cambios)
-                    imgHeight = 7; // Alto para nocumple.png (sin cambios)
+                    imgWidth = 6; // Ancho para nocumple.png (sin cambios)
+                    imgHeight = 6; // Alto para nocumple.png (sin cambios)
                     imageToDraw = noCumpleImageBase64;
                     console.log('Dibujando imagen NO CUMPLE.');
                 } else {
