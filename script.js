@@ -536,7 +536,7 @@ async function generarReporte(sectionId) {
                     data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
                     data.cell.styles.textColor = [0, 140, 44]; // Asegurarse de tener color de texto si la imagen no carga
                 } else if (estadoOriginal === 'NO CUMPLE') {
-                    data.cell.styles.fillColor = [255, 220, 225]; // Rojo más claro para No Cumple
+                    data.cell.styles.fillColor = [247, 202, 209]; // Rojo más claro para No Cumple
                     data.cell.styles.textColor = [247, 49, 9]; // Asegurarse de tener color de texto si la imagen no carga
                 }
                 // Se vacía el texto de la celda aquí para asegurar que no se renderice
