@@ -523,9 +523,9 @@ async function generarReporte(sectionId) {
         },
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' }, // N°
-            1: { cellWidth: 75 }, // Requisito (Ancho ajustado)
+            1: { cellWidth: 75, halign: 'justify' }, // Requisito (Ancho ajustado y justificado)
             2: { cellWidth: 22, halign: 'center' }, // Estado (Ancho aumentado)
-            3: { cellWidth: 64 } // Observaciones (Ancho ajustado para compensar)
+            3: { cellWidth: 64, halign: 'justify' } // Observaciones (Ancho ajustado y justificado)
         },
         // Hook para aplicar los colores de fondo basados en el estado
         didParseCell: function (data) {
@@ -536,7 +536,7 @@ async function generarReporte(sectionId) {
                     data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
                     data.cell.styles.textColor = [0, 140, 44]; // Asegurarse de tener color de texto si la imagen no carga
                 } else if (estadoOriginal === 'NO CUMPLE') {
-                    data.cell.styles.fillColor = [247, 202, 209]; // Rojo para No Cumple
+                    data.cell.styles.fillColor = [255, 220, 225]; // Rojo más claro para No Cumple
                     data.cell.styles.textColor = [247, 49, 9]; // Asegurarse de tener color de texto si la imagen no carga
                 }
                 // Se vacía el texto de la celda aquí para asegurar que no se renderice
@@ -628,7 +628,7 @@ async function generarReporte(sectionId) {
         // AJUSTADO: bajado de -12 a -8 para alinearse con la numeración
         doc.text(footerText, textX, doc.internal.pageSize.height - 8);
         
-        // Numeración de páginas
+        // NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
         doc.setFontSize(9);
         doc.setTextColor(80, 80, 80);
         
