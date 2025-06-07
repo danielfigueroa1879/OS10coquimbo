@@ -9,7 +9,7 @@ const requisitosData = {
         { id: 2, text: 'EL PLAN DE SEGURIDAD, CUMPLE CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.' },
         { id: 3, text: 'ENCARGADO DE SEGURIDAD: EL ENCARGADO DE SEGURIDAD DEBE ESTAR ACREDITADO (AUTORIZACIÓN RESOLUCIÓN) ASÍ COMO TAMBIÉN EL SUPLENTE. (APARTADO IV: CONFECCIÓN DE INSTRUMENTOS DE SEGURIDAD; N° 2 PLAN DE SEGURIDAD ; ENCARGADO DE SEGURIDAD)' },
         { id: 4, text: 'CAJERO AUTOMÁTICO: CUANTO CAJEROS SE MANTIENEN EN EL BANCO Y NÚMEROS ATM.' },
-        { id: 5, text: 'EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO. (SIN IMPLEMENTOS)' },
+        { id: 5, text: 'EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZación DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO. (SIN IMPLEMENTOS)' },
         { id: 6, text: 'INFORMACIÓN PARA DECISIONES POLICIALES' },
         { id: 7, text: 'FOTOGRAFÍA Y LISTADO DE CREDENCIALES DE VIGILANTES PRIVADOS.' },
         { id: 8, text: 'Copia de la Autorización del Encargado de Seguridad Suplente (conforme a al Manual Operativo en Materias de Seguridad Privada, aprobado mediante Decreto Exento N° 32 del 31.01.2024, del Ministerio del Interior y Seguridad Publica).' },
@@ -28,7 +28,7 @@ const requisitosData = {
         { id: 4, text: 'MANTIENE ESTANCO PARA LA CARGA Y DESCARGA DEL CAJERO; SI NO TIENE ESTANCO DEBE APOYAR LA OPERACIÓN CON UNA CÁMARA DE SEGURIDAD.(Art. 8º inciso 1 del Decreto Nº 1.814 del 12.11.2014) (Agregar fotografías y croquis)' },
         { id: 5, text: 'OPERADOR CCTV: SI MANTIENE PROPIOS O DE LA CENTRAL SANTIAGO, DEBE GESTIONAR LAS AUTORIZACIONES DE LOS OPERADORES QUE REALIZAN ESTA LABOR. ADJUNTAR AUTORIZACIÓN DE LA EMPRESA Y DEL PERSONAL QUE REALIZA ESTE SERVICIO. (Decreto Supremo N° 867, de 2017- El Decreto Exento N° 32 del 31.01.2024)' },
         { id: 6, text: 'MÁXIMO DE DINERO QUE MANTIENE LOS ATENDEDORES O BOMBEROS.' },
-        { id: 7, text: 'EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO.' },
+        { id: 7, text: 'EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZación DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO.' },
         { id: 8, text: 'CROQUIS DE CÁMARAS DE SEGURIDAD Y TECNOLOGÍA APLICADA (SENSORES DE HUMO, SENSORES DE MOVIMIENTO, ALARMAS, ETC.)' },
         { id: 9, text: 'ANÁLISIS DE VULNERABILIDADES Y MITIGACIÓN DE ELLAS.' },
         { id: 10, text: 'PLAN DE EMERGENCIA Y SUS ANEXOS.' },
@@ -39,7 +39,7 @@ const requisitosData = {
         { id: 1, text: 'MEDIDAS DE SEGURIDAD CUMPLEN CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.' },
         { id: 2, text: 'CAJERO AUTOMÁTICO: CUAL ES EL NÚMERO ATM Y A QUE BANCO PERTENECE EL CAJERO AUTOMÁTICO. (FOTOGRAFÍAS- INCLUIR UBICACIÓN EN CROQUIS.)' },
         { id: 3, text: 'QUE EMPRESA DE TRANSPORTE DE TRANSPORTE DE VALORES ES LA ENCARGADA DE REALIZAR LA CARGA Y DESCARGA DEL CAJERO. (aislarse transitoriamente por parte de las entidades emisoras o receptoras o cualquier establecimiento que las contenga)' },
-        { id: 4, text: 'MANTIENE ESTANCO PARA LA CARGA Y DESCARGA DEL CAJERO; SI NO TIENE ESTANCO DEBE APOYAR LA OPERACIÓN CON UNA CÁMARA DE SEGURIDAD. (Art. 8º inciso 1 del Decreto Nº 1.814 del 12.11.2014) (Agregar fotografías y croquis)' },
+        { id: 4, text: 'MANTIENE ESTANCO PARA LA CARGA Y DESCARGA DEL CAJERO; SI NO TIENE ESTANCO DEBE APOYAR LA OPERACIÓN CON UNA CÁMARA DE SEGURIDAD.(Art. 8º inciso 1 del Decreto Nº 1.814 del 12.11.2014) (Agregar fotografías y croquis)' },
         { id: 5, text: 'OPERADOR CCTV: SI MANTIENE PROPIOS O DE LA CENTRAL SANTIAGO, DEBE GESTIONAR LAS AUTORIZACIONES DE LOS OPERADORES QUE REALIZAN ESTA LABOR. ADJUNTAR AUTORIZACIÓN DE LA EMPRESA Y DEL PERSONAL QUE REALIZA ESTE SERVICIO. (Decreto Supremo N° 867, de 2017- El Decreto Exento N° 32 del 31.01.2024)' },
         { id: 6, text: 'EMPRESA DE GUARDIA DE SEGURIDAD DEBE ADJUNTAR RESOLUCIÓN DE AUTORIZACIÓN DE LA EMPRESA DE RR.HH. Y RESOLUCIÓN DE AUTORIZACIÓN DE LA DIRECTIVA, CON LISTADO DE GG.SS. ACTUALIZADO. (SIN IMPLEMENTOS )' },
         { id: 7, text: 'CROQUIS DE CÁMARAS DE SEGURIDAD Y TECNOLOGÍA APLICADA (SENSORES DE HUMO, SENSORES DE MOVIMIENTO, ALARMAS, ETC.)' },
@@ -537,7 +537,7 @@ async function generarReporte(sectionId) {
                     data.cell.styles.fillColor = [247, 202, 209]; // Rojo para No Cumple
                     data.cell.styles.textColor = [247, 49, 9]; // Asegurarse de tener color de texto si la imagen no carga
                 }
-                // MODIFICADO: Se vacía el texto de la celda en didParseCell para asegurar que no se renderice
+                // Se vacía el texto de la celda aquí para asegurar que no se renderice
                 data.cell.text = ''; 
             }
             // Asegurar texto negro en todas las otras celdas (sin negritas)
@@ -551,14 +551,18 @@ async function generarReporte(sectionId) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
                 // Usamos data.row.raw para obtener el estado original sin truncar
                 const estadoOriginal = data.row.raw[2]; 
-                const imgWidth = 8; // Ancho deseado de la imagen
-                const imgHeight = 8; // Alto deseado de la imagen
+                let imgWidth; 
+                let imgHeight; 
 
                 let imageToDraw = null;
                 if (estadoOriginal === 'CUMPLE' && cumpleImageBase64) {
+                    imgWidth = 6; // Ancho para cumple.png
+                    imgHeight = 6; // Alto para cumple.png
                     imageToDraw = cumpleImageBase64;
                     console.log('Dibujando imagen CUMPLE.');
                 } else if (estadoOriginal === 'NO CUMPLE' && noCumpleImageBase64) {
+                    imgWidth = 7; // Ancho para nocumple.png (sin cambios)
+                    imgHeight = 7; // Alto para nocumple.png (sin cambios)
                     imageToDraw = noCumpleImageBase64;
                     console.log('Dibujando imagen NO CUMPLE.');
                 } else {
@@ -569,9 +573,7 @@ async function generarReporte(sectionId) {
                     const x = data.cell.x + (data.cell.width / 2) - (imgWidth / 2);
                     const y = data.cell.y + (data.cell.height / 2) - (imgHeight / 2);
                     doc.addImage(imageToDraw, 'PNG', x, y, imgWidth, imgHeight);
-                    // Ya se vació en didParseCell, esto es una doble verificación
-                    // data.cell.text = ''; 
-                    console.log(`Texto de celda borrado para estado: '${estadoOriginal}'`);
+                    console.log(`Imagen dibujada para estado: '${estadoOriginal}'`);
                 }
             }
         },
