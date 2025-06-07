@@ -518,26 +518,27 @@ async function generarReporte(sectionId) {
         },
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' }, // N°
-            1: { cellWidth: 80 }, // Requisito
-            2: { cellWidth: 15, halign: 'center' }, // Estado - Ancho ajustado para imágenes
-            3: { cellWidth: 75 } // Observaciones
+            1: { cellWidth: 75 }, // Requisito (Ancho ajustado)
+            2: { cellWidth: 12, halign: 'center' }, // Estado
+            3: { cellWidth: 70 } // Observaciones (Ancho ajustado)
         },
         // Hook para dibujar contenido en la celda
         didDrawCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                const estado = data.cell.text[0]; // Obtener el texto del estado
-                const imgWidth = 8; // Ancho deseado de la imagen (más pequeño)
-                const imgHeight = 8; // Alto deseado de la imagen (más pequeño)
+                // Usamos data.row.raw para obtener el estado original sin truncar
+                const estadoOriginal = data.row.raw[2]; 
+                const imgWidth = 8; // Ancho deseado de la imagen
+                const imgHeight = 8; // Alto deseado de la imagen
 
                 let imageToDraw = null;
-                if (estado === 'CUMPLE' && cumpleImageBase64) {
+                if (estadoOriginal === 'CUMPLE' && cumpleImageBase64) {
                     imageToDraw = cumpleImageBase64;
                     console.log('Dibujando imagen CUMPLE.');
-                } else if (estado === 'NO CUMPLE' && noCumpleImageBase64) {
+                } else if (estadoOriginal === 'NO CUMPLE' && noCumpleImageBase64) {
                     imageToDraw = noCumpleImageBase64;
                     console.log('Dibujando imagen NO CUMPLE.');
                 } else {
-                    console.log(`No hay imagen para dibujar para el estado: ${estado}. ¿Cumple cargada? ${!!cumpleImageBase64}, ¿NoCumple cargada? ${!!noCumpleImageBase64}`);
+                    console.log(`No hay imagen para dibujar para el estado: '${estadoOriginal}'. ¿Cumple cargada? ${!!cumpleImageBase64}, ¿NoCumple cargada? ${!!noCumpleImageBase64}`);
                 }
 
                 if (imageToDraw) {
@@ -545,6 +546,7 @@ async function generarReporte(sectionId) {
                     const y = data.cell.y + (data.cell.height / 2) - (imgHeight / 2);
                     doc.addImage(imageToDraw, 'PNG', x, y, imgWidth, imgHeight);
                     data.cell.text = ''; // Limpiar el texto para que solo se vea la imagen
+                    console.log(`Texto de celda borrado para estado: '${estadoOriginal}'`);
                 }
             }
         },
