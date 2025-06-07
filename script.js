@@ -495,6 +495,9 @@ async function generarReporte(sectionId) {
         const titulo = item.querySelector('.requisito-titulo').textContent;
         const estado = item.classList.contains('cumple') ? 'CUMPLE' : (item.classList.contains('no-cumple') ? 'NO CUMPLE' : 'PENDIENTE');
         const observacion = item.querySelector('.observacion-input').value || '';
+        
+        // MODIFICADO: Solo se añade una cadena vacía para el estado en la tabla de datos
+        // La lógica de dibujo de imágenes y colores usará el estado original del item (data.row.raw[2])
         data.push([numero, titulo, estado, observacion]);
     });
 
@@ -534,6 +537,8 @@ async function generarReporte(sectionId) {
                     data.cell.styles.fillColor = [247, 202, 209]; // Rojo para No Cumple
                     data.cell.styles.textColor = [247, 49, 9]; // Asegurarse de tener color de texto si la imagen no carga
                 }
+                // MODIFICADO: Se vacía el texto de la celda en didParseCell para asegurar que no se renderice
+                data.cell.text = ''; 
             }
             // Asegurar texto negro en todas las otras celdas (sin negritas)
             if (data.section === 'body' && data.column.index !== 2) {
@@ -564,7 +569,8 @@ async function generarReporte(sectionId) {
                     const x = data.cell.x + (data.cell.width / 2) - (imgWidth / 2);
                     const y = data.cell.y + (data.cell.height / 2) - (imgHeight / 2);
                     doc.addImage(imageToDraw, 'PNG', x, y, imgWidth, imgHeight);
-                    data.cell.text = ''; // Limpiar el texto para que solo se vea la imagen
+                    // Ya se vació en didParseCell, esto es una doble verificación
+                    // data.cell.text = ''; 
                     console.log(`Texto de celda borrado para estado: '${estadoOriginal}'`);
                 }
             }
