@@ -522,6 +522,25 @@ async function generarReporte(sectionId) {
             2: { cellWidth: 12, halign: 'center' }, // Estado
             3: { cellWidth: 70 } // Observaciones (Ancho ajustado)
         },
+        // Hook para aplicar los colores de fondo basados en el estado
+        didParseCell: function (data) {
+            if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
+                // Usamos data.row.raw para obtener el estado original
+                const estadoOriginal = data.row.raw[2]; 
+                if (estadoOriginal === 'CUMPLE') {
+                    data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
+                    data.cell.styles.textColor = [0, 140, 44]; // Asegurarse de tener color de texto si la imagen no carga
+                } else if (estadoOriginal === 'NO CUMPLE') {
+                    data.cell.styles.fillColor = [247, 202, 209]; // Rojo para No Cumple
+                    data.cell.styles.textColor = [247, 49, 9]; // Asegurarse de tener color de texto si la imagen no carga
+                }
+            }
+            // Asegurar texto negro en todas las otras celdas (sin negritas)
+            if (data.section === 'body' && data.column.index !== 2) {
+                data.cell.styles.textColor = [0, 0, 0];
+                data.cell.styles.fontStyle = 'normal';
+            }
+        },
         // Hook para dibujar contenido en la celda
         didDrawCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
