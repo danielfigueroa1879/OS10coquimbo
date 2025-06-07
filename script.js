@@ -522,8 +522,8 @@ async function generarReporte(sectionId) {
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' }, // N°
             1: { cellWidth: 75 }, // Requisito (Ancho ajustado)
-            2: { cellWidth: 18, halign: 'center' }, // Estado (Ancho aumentado)
-            3: { cellWidth: 68 } // Observaciones (Ancho ajustado para compensar)
+            2: { cellWidth: 20, halign: 'center' }, // Estado (Ancho aumentado)
+            3: { cellWidth: 69 } // Observaciones (Ancho ajustado para compensar)
         },
         // Hook para aplicar los colores de fondo basados en el estado
         didParseCell: function (data) {
