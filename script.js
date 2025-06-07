@@ -504,7 +504,7 @@ async function generarReporte(sectionId) {
     doc.autoTable({
         startY: yOffset,
         // MODIFICADO: Alinea la tabla a la misma posición horizontal que el texto de arriba
-        startX: 20, 
+        margin: { left: 20, right: 20 }, 
         head: headers,
         body: data,
         theme: 'grid',
