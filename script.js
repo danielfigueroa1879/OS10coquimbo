@@ -279,10 +279,11 @@ async function generarReporte(sectionId) {
                 canvas.height = img.height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0);
+                console.log(`Imagen cargada con éxito: ${url}`);
                 resolve(canvas.toDataURL('image/png'));
             };
             img.onerror = (error) => {
-                console.error(`Error loading image ${url}:`, error);
+                console.error(`Error al cargar la imagen ${url}:`, error);
                 reject(error);
             };
             img.src = url;
@@ -298,7 +299,7 @@ async function generarReporte(sectionId) {
         noCumpleImageBase64 = await getImageBase64('nocumple.png');
         logoImageBase64 = await getImageBase64('foto/logo.png');
     } catch (error) {
-        console.error('Error al cargar una o más imágenes:', error);
+        console.error('Error al cargar una o más imágenes (se usará fallback si aplica):', error);
         // Fallback para las imágenes de estado si fallan
         cumpleImageBase64 = null;
         noCumpleImageBase64 = null;
@@ -518,21 +519,25 @@ async function generarReporte(sectionId) {
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' }, // N°
             1: { cellWidth: 80 }, // Requisito
-            2: { cellWidth: 20, halign: 'center' }, // Estado - Aumentar ancho para imágenes
-            3: { cellWidth: 70 } // Observaciones
+            2: { cellWidth: 15, halign: 'center' }, // Estado - Ancho ajustado para imágenes
+            3: { cellWidth: 75 } // Observaciones
         },
         // Hook para dibujar contenido en la celda
         didDrawCell: function (data) {
             if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
                 const estado = data.cell.text[0]; // Obtener el texto del estado
-                const imgWidth = 10; // Ancho deseado de la imagen
-                const imgHeight = 10; // Alto deseado de la imagen
+                const imgWidth = 8; // Ancho deseado de la imagen (más pequeño)
+                const imgHeight = 8; // Alto deseado de la imagen (más pequeño)
 
                 let imageToDraw = null;
                 if (estado === 'CUMPLE' && cumpleImageBase64) {
                     imageToDraw = cumpleImageBase64;
+                    console.log('Dibujando imagen CUMPLE.');
                 } else if (estado === 'NO CUMPLE' && noCumpleImageBase64) {
                     imageToDraw = noCumpleImageBase64;
+                    console.log('Dibujando imagen NO CUMPLE.');
+                } else {
+                    console.log(`No hay imagen para dibujar para el estado: ${estado}. ¿Cumple cargada? ${!!cumpleImageBase64}, ¿NoCumple cargada? ${!!noCumpleImageBase64}`);
                 }
 
                 if (imageToDraw) {
