@@ -503,6 +503,8 @@ async function generarReporte(sectionId) {
 
     doc.autoTable({
         startY: yOffset,
+        // MODIFICADO: Alinea la tabla a la misma posición horizontal que el texto de arriba
+        startX: 20, 
         head: headers,
         body: data,
         theme: 'grid',
@@ -522,8 +524,8 @@ async function generarReporte(sectionId) {
         columnStyles: {
             0: { cellWidth: 10, halign: 'center' }, // N°
             1: { cellWidth: 75 }, // Requisito (Ancho ajustado)
-            2: { cellWidth: 18, halign: 'center' }, // Estado (Ancho aumentado)
-            3: { cellWidth: 68 } // Observaciones (Ancho ajustado para compensar)
+            2: { cellWidth: 22, halign: 'center' }, // Estado (Ancho aumentado)
+            3: { cellWidth: 64 } // Observaciones (Ancho ajustado para compensar)
         },
         // Hook para aplicar los colores de fondo basados en el estado
         didParseCell: function (data) {
