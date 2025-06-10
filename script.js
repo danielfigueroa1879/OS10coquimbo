@@ -1,6 +1,7 @@
 // script.js - Versión Completa Final con footer y numeración de páginas
 // MODIFICADO: Cambio de colores naranjas por rojos para "No Cumple"
 // MODIFICADO: Muestra imágenes en el PDF para "Cumple" y "No Cumple"
+// MODIFICADO: Datos en mayúsculas y letra más grande en PDF
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -440,32 +441,37 @@ async function generarReporte(sectionId) {
 
     let yOffset = lineY + 10;
 
+    // Función auxiliar para convertir a mayúsculas de forma segura
+    const toSafeUpperCase = (text) => {
+        return text ? text.toUpperCase() : '';
+    };
+
     // Añadir información general
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
     doc.setFont(undefined, 'bold');
     doc.text('DATOS DE LA EMPRESA O ENTIDAD Y DATOS DEL ESTABLECIMIENTO:', 20, yOffset);
     yOffset += 6;
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8);
-    doc.text(`Nombre de la Empresa: ${generalInfo.nombreEmpresa}`, 20, yOffset);
+    doc.setFontSize(9);
+    doc.text(`NOMBRE DE LA EMPRESA: ${toSafeUpperCase(generalInfo.nombreEmpresa)}`, 20, yOffset);
     yOffset += 5;
-    doc.text(`RUT de la Empresa: ${generalInfo.rutEmpresa}`, 20, yOffset);
+    doc.text(`RUT DE LA EMPRESA: ${toSafeUpperCase(generalInfo.rutEmpresa)}`, 20, yOffset);
     yOffset += 5;
-    doc.text(`Nombre del Establecimiento: ${generalInfo.nombreEstablecimiento}`, 20, yOffset);
+    doc.text(`NOMBRE DEL ESTABLECIMIENTO: ${toSafeUpperCase(generalInfo.nombreEstablecimiento)}`, 20, yOffset);
     yOffset += 5;
-    doc.text(`Dirección del Establecimiento: ${generalInfo.direccion}`, 20, yOffset);
+    doc.text(`DIRECCIÓN DEL ESTABLECIMIENTO: ${toSafeUpperCase(generalInfo.direccion)}`, 20, yOffset);
     yOffset += 8;
 
     doc.setFont(undefined, 'bold');
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
     yOffset += 6;
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8);
-    doc.text(`Grado y Nombre: ${generalInfo.funcionarioGrado}`, 20, yOffset);
+    doc.setFontSize(9);
+    doc.text(`GRADO Y NOMBRE: ${toSafeUpperCase(generalInfo.funcionarioGrado)}`, 20, yOffset);
     yOffset += 5;
     
     // Agregar fecha y hora del reporte
