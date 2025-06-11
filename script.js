@@ -1,7 +1,7 @@
 // Variables globales para la navegación jerárquica de directivas
 let empresasRRHHList = [];
-let currentDirectivasSubSectionType = '';
-let currentEmpresaSelected = '';
+let currentDirectivasSubSectionType = ''; 
+let currentEmpresaSelected = ''; 
 let database = {
     estudios: [],
     planes: [],
@@ -18,7 +18,7 @@ let database = {
 async function loadDataFromExcel(file = null) {
     try {
         let arrayBuffer;
-
+        
         if (file) {
             console.log(`📁 Cargando archivo proporcionado: ${file.name}`);
             arrayBuffer = await file.arrayBuffer();
@@ -38,7 +38,7 @@ async function loadDataFromExcel(file = null) {
                         'base_de_datos.xlsx',
                         'BaseDeDatos.xlsx'
                     ];
-
+                    
                     let archivoEncontrado = false;
                     for (const nombre of nombresAlternativos) {
                         try {
@@ -52,7 +52,7 @@ async function loadDataFromExcel(file = null) {
                             console.log(`❌ No encontrado: ${nombre}`);
                         }
                     }
-
+                    
                     if (!archivoEncontrado) {
                         throw new Error('Archivo no encontrado con ninguno de los nombres probados');
                     }
@@ -80,7 +80,7 @@ async function loadDataFromExcel(file = null) {
             medidas: [],
             servicentros: [],
             'sobre-500-uf': [],
-            directivas: [],
+            directivas: [], 
             'empresas-rrhh': [],
             'guardias-propios': [],
             'eventos-masivos': []
@@ -192,11 +192,11 @@ function showFileSelector() {
                 statusDiv.style.backgroundColor = '#cce7ff';
                 statusDiv.style.borderColor = '#0066cc';
             }
-
+            
             try {
                 await loadDataFromExcel(file);
                 updateCounts();
-
+                
                 const activeSection = document.querySelector('.section.active');
                 if (activeSection && activeSection.id !== 'home') {
                     const activeTab = activeSection.querySelector('.tab-content.active');
@@ -221,18 +221,18 @@ async function loadEstudios(workbook) {
         console.warn('⚠️ Hoja "ESTUDIOS " no encontrada');
         return;
     }
-
+    
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null });
     const headers = jsonData[1];
-
+    
     for (let i = 2; i < jsonData.length; i++) {
         const row = jsonData[i];
         if (!row || !row[0]) continue;
-
+        
         const fechaVigencia = parseFecha(row[12]);
         const fechaInicio = new Date();
         const fechaFin = new Date(fechaVigencia);
-
+        
         database.estudios.push({
             codigo: `EST-${String(row[0]).padStart(3, '0')}`,
             tipo: row[1] || 'Entidad Obligada',
@@ -256,17 +256,17 @@ async function loadPlanes(workbook) {
         console.warn('⚠️ Hoja "PLANES DE SEGURIDAD" no encontrada');
         return;
     }
-
+    
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null });
-
+    
     for (let i = 2; i < jsonData.length; i++) {
         const row = jsonData[i];
         if (!row || !row[0]) continue;
-
+        
         const fechaVigencia = parseFecha(row[11]);
         const fechaAprobacion = new Date(fechaVigencia);
         fechaAprobacion.setFullYear(fechaAprobacion.getFullYear() - 3);
-
+        
         database.planes.push({
             codigo: `PLN-${String(row[0]).padStart(3, '0')}`,
             tipo: row[1] || 'Entidad Financiera',
@@ -285,25 +285,25 @@ async function loadPlanes(workbook) {
 // Función para cargar medidas SOBRE 500 UF desde el Excel
 async function loadMedidasSobre500UF(workbook) {
     console.log('🔄 Cargando medidas SOBRE 500 UF...');
-
+    
     const worksheet = workbook.Sheets['MEDIDAS SOBRE 500 UF '];
     if (!worksheet) {
         console.warn('⚠️ Hoja "MEDIDAS SOBRE 500 UF " no encontrada');
         return;
     }
-
+    
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null });
     console.log(`📋 Filas totales en SOBRE 500 UF: ${jsonData.length}`);
-
+    
     let registrosCargados = 0;
     for (let i = 3; i < jsonData.length; i++) {
         const row = jsonData[i];
         if (!row || !row[1] || row[1] === null) continue;
-
+        
         try {
             const fechaVigencia = parseFechaSimple(row[11]);
             const fechaAprobacion = new Date(fechaVigencia.getTime() - (3 * 365 * 24 * 60 * 60 * 1000));
-
+            
             const registro = {
                 id: `S500-${String(row[1]).padStart(3, '0')}`,
                 entidad: row[2] || 'Entidad no especificada',
@@ -323,40 +323,40 @@ async function loadMedidasSobre500UF(workbook) {
                 comuna: extraerComuna(row[5] || ''),
                 monto: `${500 + Math.floor(Math.random() * 1000)} UF`
             };
-
+            
             database['sobre-500-uf'].push(registro);
             registrosCargados++;
-
+            
         } catch (error) {
             console.warn(`⚠️ Error procesando fila ${i} de SOBRE 500 UF:`, error.message);
         }
     }
-
+    
     console.log(`✅ Medidas SOBRE 500 UF cargadas: ${registrosCargados} registros`);
 }
 
 // Función para cargar medidas SERVICENTROS desde el Excel
 async function loadMedidasServicentros(workbook) {
     console.log('🔄 Cargando medidas SERVICENTROS...');
-
+    
     const worksheet = workbook.Sheets['MEDIDAS SERVICENTRO'];
     if (!worksheet) {
         console.warn('⚠️ Hoja "MEDIDAS SERVICENTRO" no encontrada');
         return;
     }
-
+    
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null });
     console.log(`📋 Filas totales en SERVICENTROS: ${jsonData.length}`);
-
+    
     let registrosCargados = 0;
     for (let i = 2; i < jsonData.length; i++) {
         const row = jsonData[i];
         if (!row || !row[0] || row[0] === null) continue;
-
+        
         try {
             const fechaAprobacion = parseFechaSimple(row[7]);
             const vigencia = new Date(fechaAprobacion.getTime() + (3 * 365 * 24 * 60 * 60 * 1000));
-
+            
             const registro = {
                 codigo: `SER-${String(row[0]).padStart(3, '0')}`,
                 nombreServicentro: row[1] || 'Servicentro',
@@ -372,15 +372,15 @@ async function loadMedidasServicentros(workbook) {
                 direccion: row[4] || '',
                 estado: 'Implementada'
             };
-
+            
             database.servicentros.push(registro);
             registrosCargados++;
-
+            
         } catch (error) {
             console.warn(`⚠️ Error procesando fila ${i} de SERVICENTROS:`, error.message);
         }
     }
-
+    
     console.log(`✅ Medidas SERVICENTROS cargadas: ${registrosCargados} registros`);
 }
 
@@ -391,18 +391,18 @@ async function loadDirectivas(workbook) {
         console.warn('⚠️ Hoja "DIRECTIVAS DE FUNCIONAMIENTOS " no encontrada');
         return;
     }
-
+    
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null });
-
+    
     for (let i = 3; i < jsonData.length; i++) {
         const row = jsonData[i];
         if (!row || !row[0]) continue;
-
+        
         const resolucion = row[9] || '';
         const fechaAprobacion = parseFechaResolucion(resolucion);
         const vigencia = new Date(fechaAprobacion);
         vigencia.setFullYear(vigencia.getFullYear() + 3);
-
+        
         database['empresas-rrhh'].push({
             numero: `RRHH-${String(row[0]).padStart(4, '0')}`,
             empresa: row[1] || 'Empresa no especificada',
@@ -433,15 +433,15 @@ async function loadEmpresasRRHH(workbook) {
         console.warn('⚠️ Hoja "EMPRESAS RECURSOS HUMANOS " no encontrada');
         return;
     }
-
+    
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null });
-
+    
     empresasRRHHList = [];
-
+    
     for (let i = 2; i < jsonData.length; i++) {
         const row = jsonData[i];
         if (!row || !row[0]) continue;
-
+        
         empresasRRHHList.push({
             id: parseInt(row[0]) || i,
             nombre: row[1] || `Empresa ${i}`,
@@ -450,7 +450,7 @@ async function loadEmpresasRRHH(workbook) {
             directivasCount: 0
         });
     }
-
+    
     empresasRRHHList.forEach(empresa => {
         empresa.directivasCount = database['empresas-rrhh'].filter(
             directiva => directiva.empresa === empresa.nombre
@@ -458,17 +458,17 @@ async function loadEmpresasRRHH(workbook) {
     });
 }
 
-// Funciones utilitarias para processar fechas y datos
+// Funciones utilitarias para procesar fechas y datos
 function parseFecha(fechaStr) {
     if (!fechaStr) return new Date();
-
+    
     if (typeof fechaStr === 'string' && fechaStr.includes('.')) {
         const parts = fechaStr.split('.');
         if (parts.length === 3) {
             return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
         }
     }
-
+    
     if (typeof fechaStr === 'string' && fechaStr.includes('-')) {
         const parts = fechaStr.split('-');
         if (parts.length === 2) {
@@ -481,11 +481,11 @@ function parseFecha(fechaStr) {
             return new Date(year, month, 1);
         }
     }
-
+    
     if (typeof fechaStr === 'number') {
         return new Date((fechaStr - 25569) * 86400 * 1000);
     }
-
+    
     const fecha = new Date(fechaStr);
     return isNaN(fecha.getTime()) ? new Date() : fecha;
 }
@@ -495,7 +495,7 @@ function parseFechaSimple(fechaStr) {
         console.log('📅 Fecha vacía, usando fecha actual');
         return new Date();
     }
-
+    
     if (typeof fechaStr === 'number' && !isNaN(fechaStr)) {
         try {
             const excelDate = new Date((fechaStr - 25569) * 86400 * 1000);
@@ -509,7 +509,7 @@ function parseFechaSimple(fechaStr) {
             return new Date();
         }
     }
-
+    
     if (typeof fechaStr === 'string' && fechaStr.includes('.')) {
         try {
             const parts = fechaStr.split('.');
@@ -517,7 +517,7 @@ function parseFechaSimple(fechaStr) {
                 const day = parseInt(parts[0]);
                 const month = parseInt(parts[1]) - 1;
                 const year = parseInt(parts[2]);
-
+                
                 if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
                     const date = new Date(year, month, day);
                     if (isNaN(date.getTime())) {
@@ -532,7 +532,7 @@ function parseFechaSimple(fechaStr) {
             return new Date();
         }
     }
-
+    
     if (typeof fechaStr === 'string' && fechaStr.includes('/')) {
         try {
             const parts = fechaStr.split('/');
@@ -540,7 +540,7 @@ function parseFechaSimple(fechaStr) {
                 const day = parseInt(parts[0]);
                 const month = parseInt(parts[1]) - 1;
                 const year = parseInt(parts[2]);
-
+                
                 if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
                     const date = new Date(year, month, day);
                     if (isNaN(date.getTime())) {
@@ -555,7 +555,7 @@ function parseFechaSimple(fechaStr) {
             return new Date();
         }
     }
-
+    
     try {
         const fecha = new Date(fechaStr);
         if (isNaN(fecha.getTime())) {
@@ -583,38 +583,38 @@ function fechaToSafeString(fecha) {
 
 function parseFechaResolucion(resolucionStr) {
     if (!resolucionStr) return new Date();
-
+    
     const match = resolucionStr.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
     if (match) {
         return new Date(parseInt(match[3]), parseInt(match[2]) - 1, parseInt(match[1]));
     }
-
+    
     return new Date();
 }
 
 function extraerComuna(direccion) {
     if (!direccion) return 'No especificada';
-
+    
     const comunasComunes = [
-        'LA SERENA', 'COQUIMBO', 'OVALLE', 'VICUÑA', 'ILLAPEL',
+        'LA SERENA', 'COQUIMBO', 'OVALLE', 'VICUÑA', 'ILLAPEL', 
         'SANTIAGO', 'PROVIDENCIA', 'LAS CONDES', 'ÑUÑOA'
     ];
-
+    
     const direccionUpper = direccion.toUpperCase();
     for (const comuna of comunasComunes) {
         if (direccionUpper.includes(comuna)) {
             return comuna.charAt(0) + comuna.slice(1).toLowerCase();
         }
     }
-
+    
     return 'La Serena';
 }
 
 function determinarTipoDirectiva(instalacion) {
     if (!instalacion) return 'General';
-
+    
     const instalacionLower = instalacion.toLowerCase();
-
+    
     if (instalacionLower.includes('obra') || instalacionLower.includes('construccion')) {
         return 'Construcción';
     } else if (instalacionLower.includes('farmacia') || instalacionLower.includes('comercial')) {
@@ -631,14 +631,14 @@ function determinarTipoDirectiva(instalacion) {
 // Función para generar datos de ejemplo
 function generateSampleData() {
     console.log('🔄 Generando datos de ejemplo...');
-
+    
     database = {
         estudios: [],
         planes: [],
         medidas: [],
         servicentros: [],
         'sobre-500-uf': [],
-        directivas: [],
+        directivas: [], 
         'empresas-rrhh': [],
         'guardias-propios': [],
         'eventos-masivos': []
@@ -700,7 +700,7 @@ function generateSampleData() {
         const approvalMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
         const approvalDay = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
         const fechaAprobacion = `${approvalYear}-${approvalMonth}-${approvalDay}`;
-
+        
         const approvalDateObj = new Date(fechaAprobacion);
         const vigenciaDateObj = new Date(approvalDateObj);
         vigenciaDateObj.setFullYear(vigenciaDateObj.getFullYear() + 3);
@@ -777,15 +777,15 @@ function generateSampleData() {
 
     // Generar 20 directivas de empresas RRHH
     const tiposDirectiva = ['Contratación', 'Capacitación', 'Evaluación', 'Bienestar'];
-
+    
     for (let i = 1; i <= 20; i++) {
         const empresaAsignada = empresasRRHHList[Math.floor(Math.random() * empresasRRHHList.length)];
-
+        
         const approvalYear = 2024;
         const approvalMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
         const approvalDay = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
         const fechaAprobacion = `${approvalYear}-${approvalMonth}-${approvalDay}`;
-
+        
         const approvalDateObj = new Date(fechaAprobacion);
         const vigenciaDateObj = new Date(approvalDateObj);
         vigenciaDateObj.setFullYear(vigenciaDateObj.getFullYear() + 3);
@@ -805,7 +805,7 @@ function generateSampleData() {
             estadoVigencia: estadoVigencia,
             comuna: comunasChile[Math.floor(Math.random() * comunasChile.length)]
         });
-
+        
         empresaAsignada.directivasCount++;
     }
 
@@ -830,310 +830,373 @@ const dateHeaders = ['fechaInicio', 'fechaFin', 'fechaAprobacion', 'vigencia', '
 
 // Funciones de navegación principal
 function showHome() {
-    document.querySelectorAll('.form-section').forEach(section => {
+    document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
     });
-    document.getElementById('inicio-section').classList.add('active');
-    document.querySelector('.btn-volver').style.display = 'none'; // Hide the back button
-    // No updateCounts() here as it's not a direct data display section.
+    document.getElementById('home').classList.add('active');
+    updateCounts();
 }
 
-window.showSection = function(sectionName) {
+function showSection(sectionName) {
     console.log(`🔄 Mostrando sección: ${sectionName}`);
-
-    document.querySelectorAll('.form-section').forEach(section => {
+    
+    document.getElementById('home').classList.remove('active');
+    document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
     });
-
-    const targetSection = document.getElementById(`${sectionName}-section`);
+    
+    const targetSection = document.getElementById(sectionName);
     if (!targetSection) {
-        console.error(`❌ ERROR: No se encontró la sección ${sectionName}-section`);
+        console.error(`❌ ERROR: No se encontró la sección ${sectionName}`);
+        return;
+    }
+    
+    targetSection.classList.add('active');
+    console.log(`✅ Sección ${sectionName} activada`);
+    
+    if (sectionName === 'medidas') {
+        console.log(`🔧 Configurando vista especial para medidas...`);
+        showTab(sectionName, 'consultar');
+        
+        setTimeout(() => {
+            const medidasConsultar = document.getElementById('medidas-consultar');
+            if (medidasConsultar) {
+                medidasConsultar.style.display = 'block';
+                medidasConsultar.classList.add('active');
+                console.log(`✅ Vista principal de medidas forzada a visible`);
+            }
+        }, 100);
+    } else {
+        showTab(sectionName, 'consultar');
+    }
+}
+
+function showTab(section, tab) {
+    console.log(`🔄 Cambiando a pestaña: ${section} - ${tab}`);
+    
+    const tabButtons = document.querySelectorAll(`#${section} .tab-btn`);
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+
+    let activeButton;
+    if (tab === 'consultar') {
+        activeButton = Array.from(tabButtons).find(btn => btn.textContent.includes('Consultar'));
+    } else if (tab === 'agregar') {
+        activeButton = Array.from(tabButtons).find(btn => btn.textContent.includes('Agregar'));
+    }
+    
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+
+    const tabContents = document.querySelectorAll(`#${section} .tab-content`);
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    if (section === 'medidas') {
+        if (tab === 'consultar') {
+            document.getElementById('medidas-consultar').classList.add('active');
+            document.getElementById('servicentros-page').classList.remove('active');
+            document.getElementById('sobre-500-uf-page').classList.remove('active');
+            updateMedidasSubSectionCounts();
+            console.log(`📊 Vista principal de medidas mostrada`);
+            console.log(`📊 Servicentros disponibles: ${database.servicentros ? database.servicentros.length : 0}`);
+            console.log(`📊 Sobre 500 UF disponibles: ${database['sobre-500-uf'] ? database['sobre-500-uf'].length : 0}`);
+        } else if (tab === 'agregar') {
+            document.getElementById('medidas-agregar').classList.add('active');
+            document.getElementById('servicentros-page').classList.remove('active');
+            document.getElementById('sobre-500-uf-page').classList.remove('active');
+        }
+    } else {
+        document.getElementById(`${section}-${tab}`).classList.add('active');
+    }
+}
+
+// Función para mostrar las subsecciones de medidas
+function showSubMedidaPage(subSectionType) {
+    console.log(`🔄 Mostrando subsección de medidas: ${subSectionType}`);
+    
+    const medidasConsultar = document.getElementById('medidas-consultar');
+    const servicentrosPage = document.getElementById('servicentros-page');
+    const sobre500Page = document.getElementById('sobre-500-uf-page');
+    
+    console.log('🔍 Verificando elementos HTML:');
+    console.log('- medidas-consultar:', medidasConsultar ? 'EXISTE' : 'NO EXISTE');
+    console.log('- servicentros-page:', servicentrosPage ? 'EXISTE' : 'NO EXISTE');
+    console.log('- sobre-500-uf-page:', sobre500Page ? 'EXISTE' : 'NO EXISTE');
+    
+    if (!servicentrosPage || !sobre500Page) {
+        console.error('❌ ERROR: Elementos HTML necesarios no encontrados');
+        alert('Error: No se encontraron los elementos HTML necesarios para mostrar las medidas');
+        return;
+    }
+    
+    document.querySelectorAll('#medidas .tab-content').forEach(content => {
+        content.classList.remove('active');
+        content.style.display = 'none';
+    });
+
+    if (subSectionType === 'servicentros') {
+        console.log(`📋 Activando página de servicentros...`);
+        servicentrosPage.classList.add('active');
+        servicentrosPage.style.display = 'block';
+        
+        console.log(`📋 Datos de servicentros disponibles: ${database.servicentros ? database.servicentros.length : 'undefined'}`);
+        
+        if (!database.servicentros || database.servicentros.length === 0) {
+            console.warn('⚠️ No hay datos de servicentros para mostrar');
+            document.getElementById('servicentros-results').innerHTML = '<div class="no-data">No hay datos de servicentros disponibles</div>';
+            return;
+        }
+        
+        console.log(`📋 Cargando datos de servicentros...`);
+        loadData('servicentros');
+        
+    } else if (subSectionType === 'sobre-500-uf') {
+        console.log(`💰 Activando página de sobre 500 UF...`);
+        sobre500Page.classList.add('active');
+        sobre500Page.style.display = 'block';
+        
+        console.log(`💰 Datos de sobre 500 UF disponibles: ${database['sobre-500-uf'] ? database['sobre-500-uf'].length : 'undefined'}`);
+        
+        if (!database['sobre-500-uf'] || database['sobre-500-uf'].length === 0) {
+            console.warn('⚠️ No hay datos de sobre 500 UF para mostrar');
+            document.getElementById('sobre-500-uf-results').innerHTML = '<div class="no-data">No hay datos de medidas sobre 500 UF disponibles</div>';
+            return;
+        }
+        
+        console.log(`💰 Cargando datos de sobre 500 UF...`);
+        loadData('sobre-500-uf');
+    }
+    
+    console.log(`✅ Subsección ${subSectionType} activada correctamente`);
+}
+
+// Función genérica para mostrar las subsecciones de directivas
+function showDirectivasSubSection(subSectionType) {
+    currentDirectivasSubSectionType = subSectionType;
+    
+    document.getElementById('directivas-consultar').classList.remove('active');
+    document.getElementById('directivas-empresas-rrhh-list').classList.remove('active');
+    document.getElementById('directivas-guardias-propios-list').classList.remove('active');
+    document.getElementById('directivas-eventos-masivos-list').classList.remove('active');
+    document.getElementById('directivas-empresa-specific-details').classList.remove('active');
+
+    document.getElementById(`directivas-${subSectionType}-list`).classList.add('active');
+
+    const titleElement = document.getElementById(`${subSectionType}-list-title`);
+    if (titleElement) {
+        let titleText = '';
+        switch (subSectionType) {
+            case 'empresas-rrhh':
+                titleText = '👥 Lista de Empresas de Recursos Humanos';
+                renderEmpresasRRHHList();
+                break;
+            case 'guardias-propios':
+                titleText = '🛡️ Lista de Guardias Propios';
+                loadData(subSectionType);
+                break;
+            case 'eventos-masivos':
+                titleText = '🎉 Lista de Eventos Masivos';
+                loadData(subSectionType);
+                break;
+        }
+        titleElement.textContent = titleText;
+    }
+}
+
+// Función para volver a la vista principal de Directivas
+function backToDirectivasMain() {
+    document.getElementById('directivas-empresas-rrhh-list').classList.remove('active');
+    document.getElementById('directivas-guardias-propios-list').classList.remove('active');
+    document.getElementById('directivas-eventos-masivos-list').classList.remove('active');
+    document.getElementById('directivas-consultar').classList.add('active');
+}
+
+// Función específica para renderizar la lista de Empresas RRHH
+function renderEmpresasRRHHList() {
+    const resultsContainer = document.getElementById('empresas-rrhh-results');
+    
+    if (empresasRRHHList.length === 0) {
+        resultsContainer.innerHTML = '<div class="no-data">No hay empresas de RRHH disponibles</div>';
         return;
     }
 
-    targetSection.classList.add('active');
-    document.querySelector('.btn-volver').style.display = 'block'; // Show the back button
-    console.log(`✅ Sección ${sectionName}-section activada`);
+    let tableHTML = '<table class="data-table"><thead><tr>';
+    tableHTML += '<th>Nombre Empresa</th><th>RUT</th><th>Dirección</th></tr></thead><tbody>';
 
-    // Reset fields when showing a section
-    resetFormFields(sectionName);
-};
-
-// Function to go back to the previous section
-window.volverAtras = function() {
-    // Find the currently active section
-    const activeSection = document.querySelector('.form-section.active');
-
-    // If there's an active section and it's not the home section
-    if (activeSection && activeSection.id !== 'inicio-section') {
-        // Hide the current active section
-        activeSection.classList.remove('active');
-
-        // Show the home section
-        document.getElementById('inicio-section').classList.add('active');
-
-        // Hide the back button
-        document.querySelector('.btn-volver').style.display = 'none';
-    }
-};
-
-// Function to reset form fields (placeholders will appear)
-function resetFormFields(sectionName) {
-    const section = document.getElementById(`${sectionName}-section`);
-    if (section) {
-        const inputs = section.querySelectorAll('input[type="text"]');
-        inputs.forEach(input => {
-            input.value = ''; // Clear the input value
-        });
-        const selectElements = section.querySelectorAll('select');
-        selectElements.forEach(select => {
-            select.selectedIndex = 0; // Reset select to the first option
-        });
-        const textareas = section.querySelectorAll('textarea');
-        textareas.forEach(textarea => {
-            textarea.value = ''; // Clear the textarea value
-        });
-
-        // Clear dynamically loaded requirements and observations
-        const requisitosContainer = section.querySelector('[id^="requisitos-"]');
-        if (requisitosContainer) {
-            requisitosContainer.innerHTML = '';
-        }
-    }
-}
-
-// Example function to load requirements (you would fetch these from a data source)
-function loadRequisitos(sectionId) {
-    const requisitosContainer = document.getElementById(`requisitos-${sectionId}`);
-    if (!requisitosContainer) return;
-
-    // Clear previous requirements
-    requisitosContainer.innerHTML = '';
-
-    let requisitos = [];
-    if (sectionId === 'plan-seguridad') {
-        requisitos = [
-            "Contar con un sistema de alarmas conectado a central o empresa de seguridad.",
-            "Tener cámaras de seguridad con grabación y almacenamiento de al menos 30 días.",
-            "Poseer control de acceso para personal y visitas.",
-            "Disponer de un plan de emergencia y evacuación actualizado.",
-            "Realizar simulacros de seguridad al menos una vez al año.",
-            "Tener personal de seguridad capacitado y certificado (OS10)."
-        ];
-    } else if (sectionId === 'servicentros') {
-        requisitos = [
-            "Iluminación adecuada en todo el perímetro.",
-            "Contar con sistema de circuito cerrado de televisión (CCTV) con capacidad de grabación.",
-            "Disponer de un botón de pánico o alarma silenciosa.",
-            "Implementar caja fuerte o sistema de dispensación de efectivo automático.",
-            "Realizar retiros de efectivo frecuentes.",
-            "Capacitar al personal en medidas de seguridad y manejo de situaciones de riesgo."
-        ];
-    } else if (sectionId === 'sobre-500uf') {
-        requisitos = [
-            "Contar con blindaje o sistemas de seguridad física en áreas de manejo de valores.",
-            "Disponer de transporte de valores blindado o con custodia armada.",
-            "Implementar cajas fuertes certificadas y ancladas.",
-            "Tener sistema de cámaras de seguridad con análisis de video y detección de movimiento.",
-            "Realizar auditorías de seguridad periódicas.",
-            "Contar con un seguro de robo y asalto adecuado al monto de valores."
-        ];
-    } else if (sectionId === 'directiva-funcionamiento') {
-        requisitos = [
-            "Definición clara de objetivos y alcance de la directiva.",
-            "Identificación de responsables y cadena de mando.",
-            "Descripción de procedimientos de seguridad específicos.",
-            "Plano de las instalaciones o del evento con puntos de seguridad.",
-            "Listado de equipos y sistemas de seguridad a utilizar.",
-            "Coordinación con fuerzas de orden y seguridad pública."
-        ];
-    }
-
-    requisitos.forEach((req, index) => {
-        const requisitoItem = document.createElement('div');
-        requisitoItem.classList.add('requisito-item');
-        requisitoItem.innerHTML = `
-            <div class="requisito-numero">${index + 1}</div>
-            <div class="requisito-titulo">${req}</div>
-            <div class="estado-buttons">
-                <button class="btn-estado btn-cumple" data-estado="cumple" onclick="marcarEstado(this, 'cumple')">Cumple</button>
-                <button class="btn-estado btn-no-cumple" data-estado="no-cumple" onclick="marcarEstado(this, 'no-cumple')">No Cumple</button>
-            </div>
-            <textarea class="observacion-input" placeholder="Observaciones"></textarea>
+    empresasRRHHList.forEach(empresa => {
+        tableHTML += `
+            <tr onclick="showEmpresaDirectivasDetails('${empresa.nombre}')">
+                <td>${empresa.nombre}</td>
+                <td>${empresa.rut}</td>
+                <td>${empresa.direccion}</td>
+            </tr>
         `;
-        requisitosContainer.appendChild(requisitoItem);
     });
+
+    tableHTML += '</tbody></table>';
+    resultsContainer.innerHTML = tableHTML;
 }
 
-// Function to mark the status of a requirement
-window.marcarEstado = function(button, estado) {
-    const estadoButtons = button.closest('.estado-buttons');
-    estadoButtons.querySelectorAll('.btn-estado').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
+// Función para mostrar los detalles de directivas de una empresa RRHH específica
+function showEmpresaDirectivasDetails(empresaNombre) {
+    currentEmpresaSelected = empresaNombre;
+    
+    document.getElementById('directivas-empresas-rrhh-list').classList.remove('active');
+    document.getElementById('directivas-empresa-specific-details').classList.add('active');
+    
+    document.getElementById('empresa-specific-details-title').textContent = `Directivas de Funcionamiento e Instalaciones de ${empresaNombre}`;
+    
+    loadCompanySpecificDirectivas(empresaNombre);
+}
 
-    const requisitoItem = button.closest('.requisito-item');
-    requisitoItem.classList.remove('cumple', 'no-cumple');
-    requisitoItem.classList.add(estado);
-};
+// Carga y muestra los detalles de directivas para una empresa específica
+function loadCompanySpecificDirectivas(empresaNombre) {
+    const resultsContainer = document.getElementById('empresa-specific-details-results');
+    const directivasEmpresa = database['empresas-rrhh'].filter(directiva => directiva.empresa === empresaNombre);
 
-
-// Function to select directiva type
-window.seleccionarDirectiva = function(type) {
-    const options = document.querySelectorAll('.directiva-option');
-    options.forEach(option => option.classList.remove('active'));
-    document.querySelector(`.directiva-option[data-type="${type}"]`).classList.add('active');
-
-    // Here you can load specific requirements based on the selected type
-    // For now, it loads generic directiva requirements
-    loadRequisitos('directiva-funcionamiento');
-};
-
-// Generate PDF functionality (using jsPDF and jspdf-autotable)
-window.generarReporte = function(sectionId) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    let title = '';
-    let empresaInfo = {};
-    let funcionarioInfo = {};
-    let requisitosData = [];
-
-    // Get section-specific data
-    if (sectionId === 'plan-seguridad') {
-        title = 'PLAN DE SEGURIDAD';
-        empresaInfo = {
-            'Nombre Empresa/Entidad': document.getElementById('nombre-empresa-plan').value,
-            'RUT Empresa/Entidad': document.getElementById('rut-empresa-plan').value,
-            'Nombre Establecimiento': document.getElementById('nombre-establecimiento-plan').value,
-            'Dirección Establecimiento': document.getElementById('direccion-plan').value
-        };
-        funcionarioInfo = {
-            'Grado y Nombre del Funcionario': document.getElementById('funcionario-grado-plan').value
-        };
-    } else if (sectionId === 'servicentros') {
-        title = 'MEDIDAS SERVICENTROS';
-        empresaInfo = {
-            'Nombre Empresa/Entidad': document.getElementById('nombre-empresa-servicentros').value,
-            'RUT Empresa/Entidad': document.getElementById('rut-empresa-servicentros').value,
-            'Nombre Establecimiento': document.getElementById('nombre-establecimiento-servicentros').value,
-            'Dirección Establecimiento': document.getElementById('direccion-servicentros').value
-        };
-        funcionarioInfo = {
-            'Grado y Nombre del Funcionario': document.getElementById('funcionario-grado-servicentros').value
-        };
-    } else if (sectionId === 'sobre-500uf') {
-        title = 'MEDIDAS SOBRE 500 UF';
-        empresaInfo = {
-            'Nombre Empresa/Entidad': document.getElementById('nombre-empresa-500uf').value,
-            'RUT Empresa/Entidad': document.getElementById('rut-empresa-500uf').value,
-            'Nombre Establecimiento': document.getElementById('nombre-establecimiento-500uf').value,
-            'Dirección Establecimiento': document.getElementById('direccion-500uf').value
-        };
-        funcionarioInfo = {
-            'Grado y Nombre del Funcionario': document.getElementById('funcionario-grado-500uf').value
-        };
-    } else if (sectionId === 'directiva-funcionamiento') {
-        title = 'DIRECTIVA DE FUNCIONAMIENTO';
-        empresaInfo = {
-            'Nombre Empresa/Entidad': document.getElementById('nombre-empresa-directiva').value,
-            'RUT Empresa/Entidad': document.getElementById('rut-empresa-directiva').value,
-            'Nombre Establecimiento/Evento': document.getElementById('nombre-establecimiento-directiva').value,
-            'Dirección/Lugar': document.getElementById('direccion-directiva').value
-        };
-        funcionarioInfo = {
-            'Grado y Nombre del Funcionario': document.getElementById('funcionario-grado-directiva').value
-        };
+    if (directivasEmpresa.length === 0) {
+        resultsContainer.innerHTML = '<div class="no-data">No hay directivas de instalaciones para esta empresa.</div>';
+        return;
     }
 
-    // Add header
-    doc.setFontSize(18);
-    doc.text(title, 105, 20, { align: 'center' });
+    const headers = [
+        'numero', 'fechaAprobacion', 'vigencia', 'estadoVigencia', 'tipoDirectiva', 'rut', 'direccion', 'comuna'
+    ];
 
-    // Add current date
-    doc.setFontSize(10);
-    doc.text(`Fecha de Emisión: ${new Date().toLocaleDateString('es-CL')}`, 10, 30);
+    let tableHTML = '<table class="data-table"><thead><tr>';
+    headers.forEach(header => {
+        tableHTML += `<th>${formatHeader(header)}</th>`;
+    });
+    tableHTML += '</tr></thead><tbody>';
 
-    // Add Empresa/Establecimiento Info
-    doc.setFontSize(12);
-    let yPos = 40;
-    doc.text('Datos de la Empresa/Entidad y Establecimiento:', 10, yPos);
-    yPos += 7;
-    for (const key in empresaInfo) {
-        doc.text(`${key}: ${empresaInfo[key]}`, 10, yPos);
-        yPos += 5;
-    }
-
-    // Add Funcionario Info
-    yPos += 10;
-    doc.text('Datos del Funcionario:', 10, yPos);
-    yPos += 7;
-    for (const key in funcionarioInfo) {
-        doc.text(`${key}: ${funcionarioInfo[key]}`, 10, yPos);
-        yPos += 5;
-    }
-
-    // Add Requisitos
-    yPos += 10;
-    doc.text('Requisitos Verificados:', 10, yPos);
-    yPos += 7;
-
-    const requisitosContainer = document.getElementById(`requisitos-${sectionId}`);
-    if (requisitosContainer) {
-        const requisitoItems = requisitosContainer.querySelectorAll('.requisito-item');
-        requisitoItems.forEach(item => {
-            const numero = item.querySelector('.requisito-numero').textContent;
-            const titulo = item.querySelector('.requisito-titulo').textContent;
-            const estadoElement = item.querySelector('.btn-estado.active');
-            const estado = estadoElement ? estadoElement.textContent : 'No Seleccionado';
-            const observacion = item.querySelector('.observacion-input').value;
-            requisitosData.push([numero, titulo, estado, observacion]);
-        });
-    }
-
-    doc.autoTable({
-        startY: yPos,
-        head: [['N°', 'Requisito', 'Estado', 'Observaciones']],
-        body: requisitosData,
-        theme: 'striped',
-        headStyles: { fillColor: [45, 80, 22] }, // Dark green for header
-        styles: {
-            font: 'helvetica',
-            fontSize: 9,
-            cellPadding: 2,
-            overflow: 'linebreak'
-        },
-        columnStyles: {
-            0: { cellWidth: 10 },
-            1: { cellWidth: 80 },
-            2: { cellWidth: 30 },
-            3: { cellWidth: 'auto' }
-        },
-        didParseCell: function(data) {
-            if (data.column.index === 2) { // Estado column
-                if (data.cell.text[0] === 'Cumple') {
-                    data.cell.styles.fillColor = [40, 167, 69]; // Green
-                    data.cell.styles.textColor = [255, 255, 255];
-                } else if (data.cell.text[0] === 'No Cumple') {
-                    data.cell.styles.fillColor = [247, 49, 5]; // Red
-                    data.cell.styles.textColor = [255, 255, 255];
+    directivasEmpresa.forEach((directiva, index) => {
+        tableHTML += `<tr onclick="showDetails('empresas-rrhh', ${database['empresas-rrhh'].indexOf(directiva)})">`;
+        headers.forEach(header => {
+            let value = directiva[header] || 'N/A';
+            if (dateHeaders.includes(header)) {
+                value = formatDateForDisplay(value);
+            }
+            let cellClass = '';
+            if (header === 'estadoVigencia') {
+                if (value === 'Vigente') {
+                    cellClass = 'status-vigente';
+                } else if (value === 'Vencido') {
+                    cellClass = 'status-vencido';
                 }
             }
-        }
+            tableHTML += `<td class="${cellClass}">${value}</td>`;
+        });
+        tableHTML += '</tr>';
+    });
+    tableHTML += '</tbody></table>';
+    resultsContainer.innerHTML = tableHTML;
+}
+
+// Función para buscar en los detalles de directivas de una empresa específica
+function searchCompanySpecificDirectivas(searchTerm) {
+    const filteredDirectivas = database['empresas-rrhh'].filter(directiva => 
+        directiva.empresa === currentEmpresaSelected &&
+        (directiva.lugarInstalacion && directiva.lugarInstalacion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         directiva.direccion && directiva.direccion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         directiva.fechaAprobacion && directiva.fechaAprobacion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         directiva.numero && directiva.numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         directiva.tipoDirectiva && directiva.tipoDirectiva.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         (directiva.rut && directiva.rut.toLowerCase().includes(searchTerm.toLowerCase())) ||
+         (directiva.comuna && directiva.comuna.toLowerCase().includes(searchTerm.toLowerCase())))
+    );
+
+    const resultsContainer = document.getElementById('empresa-specific-details-results');
+    if (filteredDirectivas.length === 0) {
+        resultsContainer.innerHTML = '<div class="no-data">No se encontraron directivas con ese criterio.</div>';
+        return;
+    }
+
+    const tableHTML = createTableForCompanySpecificDirectivas(filteredDirectivas);
+    resultsContainer.innerHTML = tableHTML;
+}
+
+// Helper para crear tabla específica para directivas de instalaciones
+function createTableForCompanySpecificDirectivas(data) {
+    const headers = [
+        'numero', 'fechaAprobacion', 'vigencia', 'estadoVigencia', 'tipoDirectiva', 'rut', 'direccion', 'comuna'
+    ];
+
+    let tableHTML = '<table class="data-table"><thead><tr>';
+    headers.forEach(header => {
+        tableHTML += `<th>${formatHeader(header)}</th>`;
+    });
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach((directiva, index) => {
+        tableHTML += `<tr onclick="showDetails('empresas-rrhh', ${database['empresas-rrhh'].indexOf(directiva)})">`;
+        headers.forEach(header => {
+            let value = directiva[header] || 'N/A';
+            if (dateHeaders.includes(header)) {
+                value = formatDateForDisplay(value);
+            }
+            let cellClass = '';
+            if (header === 'estadoVigencia') {
+                if (value === 'Vigente') {
+                    cellClass = 'status-vigente';
+                } else if (value === 'Vencido') {
+                    cellClass = 'status-vencido';
+                }
+            }
+            tableHTML += `<td class="${cellClass}">${value}</td>`;
+        });
+        tableHTML += '</tr>';
+    });
+    tableHTML += '</tbody></table>';
+    return tableHTML;
+}
+
+// Función para volver a la lista de Empresas RRHH desde los detalles específicos
+function backToEmpresasList() {
+    document.getElementById('directivas-empresa-specific-details').classList.remove('active');
+    document.getElementById('directivas-empresas-rrhh-list').classList.add('active');
+    renderEmpresasRRHHList();
+}
+
+// Función para buscar en la lista de Empresas RRHH
+function searchEmpresasRRHH(searchTerm) {
+    const filteredEmpresas = empresasRRHHList.filter(empresa => 
+        empresa.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        empresa.rut.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        empresa.direccion.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    const resultsContainer = document.getElementById('empresas-rrhh-results');
+    
+    let tableHTML = '<table class="data-table"><thead><tr>';
+    tableHTML += '<th>Nombre Empresa</th><th>RUT</th><th>Dirección</th></tr></thead><tbody>';
+
+    if (filteredEmpresas.length === 0) {
+        resultsContainer.innerHTML = '<div class="no-data">No se encontraron empresas con ese criterio.</div>';
+        return;
+    }
+
+    filteredEmpresas.forEach(empresa => {
+        tableHTML += `
+            <tr onclick="showEmpresaDirectivasDetails('${empresa.nombre}')">
+                <td>${empresa.nombre}</td>
+                <td>${empresa.rut}</td>
+                <td>${empresa.direccion}</td>
+            </tr>
+        `;
     });
 
-    doc.save(`${title.toLowerCase().replace(/ /g, '-')}-reporte.pdf`);
-};
-
-
+    tableHTML += '</tbody></table>';
+    resultsContainer.innerHTML = tableHTML;
+}
 
 // Funciones para manejar datos (agregar, cargar, buscar, mostrar detalles)
 function addRecord(section, event) {
     event.preventDefault();
-
+    
     const formData = {};
     const form = event.target;
     const inputs = form.querySelectorAll('input, textarea, select');
-
+    
     inputs.forEach(input => {
         let key;
         if (input.id.startsWith('estudio-')) {
@@ -1182,7 +1245,7 @@ function addRecord(section, event) {
             return;
         }
     } else if (section === 'directivas') {
-        const fechaEmision = formData.fecha;
+        const fechaEmision = formData.fecha; 
         if (fechaEmision) {
             const emissionDateObj = new Date(fechaEmision);
             const vigenciaDateObj = new Date(emissionDateObj);
@@ -1195,55 +1258,57 @@ function addRecord(section, event) {
             showAlert(section, 'La fecha de emisión es requerida para una directiva.', 'error');
             return;
         }
-        targetArray = database.directivas;
+        targetArray = database.directivas; 
     }
 
     targetArray.push(formData);
-
+    
     form.reset();
-
+    
     showAlert(section, 'Registro guardado exitosamente', 'success');
-
+    
     updateCounts();
-
-    // The provided HTML doesn't have tabs like 'consultar' or 'agregar' within each section.
-    // So, we'll just reload the requisitos for the current section if it's a "requirements" section.
-    if (section.includes('-section')) { // This covers plan-seguridad, servicentros, sobre-500uf, directiva-funcionamiento
-        loadRequisitos(section.replace('-section', ''));
+    
+    if (section === 'medidas') {
+        showTab('medidas', 'consultar'); 
+    } else if (section === 'directivas') {
+        showTab('directivas', 'consultar');
+    }
+    else {
+        showTab(section, 'consultar'); 
     }
 }
-
 
 // Carga y muestra los datos de una sección en formato de tabla
 function loadData(section) {
     console.log(`🔄 Cargando datos para sección: ${section}`);
-
+    
     let resultsContainerId = `${section}-results`;
     const resultsContainer = document.getElementById(resultsContainerId);
 
     if (!resultsContainer) {
         console.error(`❌ No se encontró el contenedor: ${resultsContainerId}`);
-
+        
         const alternativeContainers = document.querySelectorAll(`[id*="${section}"]`);
         console.log('🔍 Contenedores alternativos encontrados:', alternativeContainers.length);
         alternativeContainers.forEach((container, index) => {
             console.log(`  ${index + 1}. ${container.id}`);
         });
-
+        
         return;
     }
 
     console.log(`✅ Contenedor encontrado: ${resultsContainerId}`);
-
+    
     const data = database[section];
     console.log(`📊 Datos disponibles para ${section}:`, data ? data.length : 'undefined');
-
+    
     if (!data || !Array.isArray(data)) {
         console.warn(`⚠️ Datos inválidos para la sección: ${section}`);
         resultsContainer.innerHTML = '<div class="no-data">Error: Datos no válidos</div>';
         return;
     }
-
+    
     if (data.length === 0) {
         console.warn(`⚠️ No hay datos para la sección: ${section}`);
         resultsContainer.innerHTML = '<div class="no-data">No hay datos disponibles</div>';
@@ -1252,19 +1317,19 @@ function loadData(section) {
 
     console.log(`✅ Creando tabla para ${section} con ${data.length} registros`);
     console.log(`📋 Primer registro de ejemplo:`, data[0]);
-
+    
     const table = createTable(section, data);
-
+    
     if (!table || table.trim() === '') {
         console.error(`❌ Error: La tabla generada está vacía para ${section}`);
         resultsContainer.innerHTML = '<div class="no-data">Error generando la tabla</div>';
         return;
     }
-
+    
     console.log(`📝 Tabla generada (primeros 200 caracteres):`, table.substring(0, 200) + '...');
-
+    
     resultsContainer.innerHTML = table;
-
+    
     const tableElement = resultsContainer.querySelector('table');
     if (tableElement) {
         const rows = tableElement.querySelectorAll('tbody tr');
@@ -1277,7 +1342,7 @@ function loadData(section) {
 // Crea una tabla HTML a partir de un array de objetos
 function createTable(section, data) {
     console.log(`🏗️ Creando tabla para sección: ${section} con ${data.length} registros`);
-
+    
     if (!data || !Array.isArray(data) || data.length === 0) {
         console.warn(`⚠️ No hay datos válidos para crear tabla de ${section}`);
         return '<div class="no-data">No se encontraron resultados</div>';
@@ -1296,9 +1361,9 @@ function createTable(section, data) {
         headers = ['id', 'entidad', 'instalacion', 'fechaAprobacion', 'vigencia', 'estadoVigencia', 'rut', 'ubicacion', 'comuna', 'monto'];
     } else if (section === 'empresas-rrhh') {
         headers = ['numero', 'fechaAprobacion', 'vigencia', 'estadoVigencia', 'tipoDirectiva', 'rut', 'direccion', 'comuna'];
-    } else if (section === 'guardias-propios') {
+    } else if (section === 'guardias-propios') { 
         headers = ['numero', 'fechaAprobacion', 'vigencia', 'estadoVigencia', 'tipoServicio', 'rut', 'direccion', 'comuna'];
-    } else if (section === 'eventos-masivos') {
+    } else if (section === 'eventos-masivos') { 
         headers = ['numero', 'fechaEvento', 'estadoAprobacion', 'tipoEvento', 'rut', 'direccion', 'comuna'];
     } else if (section === 'directivas') {
         headers = ['numero', 'fecha', 'vigencia', 'estadoVigencia', 'area', 'rut', 'direccion', 'comuna'];
@@ -1311,10 +1376,10 @@ function createTable(section, data) {
 
     let tableHTML = '<table class="data-table';
     if (section === 'eventos-masivos') {
-        tableHTML += ' truncate-text eventos-masivos-table';
+        tableHTML += ' truncate-text eventos-masivos-table'; 
     }
     tableHTML += '"><thead><tr>';
-
+    
     headers.forEach(header => {
         tableHTML += `<th>${formatHeader(header)}</th>`;
     });
@@ -1326,38 +1391,38 @@ function createTable(section, data) {
             console.warn(`⚠️ Fila inválida en índice ${index}:`, row);
             return;
         }
-
+        
         const originalIndex = database[section].indexOf(row);
-        const detailIndex = originalIndex !== -1 ? originalIndex : index;
+        const detailIndex = originalIndex !== -1 ? originalIndex : index; 
 
         tableHTML += `<tr onclick="showDetails('${section}', ${detailIndex})">`;
 
         headers.forEach(header => {
             let value = row[header];
-
+            
             if (value === undefined || value === null) {
                 value = '-';
             } else if (typeof value === 'string' && value.trim() === '') {
                 value = '-';
             }
-
+            
             if (dateHeaders.includes(header) && value !== '-') {
                 value = formatDateForDisplay(value);
             }
 
             let cellClass = '';
-            if (header === 'estadoVigencia' || header === 'estadoAprobacion') {
+            if (header === 'estadoVigencia' || header === 'estadoAprobacion') { 
                 if (value === 'Vigente' || value === 'APROBADO') {
                     cellClass = 'status-vigente';
                 } else if (value === 'Vencido' || value === 'RECHAZADO') {
                     cellClass = 'status-vencido';
                 }
             }
-
+            
             if (typeof value === 'string') {
                 value = value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
-
+            
             tableHTML += `<td class="${cellClass}">${value}</td>`;
         });
         tableHTML += '</tr>';
@@ -1365,9 +1430,9 @@ function createTable(section, data) {
     });
 
     tableHTML += '</tbody></table>';
-
+    
     console.log(`✅ Tabla creada con ${validRows} filas válidas de ${data.length} registros`);
-
+    
     return tableHTML;
 }
 
@@ -1410,7 +1475,7 @@ function formatHeader(header) {
         nombreEvento: 'Nombre del Evento',
         duracion: 'Duración',
         lugarInstalacion: 'Lugar de Instalación',
-        fechaAprobacion: 'Fecha de Aprobación',
+        fechaAprobacion: 'Fecha de Aprobación', 
         cantidadGuardias: 'Cantidad de Guardias',
         nombreEmpresa: 'Nombre Empresa',
         rut: 'R.U.T',
@@ -1435,11 +1500,11 @@ function formatHeader(header) {
 function searchData(section, searchTerm) {
     const data = database[section];
     const filteredData = data.filter(item => {
-        return Object.values(item).some(value =>
+        return Object.values(item).some(value => 
             value && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
     });
-
+    
     let resultsContainerId = `${section}-results`;
     const resultsContainer = document.getElementById(resultsContainerId);
 
@@ -1453,10 +1518,10 @@ function showDetails(section, index) {
     const modal = document.getElementById('detailModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
-
+    
     modalTitle.textContent = `Detalles - Código: ${item.codigo || item.numero || item.id}`;
-    modalTitle.className = `modal-title ${section}`;
-
+    modalTitle.className = `modal-title ${section}`; 
+    
     let detailsHTML = '';
     let detailKeys = [];
     if (section === 'estudios') {
@@ -1471,9 +1536,9 @@ function showDetails(section, index) {
         detailKeys = ['id', 'entidad', 'instalacion', 'fechaAprobacion', 'vigencia', 'estadoVigencia', 'rut', 'ubicacion', 'comuna', 'monto'];
     } else if (section === 'empresas-rrhh') {
         detailKeys = ['numero', 'fechaAprobacion', 'vigencia', 'estadoVigencia', 'tipoDirectiva', 'rut', 'direccion', 'comuna'];
-    } else if (section === 'guardias-propios') {
+    } else if (section === 'guardias-propios') { 
         detailKeys = ['numero', 'fechaAprobacion', 'vigencia', 'estadoVigencia', 'tipoServicio', 'rut', 'direccion', 'comuna'];
-    } else if (section === 'eventos-masivos') {
+    } else if (section === 'eventos-masivos') { 
         detailKeys = ['numero', 'fechaEvento', 'estadoAprobacion', 'tipoEvento', 'rut', 'direccion', 'comuna'];
     } else if (section === 'directivas') {
         detailKeys = ['numero', 'fecha', 'vigencia', 'estadoVigencia', 'area', 'rut', 'direccion', 'comuna'];
@@ -1486,14 +1551,14 @@ function showDetails(section, index) {
         }
 
         let detailClass = '';
-        if (key === 'estadoVigencia' || key === 'estadoAprobacion') {
+        if (key === 'estadoVigencia' || key === 'estadoAprobacion') { 
             if (value === 'Vigente' || value === 'APROBADO') {
                 detailClass = 'status-vigente';
             } else if (value === 'Vencido' || value === 'RECHAZADO') {
                 detailClass = 'status-vencido';
             }
         }
-
+        
         detailsHTML += `
             <div class="detail-item ${section}">
                 <div class="detail-label">${formatHeader(key)}</div>
@@ -1501,9 +1566,9 @@ function showDetails(section, index) {
             </div>
         `;
     });
-
+    
     modalBody.innerHTML = detailsHTML;
-    modal.style.display = 'block';
+    modal.style.display = 'block'; 
 }
 
 // Cierra el modal
@@ -1517,7 +1582,7 @@ function updateCounts() {
         console.warn('⚠️ Base de datos no inicializada para updateCounts');
         return;
     }
-
+    
     const estudiosCount = (database.estudios && Array.isArray(database.estudios)) ? database.estudios.length : 0;
     const planesCount = (database.planes && Array.isArray(database.planes)) ? database.planes.length : 0;
     const servicentrosCount = (database.servicentros && Array.isArray(database.servicentros)) ? database.servicentros.length : 0;
@@ -1526,19 +1591,18 @@ function updateCounts() {
     const empresasRRHHCount = (database['empresas-rrhh'] && Array.isArray(database['empresas-rrhh'])) ? database['empresas-rrhh'].length : 0;
     const guardiasPropiosCount = (database['guardias-propios'] && Array.isArray(database['guardias-propios'])) ? database['guardias-propios'].length : 0;
     const eventosMasivosCount = (database['eventos-masivos'] && Array.isArray(database['eventos-masivos'])) ? database['eventos-masivos'].length : 0;
-
-    // These elements don't exist in the provided HTML, but kept for completeness if needed
-    // const estudiosElement = document.getElementById('estudios-count');
-    // const planesElement = document.getElementById('planes-count');
-    // const medidasElement = document.getElementById('medidas-count');
-    // const directivasElement = document.getElementById('directivas-count');
-
-    // if (estudiosElement) estudiosElement.textContent = `${estudiosCount} registros`;
-    // if (planesElement) planesElement.textContent = `${planesCount} registros`;
-    // if (medidasElement) medidasElement.textContent = `${medidasTotalCount} registros`;
-
-    // const totalDirectivas = empresasRRHHCount + guardiasPropiosCount + eventosMasivosCount;
-    // if (directivasElement) directivasElement.textContent = `${totalDirectivas} registros`;
+    
+    const estudiosElement = document.getElementById('estudios-count');
+    const planesElement = document.getElementById('planes-count');
+    const medidasElement = document.getElementById('medidas-count');
+    const directivasElement = document.getElementById('directivas-count');
+    
+    if (estudiosElement) estudiosElement.textContent = `${estudiosCount} registros`;
+    if (planesElement) planesElement.textContent = `${planesCount} registros`;
+    if (medidasElement) medidasElement.textContent = `${medidasTotalCount} registros`;
+    
+    const totalDirectivas = empresasRRHHCount + guardiasPropiosCount + eventosMasivosCount;
+    if (directivasElement) directivasElement.textContent = `${totalDirectivas} registros`;
 
     updateMedidasSubSectionCounts();
 }
@@ -1547,141 +1611,103 @@ function updateCounts() {
 function updateMedidasSubSectionCounts() {
     const servicentrosCount = (database.servicentros && Array.isArray(database.servicentros)) ? database.servicentros.length : 0;
     const sobre500Count = (database['sobre-500-uf'] && Array.isArray(database['sobre-500-uf'])) ? database['sobre-500-uf'].length : 0;
+    
+    const servicentrosCountElement = document.getElementById('servicentros-count-display');
+    const sobre500UFCountElement = document.getElementById('sobre-500-uf-count-display');
 
-    // These elements don't exist in the provided HTML, but kept for completeness if needed
-    // const servicentrosCountElement = document.getElementById('servicentros-count-display');
-    // const sobre500UFCountElement = document.getElementById('sobre-500-uf-count-display');
-
-    // if (servicentrosCountElement) {
-    //     servicentrosCountElement.textContent = `(${servicentrosCount} registros)`;
-    //     console.log(`📊 Contador Servicentros actualizado: ${servicentrosCount}`);
-    // }
-    // if (sobre500UFCountElement) {
-    //     sobre500UFCountElement.textContent = `(${sobre500Count} registros)`;
-    //     console.log(`📊 Contador Sobre 500 UF actualizado: ${sobre500Count}`);
-    // }
+    if (servicentrosCountElement) {
+        servicentrosCountElement.textContent = `(${servicentrosCount} registros)`;
+        console.log(`📊 Contador Servicentros actualizado: ${servicentrosCount}`);
+    }
+    if (sobre500UFCountElement) {
+        sobre500UFCountElement.textContent = `(${sobre500Count} registros)`;
+        console.log(`📊 Contador Sobre 500 UF actualizado: ${sobre500Count}`);
+    }
 }
 
 // Muestra un mensaje de alerta
 function showAlert(section, message, type) {
     const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type}`;
+    alertDiv.className = `alert alert-${type}`; 
     alertDiv.textContent = message;
-
-    // Find the appropriate place to insert the alert
+    
     let targetElement;
-    // This logic needs to be adapted as the HTML structure is different
-    // from a typical section-tab-form structure.
-    // For now, we'll place it at the top of the currently active section.
-    const currentActiveSection = document.querySelector('.form-section.active');
-    if (currentActiveSection) {
-        const header = currentActiveSection.querySelector('.form-header');
-        if (header) {
-            header.insertAdjacentElement('afterend', alertDiv);
-        } else {
-            currentActiveSection.prepend(alertDiv);
+    if (document.querySelector(`#${section}-agregar form`)) {
+        targetElement = document.querySelector(`#${section}-agregar form`);
+    } else {
+        const currentActiveSection = document.querySelector('.section.active');
+        if (currentActiveSection) {
+            targetElement = currentActiveSection.querySelector('.section-header') || currentActiveSection;
+            if (targetElement.nextSibling) { 
+                targetElement.parentNode.insertBefore(alertDiv, targetElement.nextSibling);
+                setTimeout(() => { alertDiv.remove(); }, 3000);
+                return;
+            }
         }
+    }
+
+    if (targetElement) {
+        targetElement.insertBefore(alertDiv, targetElement.firstChild);
     } else {
         console.error('No se pudo encontrar un elemento adecuado para mostrar la alerta.');
     }
-
+    
     setTimeout(() => {
-        alertDiv.remove();
+        alertDiv.remove(); 
     }, 3000);
 }
 
 // Cierra el modal si se hace clic fuera
 window.onclick = function(event) {
     const modal = document.getElementById('detailModal');
-    if (modal && event.target === modal) {
+    if (event.target === modal) {
         closeModal();
     }
 }
 
-// Function to handle the return button
-const btnVolver = document.querySelector('.btn-volver');
-if (btnVolver) {
-    btnVolver.addEventListener('click', () => {
-        window.history.back(); // This will go back to the previous page in history
-    });
-}
-
-// Function to set the back button visibility
-function setBackButtonVisibility() {
-    const activeSection = document.querySelector('.form-section.active');
-    if (activeSection && activeSection.id !== 'inicio-section') {
-        if (btnVolver) {
-            btnVolver.style.display = 'block';
-        }
-    } else {
-        if (btnVolver) {
-            btnVolver.style.display = 'none';
-        }
-    }
-}
-
-// Initialize the back button visibility on page load and when section changes
-document.addEventListener('DOMContentLoaded', setBackButtonVisibility);
-
-// Listen for custom event if sections are managed by JS without page reload
-document.addEventListener('sectionChanged', setBackButtonVisibility);
-
-// Modified back function to correctly navigate through internal sections
-window.volverAtras = function() {
-    const activeSection = document.querySelector('.form-section.active');
-
-    if (activeSection && activeSection.id !== 'inicio-section') {
-        // Hide the current active section
-        activeSection.classList.remove('active');
-
-        // Show the home section
-        document.getElementById('inicio-section').classList.add('active');
-
-        // Hide the back button
-        document.querySelector('.btn-volver').style.display = 'none';
-    } else {
-        // If already on home or no active section, do nothing or use history.back()
-        window.history.back();
-    }
-};
-
 // Función para verificar la integridad de la interfaz
 function verificarInterfaz() {
     console.log('🔍 Verificando integridad de la interfaz...');
-
-    // No longer checking for these specific IDs as per updated HTML
-    // const medidasSection = document.getElementById('medidas');
-    // const medidasConsultar = document.getElementById('medidas-consultar');
-    // const servicentrosPage = document.getElementById('servicentros-page');
-    // const sobre500Page = document.getElementById('sobre-500-uf-page');
-    // const servicentrosResults = document.getElementById('servicentros-results');
-    // const sobre500Results = document.getElementById('sobre-500-uf-results');
-
+    
+    const medidasSection = document.getElementById('medidas');
+    const medidasConsultar = document.getElementById('medidas-consultar');
+    const servicentrosPage = document.getElementById('servicentros-page');
+    const sobre500Page = document.getElementById('sobre-500-uf-page');
+    const servicentrosResults = document.getElementById('servicentros-results');
+    const sobre500Results = document.getElementById('sobre-500-uf-results');
+    
+    console.log('📋 Estado de elementos HTML:');
+    console.log('- medidas section:', medidasSection ? '✅ EXISTE' : '❌ NO EXISTE');
+    console.log('- medidas-consultar:', medidasConsultar ? '✅ EXISTE' : '❌ NO EXISTE');
+    console.log('- servicentros-page:', servicentrosPage ? '✅ EXISTE' : '❌ NO EXISTE');
+    console.log('- sobre-500-uf-page:', sobre500Page ? '✅ EXISTE' : '❌ NO EXISTE');
+    console.log('- servicentros-results:', servicentrosResults ? '✅ EXISTE' : '❌ NO EXISTE');
+    console.log('- sobre-500-uf-results:', sobre500Results ? '✅ EXISTE' : '❌ NO EXISTE');
+    
     console.log('📊 Estado de datos:');
     console.log('- database.servicentros:', database.servicentros ? `✅ ${database.servicentros.length} registros` : '❌ NO EXISTE');
     console.log('- database["sobre-500-uf"]:', database['sobre-500-uf'] ? `✅ ${database['sobre-500-uf'].length} registros` : '❌ NO EXISTE');
-
-    // These elements don't exist in the provided HTML, but kept for completeness if needed
-    // const servicentrosCountDisplay = document.getElementById('servicentros-count-display');
-    // const sobre500UFCountDisplay = document.getElementById('sobre-500-uf-count-display');
-
-    // console.log('🔢 Estado de contadores:');
-    // console.log('- servicentros-count-display:', servicentrosCountDisplay ? `✅ "${servicentrosCountDisplay.textContent}"` : '❌ NO EXISTE');
-    // console.log('- sobre-500-uf-count-display:', sobre500UFCountDisplay ? `✅ "${sobre500UFCountDisplay.textContent}"` : '❌ NO EXISTE');
-
+    
+    const servicentrosCountDisplay = document.getElementById('servicentros-count-display');
+    const sobre500CountDisplay = document.getElementById('sobre-500-uf-count-display');
+    
+    console.log('🔢 Estado de contadores:');
+    console.log('- servicentros-count-display:', servicentrosCountDisplay ? `✅ "${servicentrosCountDisplay.textContent}"` : '❌ NO EXISTE');
+    console.log('- sobre-500-uf-count-display:', sobre500CountDisplay ? `✅ "${sobre500CountDisplay.textContent}"` : '❌ NO EXISTE');
+    
     const elementosFaltantes = [];
-    // if (!medidasSection) elementosFaltantes.push('medidas section');
-    // if (!servicentrosPage) elementosFaltantes.push('servicentros-page');
-    // if (!sobre500Page) elementosFaltantes.push('sobre-500-uf-page');
-    // if (!servicentrosResults) elementosFaltantes.push('servicentros-results');
-    // if (!sobre500Results) elementosFaltantes.push('sobre-500-uf-results');
-
+    if (!medidasSection) elementosFaltantes.push('medidas section');
+    if (!servicentrosPage) elementosFaltantes.push('servicentros-page');
+    if (!sobre500Page) elementosFaltantes.push('sobre-500-uf-page');
+    if (!servicentrosResults) elementosFaltantes.push('servicentros-results');
+    if (!sobre500Results) elementosFaltantes.push('sobre-500-uf-results');
+    
     if (elementosFaltantes.length > 0) {
         console.error('❌ ELEMENTOS CRÍTICOS FALTANTES:', elementosFaltantes);
         alert(`Error: Elementos HTML faltantes: ${elementosFaltantes.join(', ')}`);
         return false;
     }
-
+    
     console.log('✅ Verificación de interfaz completada - Todo OK');
     return true;
 }
@@ -1691,34 +1717,33 @@ window.testMedidas = function() {
     console.log('🧪 PRUEBA DE MEDIDAS - Estado actual:');
     console.log('📊 Servicentros:', database.servicentros ? database.servicentros.length : 'NO EXISTE');
     console.log('📊 Sobre 500 UF:', database['sobre-500-uf'] ? database['sobre-500-uf'].length : 'NO EXISTE');
-
+    
     if (database.servicentros && database.servicentros.length > 0) {
         console.log('✅ Ejemplo servicentro:', database.servicentros[0]);
     }
-
+    
     if (database['sobre-500-uf'] && database['sobre-500-uf'].length > 0) {
         console.log('✅ Ejemplo sobre 500 UF:', database['sobre-500-uf'][0]);
     }
-
-    // Since the HTML doesn't have showSubMedidaPage anymore, this test is adapted
-    console.log('🧪 Simulating showing servicentros requirements...');
-    loadRequisitos('servicentros');
-
+    
+    console.log('🧪 Probando mostrar servicentros...');
+    showSubMedidaPage('servicentros');
+    
     setTimeout(() => {
-        console.log('🧪 Simulating showing sobre 500 UF requirements...');
-        loadRequisitos('sobre-500uf');
+        console.log('🧪 Probando mostrar sobre 500 UF...');
+        showSubMedidaPage('sobre-500-uf');
     }, 2000);
 };
 
 // Función para verificar qué archivos están disponibles
 window.verificarArchivos = async function() {
     console.log('🔍 Verificando archivos disponibles...');
-
+    
     if (typeof window.fs === 'undefined') {
         console.log('❌ window.fs no está disponible');
         return;
     }
-
+    
     const posiblesNombres = [
         'BASE DE DATOS.xlsx',
         'base de datos.xlsx',
@@ -1727,9 +1752,9 @@ window.verificarArchivos = async function() {
         'BaseDeDatos.xlsx',
         'BASE  DE DATOS COMPONENTES SISTEMA SEGURIDAD PRIVADA TOTAL OS10 COQUIMBO 22 04 25.xlsx'
     ];
-
+    
     console.log('📁 Probando nombres de archivo...');
-
+    
     for (const nombre of posiblesNombres) {
         try {
             const response = await window.fs.readFile(nombre);
@@ -1738,29 +1763,28 @@ window.verificarArchivos = async function() {
             console.log(`❌ NO ENCONTRADO: "${nombre}"`);
         }
     }
-
+    
     console.log('✅ Verificación completada');
 };
 
 // Hacer función global para el HTML
 window.showFileSelector = showFileSelector;
 
-
 // Inicializa la aplicación
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('🚀 Iniciando sistema...');
     console.log('📁 Buscando archivo "BASE DE DATOS.xlsx"...');
-
+    
     // Verificar interfaz primero
     const interfazOK = verificarInterfaz();
     if (!interfazOK) {
         console.error('❌ Error en la verificación de interfaz, abortando inicialización');
         return;
     }
-
+    
     // Intentar cargar datos desde Excel automáticamente
     await loadDataFromExcel();
-
+    
     // Debug: Verificar estado de la base de datos después de la carga
     console.log('🔍 Estado de la base de datos después de la carga:');
     console.log('- Estudios:', database.estudios ? database.estudios.length : 'undefined');
@@ -1768,42 +1792,24 @@ document.addEventListener('DOMContentLoaded', async function() {
     console.log('- Servicentros:', database.servicentros ? database.servicentros.length : 'undefined');
     console.log('- Sobre 500 UF:', database['sobre-500-uf'] ? database['sobre-500-uf'].length : 'undefined');
     console.log('- Directivas:', database['empresas-rrhh'] ? database['empresas-rrhh'].length : 'undefined');
-
-    // Update counts of elements.
+    
+    // Actualizar contadores de forma segura
     updateCounts();
-
-    // Attach click handlers to the menu cards
-    document.querySelectorAll('.menu-card').forEach(card => {
-        card.addEventListener('click', function() {
-            const section = this.getAttribute('onclick').replace("mostrarSeccion('", "").replace("')", "");
-            window.showSection(section);
-            // Load requirements for the newly shown section
-            loadRequisitos(section);
-        });
-    });
-
-    // Handle initial state of the back button
-    setBackButtonVisibility();
-
-    // Show the initial home section
-    showHome();
-
+    
     // Verificar interfaz nuevamente después de cargar datos
     setTimeout(() => {
         console.log('🔍 Verificación final de interfaz...');
         verificarInterfaz();
-
+        
         // Mostrar funciones de prueba disponibles
         console.log('🧪 Funciones de debug disponibles:');
         console.log('- Para probar medidas: testMedidas()');
         console.log('- Para verificar archivos: verificarArchivos()');
-
-        // If no real data, show instructions (example data check)
+        
+        // Si no hay datos reales, mostrar instrucciones
         if (database.servicentros.length === 10 && database['sobre-500-uf'].length === 8) {
             console.log('📝 Se están usando datos de ejemplo.');
             console.log('💡 Para cargar tu Excel "BASE DE DATOS.xlsx":');
             console.log('   1. Haz click en "📁 Cargar BASE DE DATOS.xlsx"');
             console.log('   2. O ejecuta: verificarArchivos() para ver qué archivos están disponibles');
         }
-    }, 500); // Small delay to ensure all DOM is ready
-});
