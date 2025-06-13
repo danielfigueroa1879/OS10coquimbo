@@ -266,7 +266,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - VERSIÓN COMPLETA CON FOOTER Y NUMERACIÓN E IMÁGENES
+// Función para generar el reporte PDF - CORREGIDA PARA MOSTRAR TODO EL CONTENIDO
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -275,8 +275,12 @@ async function generarReporte(sectionId) {
     }
 
     const { jsPDF } = window.jspdf;
-    // MODIFICADO: Tamaño personalizado 21.59 cm x 33.02 cm (215.9mm x 330.2mm)
-    const doc = new jsPDF('p', 'mm', [215.9, 330.2]);
+    // CORREGIDO: Usar tamaño A4 estándar para mejor compatibilidad
+    const doc = new jsPDF('p', 'mm', 'a4');
+    
+    // Dimensiones de página A4
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
 
     // ** Función para cargar imágenes y convertirlas a Base64 **
     const getImageBase64 = (url) => {
@@ -293,7 +297,7 @@ async function generarReporte(sectionId) {
             };
             img.onerror = (error) => {
                 console.error(`Error al cargar la imagen ${url}:`, error);
-                reject(error);
+                resolve(null); // Resolver con null en lugar de rechazar
             };
             img.src = url;
         });
@@ -308,13 +312,8 @@ async function generarReporte(sectionId) {
         noCumpleImageBase64 = await getImageBase64('nocumple.png');
         logoImageBase64 = await getImageBase64('foto/logo.png');
     } catch (error) {
-        console.error('Error al cargar una o más imágenes (se usará fallback si aplica):', error);
-        // Fallback para las imágenes de estado si fallan
-        cumpleImageBase64 = null;
-        noCumpleImageBase64 = null;
-        logoImageBase64 = null;
+        console.error('Error al cargar imágenes:', error);
     }
-
 
     // Recopilar datos del formulario con IDs correctos
     const getInputValue = (id) => {
@@ -396,56 +395,46 @@ async function generarReporte(sectionId) {
     const agregarLogoPDF = (logoBase64) => {
         if (logoBase64) {
             try {
-                const logoWidth = 24;
-                const logoHeight = 24;
+                const logoWidth = 20;
+                const logoHeight = 20;
                 doc.addImage(logoBase64, 'PNG', 15, 8, logoWidth, logoHeight);
-                doc.addImage(logoBase64, 'PNG', 170, 8, logoWidth, logoHeight);
+                doc.addImage(logoBase64, 'PNG', pageWidth - 35, 8, logoWidth, logoHeight);
                 console.log('Logos agregados al PDF exitosamente');
             } catch (error) {
-                console.log('Error al agregar foto/logo.png (base64) al PDF:', error);
-                doc.setFontSize(12);
-                doc.setTextColor(45, 80, 22);
-                doc.text('🏛️', 15, 20);
-                doc.text('🏛️', 185, 20);
+                console.log('Error al agregar logo:', error);
             }
-        } else {
-            console.log('No se pudo cargar foto/logo.png, usando iconos alternativos.');
-            doc.setFontSize(16);
-            doc.setTextColor(45, 80, 22);
-            doc.text('🏛️', 20, 22);
-            doc.text('🏛️', 180, 22);
         }
     };
 
     agregarLogoPDF(logoImageBase64);
 
     // Añadir encabezado al PDF
-    doc.setFontSize(20);
+    doc.setFontSize(18);
     doc.setTextColor(45, 80, 22);
-    doc.text(sectionTitle, 105, 25, null, null, 'center');
+    doc.text(sectionTitle, pageWidth/2, 25, { align: 'center' });
     
     let yOffsetHeader = 32;
     
     if (sectionId === 'directiva-funcionamiento' && tipoDirectiva) {
         doc.setFontSize(14);
         doc.setTextColor(0, 0, 0);
-        doc.text(tipoDirectiva, 105, yOffsetHeader, null, null, 'center');
+        doc.text(tipoDirectiva, pageWidth/2, yOffsetHeader, { align: 'center' });
         yOffsetHeader += 7;
     }
     
     doc.setFontSize(11);
     doc.setTextColor(74, 124, 34);
-    doc.text('OS10 Coquimbo - Carabineros de Chile', 105, yOffsetHeader, null, null, 'center');
+    doc.text('OS10 Coquimbo - Carabineros de Chile', pageWidth/2, yOffsetHeader, { align: 'center' });
     
     doc.setFontSize(9);
     doc.setTextColor(100, 100, 100);
-    doc.text(sectionSubtitle, 105, yOffsetHeader + 6, null, null, 'center');
+    doc.text(sectionSubtitle, pageWidth/2, yOffsetHeader + 6, { align: 'center' });
 
     // Agregar línea separadora decorativa
     const lineY = yOffsetHeader + 12;
     doc.setDrawColor(45, 80, 22);
     doc.setLineWidth(0.5);
-    doc.line(20, lineY, 190, lineY);
+    doc.line(20, lineY, pageWidth - 20, lineY);
 
     let yOffset = lineY + 10;
 
@@ -491,8 +480,7 @@ async function generarReporte(sectionId) {
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
     yOffset += 10;
 
-    // Añadir tabla de requisitos CON FOOTER Y NUMERACIÓN
-    doc.setFontSize(10);
+    // Preparar datos para la tabla
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
     const data = [];
 
@@ -510,153 +498,151 @@ async function generarReporte(sectionId) {
         const estado = item.classList.contains('cumple') ? 'CUMPLE' : (item.classList.contains('no-cumple') ? 'NO CUMPLE' : 'PENDIENTE');
         const observacion = item.querySelector('.observacion-input').value || '';
         
-        // MODIFICADO: Solo se añade una cadena vacía para el estado en la tabla de datos
-        // La lógica de dibujo de imágenes y colores usará el estado original del item (data.row.raw[2])
         data.push([numero, titulo, estado, observacion]);
     });
 
+    // CORREGIDO: Configuración mejorada de autoTable
     doc.autoTable({
         startY: yOffset,
-        // MODIFICADO: Alinea la tabla a la misma posición horizontal que el texto de arriba
-        margin: { left: 20, right: 20 }, 
+        margin: { left: 20, right: 20, top: 20, bottom: 20 },
         head: headers,
         body: data,
         theme: 'grid',
+        pageBreak: 'auto', // IMPORTANTE: Permitir salto de página automático
+        showHead: 'everyPage', // Mostrar encabezado en cada página
         headStyles: {
-            fillColor: [45, 80, 22], // Verde oscuro
+            fillColor: [45, 80, 22],
             textColor: [255, 255, 255],
             fontStyle: 'bold',
-            halign: 'center'
+            halign: 'center',
+            fontSize: 9
         },
         styles: {
             fontSize: 8,
             cellPadding: 2,
             valign: 'middle',
-            textColor: [0, 0, 0],          // Negro puro para mejor contraste
-            fontStyle: 'normal'            // Sin negritas
+            textColor: [0, 0, 0],
+            fontStyle: 'normal',
+            lineColor: [200, 200, 200],
+            lineWidth: 0.1,
+            overflow: 'linebreak' // IMPORTANTE: Permitir salto de línea
         },
         columnStyles: {
-            0: { cellWidth: 10, halign: 'center' }, // N°
-            1: { cellWidth: 75, halign: 'justify' }, // Requisito (Ancho ajustado y justificado)
-            2: { cellWidth: 22, halign: 'center' }, // Estado (Ancho aumentado)
-            3: { cellWidth: 64, halign: 'justify' } // Observaciones (Ancho ajustado y justificado)
+            0: { cellWidth: 15, halign: 'center' }, // N°
+            1: { cellWidth: 85, halign: 'left' }, // Requisito
+            2: { cellWidth: 25, halign: 'center' }, // Estado
+            3: { cellWidth: 45, halign: 'left' } // Observaciones
         },
-        // Hook para aplicar los colores de fondo basados en el estado
+        // CORREGIDO: Hooks mejorados
         didParseCell: function (data) {
-            if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                // Usamos data.row.raw para obtener el estado original
-                const estadoOriginal = data.row.raw[2]; 
+            if (data.section === 'body' && data.column.index === 2) {
+                const estadoOriginal = data.row.raw[2];
                 if (estadoOriginal === 'CUMPLE') {
-                    data.cell.styles.fillColor = [194, 255, 202]; // Verde para Cumple
-                    data.cell.styles.textColor = [0, 140, 44]; // Asegurarse de tener color de texto si la imagen no carga
+                    data.cell.styles.fillColor = [194, 255, 202];
+                    data.cell.styles.textColor = [0, 140, 44];
                 } else if (estadoOriginal === 'NO CUMPLE') {
-                    data.cell.styles.fillColor = [247, 202, 209]; // Rojo más claro para No Cumple
-                    data.cell.styles.textColor = [247, 49, 9]; // Asegurarse de tener color de texto si la imagen no carga
+                    data.cell.styles.fillColor = [247, 202, 209];
+                    data.cell.styles.textColor = [247, 49, 9];
                 }
-                // Se vacía el texto de la celda aquí para asegurar que no se renderice
-                data.cell.text = ''; 
+                data.cell.text = '';
             }
-            // Asegurar texto negro en todas las otras celdas (sin negritas)
             if (data.section === 'body' && data.column.index !== 2) {
                 data.cell.styles.textColor = [0, 0, 0];
                 data.cell.styles.fontStyle = 'normal';
             }
         },
-        // Hook para dibujar contenido en la celda
         didDrawCell: function (data) {
-            if (data.section === 'body' && data.column.index === 2) { // Columna de Estado
-                // Usamos data.row.raw para obtener el estado original sin truncar
-                const estadoOriginal = data.row.raw[2]; 
-                let imgWidth; 
-                let imgHeight; 
+            if (data.section === 'body' && data.column.index === 2) {
+                const estadoOriginal = data.row.raw[2];
+                let imgWidth, imgHeight, imageToDraw = null;
 
-                let imageToDraw = null;
                 if (estadoOriginal === 'CUMPLE' && cumpleImageBase64) {
-                    imgWidth = 5; // Ancho para cumple.png (más pequeña)
-                    imgHeight = 5; // Alto para cumple.png (más pequeña)
+                    imgWidth = 4;
+                    imgHeight = 4;
                     imageToDraw = cumpleImageBase64;
-                    console.log('Dibujando imagen CUMPLE.');
                 } else if (estadoOriginal === 'NO CUMPLE' && noCumpleImageBase64) {
-                    imgWidth = 6; // Ancho para nocumple.png (más pequeña)
-                    imgHeight = 6; // Alto para nocumple.png (más pequeña)
+                    imgWidth = 5;
+                    imgHeight = 5;
                     imageToDraw = noCumpleImageBase64;
-                    console.log('Dibujando imagen NO CUMPLE.');
-                } else {
-                    console.log(`No hay imagen para dibujar para el estado: '${estadoOriginal}'. ¿Cumple cargada? ${!!cumpleImageBase64}, ¿NoCumple cargada? ${!!noCumpleImageBase64}`);
                 }
 
                 if (imageToDraw) {
                     const x = data.cell.x + (data.cell.width / 2) - (imgWidth / 2);
                     const y = data.cell.y + (data.cell.height / 2) - (imgHeight / 2);
-                    doc.addImage(imageToDraw, 'PNG', x, y, imgWidth, imgHeight);
-                    console.log(`Imagen dibujada para estado: '${estadoOriginal}'`);
+                    try {
+                        doc.addImage(imageToDraw, 'PNG', x, y, imgWidth, imgHeight);
+                    } catch (error) {
+                        console.log('Error al agregar imagen de estado:', error);
+                    }
                 }
             }
         },
         didDrawPage: function (data) {
-            // FOOTER CENTRADO: "Seguridad Privada - OS10 Coquimbo." - ALINEADO CON NUMERACIÓN
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100); // Gris
+            // Footer en cada página
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 100);
             doc.setFont(undefined, 'normal');
             
-            const pageWidth = doc.internal.pageSize.width;
             const footerText = 'Seguridad Privada - OS10 Coquimbo.';
-            const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-            const textX = (pageWidth - textWidth) / 2;
+            doc.text(footerText, pageWidth/2, pageHeight - 15, { align: 'center' });
             
-            doc.text(footerText, textX, doc.internal.pageSize.height - 8);
-            
-            // NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
-            doc.setFontSize(9);
-            doc.setTextColor(80, 80, 80); // Gris más oscuro para números
-            
-            // Obtener número de página actual y total
+            // Numeración de páginas
+            doc.setFontSize(8);
+            doc.setTextColor(80, 80, 80);
             const currentPage = data.pageNumber;
-            const totalPages = doc.internal.getNumberOfPages();
-            const pageText = `Página ${currentPage} de ${totalPages}`;
-            
-            // Posicionar en esquina inferior derecha
-            const pageTextWidth = doc.getStringUnitWidth(pageText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-            const pageTextX = pageWidth - pageTextWidth - 20; // 20mm del margen derecho
-            
-            doc.text(pageText, pageTextX, doc.internal.pageSize.height - 8);
+            const pageText = `Página ${currentPage}`;
+            doc.text(pageText, pageWidth - 30, pageHeight - 15, { align: 'right' });
         }
     });
 
-    // ACTUALIZAR NUMERACIÓN DE PÁGINAS EN TODAS LAS PÁGINAS
+    // CORREGIDO: Asegurar numeración correcta después de la generación
     const totalPages = doc.internal.getNumberOfPages();
-
+    
+    // Actualizar numeración en todas las páginas
     for (let i = 1; i <= totalPages; i++) {
         doc.setPage(i);
         
-        // Footer centrado - ALINEADO A LA MISMA ALTURA QUE NUMERACIÓN
-        doc.setFontSize(10);
+        // Limpiar área del footer
+        doc.setFillColor(255, 255, 255);
+        doc.rect(0, pageHeight - 20, pageWidth, 20, 'F');
+        
+        // Footer centrado
+        doc.setFontSize(9);
         doc.setTextColor(100, 100, 100);
         doc.setFont(undefined, 'normal');
-        
-        const pageWidth = doc.internal.pageSize.width;
         const footerText = 'Seguridad Privada - OS10 Coquimbo.';
-        const textWidth = doc.getStringUnitWidth(footerText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-        const textX = (pageWidth - textWidth) / 2;
+        doc.text(footerText, pageWidth/2, pageHeight - 15, { align: 'center' });
         
-        // AJUSTADO: bajado de -12 a -8 para alinearse con la numeración
-        doc.text(footerText, textX, doc.internal.pageSize.height - 8);
-        
-        // NUMERACIÓN DE PÁGINAS EN ESQUINA INFERIOR DERECHA
-        doc.setFontSize(9);
+        // Numeración actualizada
+        doc.setFontSize(8);
         doc.setTextColor(80, 80, 80);
-        
         const pageText = `Página ${i} de ${totalPages}`;
-        const pageTextWidth = doc.getStringUnitWidth(pageText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-        const pageTextX = pageWidth - pageTextWidth - 20;
-        
-        // Mantenido en -8 para misma altura que el footer
-        doc.text(pageText, pageTextX, doc.internal.pageSize.height - 8);
+        doc.text(pageText, pageWidth - 30, pageHeight - 15, { align: 'right' });
     }
 
-    // Generar fecha actual para el nombre del archivo
-    const fecha = new Date().toISOString().split('T')[0];
-    doc.save(`${sectionTitle.replace(/\s+/g, '_')}_${fecha}.pdf`);
+    // CORREGIDO: Asegurar que el documento esté completo antes de guardar
+    try {
+        const fecha = new Date().toISOString().split('T')[0];
+        const fileName = `${sectionTitle.replace(/\s+/g, '_')}_${fecha}.pdf`;
+        
+        // Usar output para obtener el blob y luego guardarlo
+        const pdfBlob = doc.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        console.log(`PDF generado exitosamente: ${fileName}`);
+        console.log(`Total de páginas: ${totalPages}`);
+        
+    } catch (error) {
+        console.error('Error al guardar el PDF:', error);
+        alert('Error al generar el PDF. Por favor, intente de nuevo.');
+    }
 }
 
 // Eventos para mejorar la impresión
