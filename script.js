@@ -1,7 +1,8 @@
-// script.js - Versión Completa Final con footer y numeración de páginas
+// script.js - Versión Completa Final con PDF corregido y texto justificado
 // MODIFICADO: Cambio de colores naranjas por rojos para "No Cumple"
 // MODIFICADO: Muestra imágenes en el PDF para "Cumple" y "No Cumple"
 // MODIFICADO: Datos en mayúsculas y letra más grande en PDF
+// CORREGIDO: PDF completo sin cortes y texto justificado
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -266,7 +267,7 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// Función para generar el reporte PDF - CORREGIDA PARA MOSTRAR TODO EL CONTENIDO
+// Función para generar el reporte PDF - VERSIÓN COMPLETA CORREGIDA
 async function generarReporte(sectionId) {
     // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
@@ -529,9 +530,9 @@ async function generarReporte(sectionId) {
         },
         columnStyles: {
             0: { cellWidth: 15, halign: 'center' }, // N°
-            1: { cellWidth: 85, halign: 'left' }, // Requisito
+            1: { cellWidth: 85, halign: 'justify' }, // Requisito - JUSTIFICADO
             2: { cellWidth: 25, halign: 'center' }, // Estado
-            3: { cellWidth: 45, halign: 'left' } // Observaciones
+            3: { cellWidth: 45, halign: 'justify' } // Observaciones - JUSTIFICADO
         },
         // CORREGIDO: Hooks mejorados
         didParseCell: function (data) {
