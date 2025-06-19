@@ -1,7 +1,8 @@
-// script.js - VERSIÓN CORREGIDA PARA COMPATIBILIDAD DE PDF
-// SOLUCIONADO: PDF compatible con todos los visualizadores
-// CORREGIDO: Problemas de renderizado y memoria
-// OPTIMIZADO: Manejo de imágenes y tabla mejorado
+// script.js - Versión Completa Final con PDF corregido y texto justificado
+// MODIFICADO: Cambio de colores naranjas por rojos para "No Cumple"
+// MODIFICADO: Muestra imágenes en el PDF para "Cumple" y "No Cumple"
+// MODIFICADO: Datos en mayúsculas y letra más grande en PDF
+// CORREGIDO: PDF completo sin cortes y texto justificado
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -103,16 +104,18 @@ const requisitosData = {
     }
 };
 
-let currentSection = 'inicio';
-let selectedDirectivaType = null;
-let sectionHistory = [];
+let currentSection = 'inicio'; // Variable para controlar la sección actual
+let selectedDirectivaType = null; // Para la sección de Directiva de Funcionamiento
+let sectionHistory = []; // Historial de navegación
 
 // Función para mostrar la sección seleccionada y ocultar las demás
 function mostrarSeccion(sectionId) {
     console.log(`Mostrando sección: ${sectionId}`);
 
+    // Cambiar clase del body para el fondo
     document.body.className = sectionId;
     
+    // Guardar sección actual en el historial si no es inicio
     if (currentSection !== 'inicio') {
         sectionHistory.push(currentSection);
     }
@@ -127,16 +130,19 @@ function mostrarSeccion(sectionId) {
         targetSection.classList.add('active');
         currentSection = sectionId;
         
+        // Mostrar/ocultar botón volver atrás
         const btnVolver = document.querySelector('.btn-volver');
         if (sectionId === 'inicio') {
             if (btnVolver) btnVolver.style.display = 'none';
-            sectionHistory = [];
+            sectionHistory = []; // Limpiar historial
         } else {
             if (btnVolver) btnVolver.style.display = 'block';
         }
         
+        // Cargar requisitos para todas las secciones excepto inicio
         if (sectionId !== 'inicio') {
             if (sectionId === 'directiva-funcionamiento') {
+                // Para directiva solo cargar si ya hay un tipo seleccionado
                 if (selectedDirectivaType) {
                     console.log(`Cargando directiva funcionamiento tipo: ${selectedDirectivaType}`);
                     cargarRequisitos(sectionId, selectedDirectivaType);
@@ -144,6 +150,7 @@ function mostrarSeccion(sectionId) {
                     console.log('Esperando selección de tipo de directiva');
                 }
             } else {
+                // Para todas las demás secciones, cargar inmediatamente
                 console.log(`Cargando requisitos para: ${sectionId}`);
                 cargarRequisitos(sectionId);
             }
@@ -153,6 +160,7 @@ function mostrarSeccion(sectionId) {
     }
 }
 
+// Función para volver atrás usando el historial
 function volverAtras() {
     if (sectionHistory.length > 0) {
         const previousSection = sectionHistory.pop();
@@ -160,12 +168,15 @@ function volverAtras() {
     } else {
         mostrarSeccion('inicio');
     }
+    // Actualizar clase del body
     document.body.className = currentSection;
 }
 
+// Función para cargar los requisitos dinámicamente
 function cargarRequisitos(sectionId, directivaType = null) {
     console.log(`Intentando cargar requisitos para: ${sectionId}`);
     
+    // CORREGIDO: Manejar el ID especial para sobre-500uf
     let containerId;
     if (sectionId === 'sobre-500uf') {
         containerId = 'requisitos-sobre-500uf';
@@ -175,6 +186,7 @@ function cargarRequisitos(sectionId, directivaType = null) {
     
     const requisitosContainer = document.getElementById(containerId);
     
+    // Agregar clase de sección al contenedor para los colores de números
     if (requisitosContainer && !requisitosContainer.classList.contains(sectionId)) {
     requisitosContainer.className = `requisitos-container ${sectionId}`;
     }
@@ -185,7 +197,7 @@ function cargarRequisitos(sectionId, directivaType = null) {
         return;
     }
 
-    requisitosContainer.innerHTML = '';
+    requisitosContainer.innerHTML = ''; // Limpiar requisitos anteriores
 
     let requisitos;
     if (sectionId === 'directiva-funcionamiento' && directivaType) {
@@ -224,19 +236,25 @@ function cargarRequisitos(sectionId, directivaType = null) {
     console.log(`Requisitos cargados exitosamente para: ${sectionId}`);
 }
 
+// Función para marcar el estado de un requisito
 function marcarEstado(button, estado) {
     const requisitoItem = button.closest('.requisito-item');
     const cumpleButton = requisitoItem.querySelector('.btn-cumple');
     const noCumpleButton = requisitoItem.querySelector('.btn-no-cumple');
 
+    // Remover clases 'active' y de estado
     cumpleButton.classList.remove('active');
     noCumpleButton.classList.remove('active');
     requisitoItem.classList.remove('cumple', 'no-cumple');
 
+    // Añadir clase 'active' al botón clickeado
     button.classList.add('active');
+
+    // Añadir clase de estado al requisito-item
     requisitoItem.classList.add(estado);
 }
 
+// Función para seleccionar el tipo de directiva
 function seleccionarDirectiva(type) {
     selectedDirectivaType = type;
     const options = document.querySelectorAll('.directiva-option');
@@ -249,40 +267,62 @@ function seleccionarDirectiva(type) {
     cargarRequisitos('directiva-funcionamiento', type);
 }
 
-// FUNCIÓN CORREGIDA PARA PDF - COMPATIBLE CON TODOS LOS VISUALIZADORES
+// Función para generar el reporte PDF - VERSIÓN COMPLETA CORREGIDA
 async function generarReporte(sectionId) {
-    // Verificar disponibilidad de jsPDF
+    // Verificar si jsPDF está disponible
     if (typeof window.jspdf === 'undefined') {
         alert('Generador PDF no disponible. Use el botón "Imprimir" en su lugar.');
         return;
     }
 
     const { jsPDF } = window.jspdf;
+    // CORREGIDO: Usar tamaño A4 estándar para mejor compatibilidad
+    const doc = new jsPDF('p', 'mm', 'a4');
     
-    // CORREGIDO: Configuración más compatible
-    const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
-        compress: true // Activar compresión para mejor compatibilidad
-    });
-    
+    // Dimensiones de página A4
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
 
-    // SIMPLIFICADO: Símbolos de texto en lugar de imágenes para mayor compatibilidad
-    const getEstadoText = (estado) => {
-        if (estado === 'CUMPLE') return '✓ CUMPLE';
-        if (estado === 'NO CUMPLE') return '✗ NO CUMPLE';
-        return 'PENDIENTE';
+    // ** Función para cargar imágenes y convertirlas a Base64 **
+    const getImageBase64 = (url) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                console.log(`Imagen cargada con éxito: ${url}`);
+                resolve(canvas.toDataURL('image/png'));
+            };
+            img.onerror = (error) => {
+                console.error(`Error al cargar la imagen ${url}:`, error);
+                resolve(null); // Resolver con null en lugar de rechazar
+            };
+            img.src = url;
+        });
     };
 
-    // Recopilar datos del formulario
+    let cumpleImageBase64 = '';
+    let noCumpleImageBase64 = '';
+    let logoImageBase64 = '';
+
+    try {
+        cumpleImageBase64 = await getImageBase64('cumple.png');
+        noCumpleImageBase64 = await getImageBase64('nocumple.png');
+        logoImageBase64 = await getImageBase64('foto/logo.png');
+    } catch (error) {
+        console.error('Error al cargar imágenes:', error);
+    }
+
+    // Recopilar datos del formulario con IDs correctos
     const getInputValue = (id) => {
         const element = document.getElementById(id);
         return element ? element.value.trim() : '';
     };
 
+    // Mapear correctamente los IDs según la sección
     let nombreEmpresaId, rutEmpresaId, nombreEstablecimientoId, direccionId, funcionarioGradoId;
     
     if (sectionId === 'plan-seguridad') {
@@ -319,6 +359,7 @@ async function generarReporte(sectionId) {
         funcionarioGrado: getInputValue(funcionarioGradoId)
     };
 
+    // Validar que al menos el nombre de la empresa esté lleno
     if (!generalInfo.nombreEmpresa) {
         alert('Por favor, complete al menos el nombre de la empresa antes de generar el reporte.');
         return;
@@ -333,7 +374,7 @@ async function generarReporte(sectionId) {
         sectionSubtitle = 'Vigencia según estudio (2 años) - Decreto Exento N° 32 del 31.01.2024';
     } else if (sectionId === 'servicentros') {
         sectionTitle = 'MEDIDAS DE SEG. SERVICENTROS';
-        sectionSubtitle = 'Vigencia 3 años - Ley 19.303 - Decreto Exento N° 32 del 31.01.2024';
+        sectionSubtitle = 'Vigencia 3 años - Ley 19.303 - Decreto Exento N° 32 Exento del 31.01.2024.';
     } else if (sectionId === 'sobre-500uf') {
         sectionTitle = 'MEDIDAS SOBRE 500 UF';
         sectionSubtitle = 'Vigencia 3 años - Supermercados, joyerías, bancos y establecimientos que manejan valores superiores a 500 UF';
@@ -351,77 +392,94 @@ async function generarReporte(sectionId) {
         sectionSubtitle = 'Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos';
     }
 
-    // SIMPLIFICADO: Encabezado sin imágenes problemáticas
-    doc.setFontSize(16);
+    // Función para agregar el logo al PDF
+    const agregarLogoPDF = (logoBase64) => {
+        if (logoBase64) {
+            try {
+                const logoWidth = 20;
+                const logoHeight = 20;
+                doc.addImage(logoBase64, 'PNG', 15, 8, logoWidth, logoHeight);
+                doc.addImage(logoBase64, 'PNG', pageWidth - 35, 8, logoWidth, logoHeight);
+                console.log('Logos agregados al PDF exitosamente');
+            } catch (error) {
+                console.log('Error al agregar logo:', error);
+            }
+        }
+    };
+
+    agregarLogoPDF(logoImageBase64);
+
+    // Añadir encabezado al PDF
+    doc.setFontSize(18);
     doc.setTextColor(45, 80, 22);
-    doc.text(sectionTitle, pageWidth/2, 20, { align: 'center' });
+    doc.text(sectionTitle, pageWidth/2, 25, { align: 'center' });
     
-    let yOffsetHeader = 26;
+    let yOffsetHeader = 32;
     
     if (sectionId === 'directiva-funcionamiento' && tipoDirectiva) {
-        doc.setFontSize(12);
+        doc.setFontSize(14);
         doc.setTextColor(0, 0, 0);
         doc.text(tipoDirectiva, pageWidth/2, yOffsetHeader, { align: 'center' });
-        yOffsetHeader += 6;
+        yOffsetHeader += 7;
     }
     
-    doc.setFontSize(10);
+    doc.setFontSize(11);
     doc.setTextColor(74, 124, 34);
     doc.text('OS10 Coquimbo - Carabineros de Chile', pageWidth/2, yOffsetHeader, { align: 'center' });
     
-    doc.setFontSize(8);
+    doc.setFontSize(9);
     doc.setTextColor(100, 100, 100);
-    doc.text(sectionSubtitle, pageWidth/2, yOffsetHeader + 5, { align: 'center' });
+    doc.text(sectionSubtitle, pageWidth/2, yOffsetHeader + 6, { align: 'center' });
 
-    // Línea separadora
-    const lineY = yOffsetHeader + 10;
+    // Agregar línea separadora decorativa
+    const lineY = yOffsetHeader + 12;
     doc.setDrawColor(45, 80, 22);
     doc.setLineWidth(0.5);
     doc.line(20, lineY, pageWidth - 20, lineY);
 
-    let yOffset = lineY + 8;
+    let yOffset = lineY + 10;
 
-    // Función auxiliar para convertir a mayúsculas
+    // Función auxiliar para convertir a mayúsculas de forma segura
     const toSafeUpperCase = (text) => {
         return text ? text.toUpperCase() : '';
     };
 
-    // Información general
-    doc.setFontSize(9);
+    // Añadir información general
+    doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
     doc.setFont(undefined, 'bold');
     doc.text('DATOS DE LA EMPRESA O ENTIDAD Y DATOS DEL ESTABLECIMIENTO:', 20, yOffset);
-    yOffset += 5;
+    yOffset += 6;
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8);
+    doc.setFontSize(9);
     doc.text(`NOMBRE DE LA EMPRESA: ${toSafeUpperCase(generalInfo.nombreEmpresa)}`, 20, yOffset);
-    yOffset += 4;
+    yOffset += 5;
     doc.text(`RUT DE LA EMPRESA: ${toSafeUpperCase(generalInfo.rutEmpresa)}`, 20, yOffset);
-    yOffset += 4;
+    yOffset += 5;
     doc.text(`NOMBRE DEL ESTABLECIMIENTO: ${toSafeUpperCase(generalInfo.nombreEstablecimiento)}`, 20, yOffset);
-    yOffset += 4;
+    yOffset += 5;
     doc.text(`DIRECCIÓN DEL ESTABLECIMIENTO: ${toSafeUpperCase(generalInfo.direccion)}`, 20, yOffset);
-    yOffset += 6;
+    yOffset += 8;
 
     doc.setFont(undefined, 'bold');
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
-    yOffset += 5;
+    yOffset += 6;
     
     doc.setFont(undefined, 'normal');
-    doc.setFontSize(8);
+    doc.setFontSize(9);
     doc.text(`GRADO Y NOMBRE: ${toSafeUpperCase(generalInfo.funcionarioGrado)}`, 20, yOffset);
-    yOffset += 4;
+    yOffset += 5;
     
-    // Fecha del reporte
+    // Agregar fecha y hora del reporte
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toLocaleDateString('es-CL');
     const horaFormateada = fechaActual.toLocaleTimeString('es-CL');
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
     doc.text(`Fecha del reporte: ${fechaFormateada} - ${horaFormateada}`, 20, yOffset);
-    yOffset += 8;
+    yOffset += 10;
 
     // Preparar datos para la tabla
     const headers = [['N°', 'Requisito', 'Estado', 'Observaciones']];
@@ -435,131 +493,156 @@ async function generarReporte(sectionId) {
     }
 
     const requisitosItems = document.querySelectorAll(requisitosSelector);
-    
-    // CORREGIDO: Procesar datos de forma más simple
     requisitosItems.forEach(item => {
         const numero = item.querySelector('.requisito-numero').textContent;
         const titulo = item.querySelector('.requisito-titulo').textContent;
         const estado = item.classList.contains('cumple') ? 'CUMPLE' : (item.classList.contains('no-cumple') ? 'NO CUMPLE' : 'PENDIENTE');
         const observacion = item.querySelector('.observacion-input').value || '';
         
-        // CORREGIDO: Limitar longitud del texto para evitar problemas de renderizado
-        const tituloLimitado = titulo.length > 200 ? titulo.substring(0, 200) + '...' : titulo;
-        const observacionLimitada = observacion.length > 100 ? observacion.substring(0, 100) + '...' : observacion;
-        
-        data.push([numero, tituloLimitado, getEstadoText(estado), observacionLimitada]);
+        data.push([numero, titulo, estado, observacion]);
     });
 
-    // CORREGIDO: Configuración simplificada de autoTable para máxima compatibilidad
-    try {
-        doc.autoTable({
-            startY: yOffset,
-            head: headers,
-            body: data,
-            margin: { left: 15, right: 15, top: 15, bottom: 25 },
-            
-            // CRÍTICO: Configuraciones de compatibilidad
-            theme: 'striped',
-            tableWidth: 'auto',
-            pageBreak: 'auto',
-            showHead: 'everyPage',
-            
-            // Estilos simplificados
-            headStyles: {
-                fillColor: [45, 80, 22],
-                textColor: [255, 255, 255],
-                fontStyle: 'bold',
-                halign: 'center',
-                fontSize: 8,
-                cellPadding: 2
-            },
-            
-            bodyStyles: {
-                fontSize: 7,
-                cellPadding: 2,
-                valign: 'top',
-                textColor: [0, 0, 0],
-                lineColor: [200, 200, 200],
-                lineWidth: 0.1
-            },
-            
-            // CORREGIDO: Ancho de columnas optimizado
-            columnStyles: {
-                0: { cellWidth: 12, halign: 'center' }, // N°
-                1: { cellWidth: 90, halign: 'left' },   // Requisito
-                2: { cellWidth: 25, halign: 'center' }, // Estado
-                3: { cellWidth: 43, halign: 'left' }    // Observaciones
-            },
-            
-            // SIMPLIFICADO: Solo hooks esenciales
-            didParseCell: function (data) {
-                // Colorear celdas de estado
-                if (data.section === 'body' && data.column.index === 2) {
-                    const estadoText = data.cell.text[0];
-                    if (estadoText && estadoText.includes('CUMPLE') && !estadoText.includes('NO')) {
-                        data.cell.styles.fillColor = [194, 255, 202];
-                        data.cell.styles.textColor = [0, 100, 0];
-                    } else if (estadoText && estadoText.includes('NO CUMPLE')) {
-                        data.cell.styles.fillColor = [255, 194, 194];
-                        data.cell.styles.textColor = [200, 0, 0];
+    // CORREGIDO: Configuración mejorada de autoTable
+    doc.autoTable({
+        startY: yOffset,
+        margin: { left: 20, right: 20, top: 20, bottom: 20 },
+        head: headers,
+        body: data,
+        theme: 'grid',
+        pageBreak: 'auto', // IMPORTANTE: Permitir salto de página automático
+        showHead: 'everyPage', // Mostrar encabezado en cada página
+        headStyles: {
+            fillColor: [45, 80, 22],
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            halign: 'center',
+            fontSize: 9
+        },
+        styles: {
+            fontSize: 8,
+            cellPadding: 2,
+            valign: 'middle',
+            textColor: [0, 0, 0],
+            fontStyle: 'normal',
+            lineColor: [200, 200, 200],
+            lineWidth: 0.1,
+            overflow: 'linebreak' // IMPORTANTE: Permitir salto de línea
+        },
+        columnStyles: {
+            0: { cellWidth: 15, halign: 'center' }, // N°
+            1: { cellWidth: 85, halign: 'justify' }, // Requisito - JUSTIFICADO
+            2: { cellWidth: 25, halign: 'center' }, // Estado
+            3: { cellWidth: 45, halign: 'justify' } // Observaciones - JUSTIFICADO
+        },
+        // CORREGIDO: Hooks mejorados
+        didParseCell: function (data) {
+            if (data.section === 'body' && data.column.index === 2) {
+                const estadoOriginal = data.row.raw[2];
+                if (estadoOriginal === 'CUMPLE') {
+                    data.cell.styles.fillColor = [194, 255, 202];
+                    data.cell.styles.textColor = [0, 140, 44];
+                } else if (estadoOriginal === 'NO CUMPLE') {
+                    data.cell.styles.fillColor = [247, 202, 209];
+                    data.cell.styles.textColor = [247, 49, 9];
+                }
+                data.cell.text = '';
+            }
+            if (data.section === 'body' && data.column.index !== 2) {
+                data.cell.styles.textColor = [0, 0, 0];
+                data.cell.styles.fontStyle = 'normal';
+            }
+        },
+        didDrawCell: function (data) {
+            if (data.section === 'body' && data.column.index === 2) {
+                const estadoOriginal = data.row.raw[2];
+                let imgWidth, imgHeight, imageToDraw = null;
+
+                if (estadoOriginal === 'CUMPLE' && cumpleImageBase64) {
+                    imgWidth = 4;
+                    imgHeight = 4;
+                    imageToDraw = cumpleImageBase64;
+                } else if (estadoOriginal === 'NO CUMPLE' && noCumpleImageBase64) {
+                    imgWidth = 5;
+                    imgHeight = 5;
+                    imageToDraw = noCumpleImageBase64;
+                }
+
+                if (imageToDraw) {
+                    const x = data.cell.x + (data.cell.width / 2) - (imgWidth / 2);
+                    const y = data.cell.y + (data.cell.height / 2) - (imgHeight / 2);
+                    try {
+                        doc.addImage(imageToDraw, 'PNG', x, y, imgWidth, imgHeight);
+                    } catch (error) {
+                        console.log('Error al agregar imagen de estado:', error);
                     }
                 }
-            },
-            
-            // CORREGIDO: Footer simplificado en cada página
-            didDrawPage: function (data) {
-                // Footer
-                doc.setFontSize(8);
-                doc.setTextColor(100, 100, 100);
-                doc.setFont(undefined, 'normal');
-                
-                const footerText = 'Sistema de Requisitos de Seguridad Privada - OS10 Coquimbo';
-                const footerY = pageHeight - 15;
-                
-                // Limpiar área del footer
-                doc.setFillColor(255, 255, 255);
-                doc.rect(0, footerY - 5, pageWidth, 10, 'F');
-                
-                // Texto del footer
-                doc.text(footerText, pageWidth/2, footerY, { align: 'center' });
-                
-                // Número de página
-                doc.setFontSize(7);
-                doc.text(`Página ${data.pageNumber}`, pageWidth - 25, footerY, { align: 'right' });
             }
-        });
-
-        // CORREGIDO: Guardar PDF de forma más compatible
-        const totalPages = doc.internal.getNumberOfPages();
-        console.log(`PDF generado con ${totalPages} páginas`);
-        
-        // Actualizar numeración final
-        for (let i = 1; i <= totalPages; i++) {
-            doc.setPage(i);
+        },
+        didDrawPage: function (data) {
+            // Footer en cada página
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 100);
+            doc.setFont(undefined, 'normal');
             
-            // Footer final
-            const footerY = pageHeight - 15;
-            doc.setFillColor(255, 255, 255);
-            doc.rect(pageWidth - 40, footerY - 3, 35, 8, 'F');
+            const footerText = 'Seguridad Privada - OS10 Coquimbo.';
+            doc.text(footerText, pageWidth/2, pageHeight - 15, { align: 'center' });
             
-            doc.setFontSize(7);
+            // Numeración de páginas
+            doc.setFontSize(8);
             doc.setTextColor(80, 80, 80);
-            doc.text(`Página ${i} de ${totalPages}`, pageWidth - 25, footerY, { align: 'right' });
+            const currentPage = data.pageNumber;
+            const pageText = `Página ${currentPage}`;
+            doc.text(pageText, pageWidth - 30, pageHeight - 15, { align: 'right' });
         }
+    });
 
-        // CORREGIDO: Método de guardado más compatible
+    // CORREGIDO: Asegurar numeración correcta después de la generación
+    const totalPages = doc.internal.getNumberOfPages();
+    
+    // Actualizar numeración en todas las páginas
+    for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        
+        // Limpiar área del footer
+        doc.setFillColor(255, 255, 255);
+        doc.rect(0, pageHeight - 20, pageWidth, 20, 'F');
+        
+        // Footer centrado
+        doc.setFontSize(9);
+        doc.setTextColor(100, 100, 100);
+        doc.setFont(undefined, 'normal');
+        const footerText = 'Seguridad Privada - OS10 Coquimbo.';
+        doc.text(footerText, pageWidth/2, pageHeight - 15, { align: 'center' });
+        
+        // Numeración actualizada
+        doc.setFontSize(8);
+        doc.setTextColor(80, 80, 80);
+        const pageText = `Página ${i} de ${totalPages}`;
+        doc.text(pageText, pageWidth - 30, pageHeight - 15, { align: 'right' });
+    }
+
+    // CORREGIDO: Asegurar que el documento esté completo antes de guardar
+    try {
         const fecha = new Date().toISOString().split('T')[0];
         const fileName = `${sectionTitle.replace(/\s+/g, '_')}_${fecha}.pdf`;
         
-        // Usar save() directamente para mejor compatibilidad
-        doc.save(fileName);
+        // Usar output para obtener el blob y luego guardarlo
+        const pdfBlob = doc.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
         
         console.log(`PDF generado exitosamente: ${fileName}`);
-        alert(`PDF generado exitosamente: ${fileName}`);
+        console.log(`Total de páginas: ${totalPages}`);
         
     } catch (error) {
-        console.error('Error detallado al generar PDF:', error);
-        alert(`Error al generar el PDF: ${error.message}. Intente usar el botón "Imprimir" como alternativa.`);
+        console.error('Error al guardar el PDF:', error);
+        alert('Error al generar el PDF. Por favor, intente de nuevo.');
     }
 }
 
@@ -584,8 +667,9 @@ window.addEventListener('afterprint', function() {
     }
 });
 
-// Inicialización cuando la página se carga
+// Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
+    // Establecer clase inicial del body
     document.body.className = 'inicio';
     mostrarSeccion('inicio');
     
