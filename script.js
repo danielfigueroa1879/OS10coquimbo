@@ -3,6 +3,7 @@
 // MODIFICADO: Muestra imágenes en el PDF para "Cumple" y "No Cumple"
 // MODIFICADO: Datos en mayúsculas y letra más grande en PDF
 // CORREGIDO: PDF completo sin cortes y texto justificado
+// CORREGIDO: Etiquetas de datos en negrita en el PDF
 
 // Datos de los requisitos para cada sección
 const requisitosData = {
@@ -444,6 +445,15 @@ async function generarReporte(sectionId) {
         return text ? text.toUpperCase() : '';
     };
 
+    // Función para añadir texto con etiqueta en negrita y valor normal
+    const addBoldedLabelText = (label, value, x, y) => {
+        doc.setFont(undefined, 'bold');
+        doc.text(label, x, y);
+        const labelWidth = doc.getTextWidth(label);
+        doc.setFont(undefined, 'normal');
+        doc.text(toSafeUpperCase(value), x + labelWidth, y);
+    };
+
     // Añadir información general
     doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
@@ -451,15 +461,14 @@ async function generarReporte(sectionId) {
     doc.text('DATOS DE LA EMPRESA O ENTIDAD Y DATOS DEL ESTABLECIMIENTO:', 20, yOffset);
     yOffset += 6;
     
-    doc.setFont(undefined, 'normal');
     doc.setFontSize(9);
-    doc.text(`NOMBRE DE LA EMPRESA: ${toSafeUpperCase(generalInfo.nombreEmpresa)}`, 20, yOffset);
+    addBoldedLabelText('NOMBRE DE LA EMPRESA: ', generalInfo.nombreEmpresa, 20, yOffset);
     yOffset += 5;
-    doc.text(`RUT DE LA EMPRESA: ${toSafeUpperCase(generalInfo.rutEmpresa)}`, 20, yOffset);
+    addBoldedLabelText('RUT DE LA EMPRESA: ', generalInfo.rutEmpresa, 20, yOffset);
     yOffset += 5;
-    doc.text(`NOMBRE DEL ESTABLECIMIENTO: ${toSafeUpperCase(generalInfo.nombreEstablecimiento)}`, 20, yOffset);
+    addBoldedLabelText('NOMBRE DEL ESTABLECIMIENTO: ', generalInfo.nombreEstablecimiento, 20, yOffset);
     yOffset += 5;
-    doc.text(`DIRECCIÓN DEL ESTABLECIMIENTO: ${toSafeUpperCase(generalInfo.direccion)}`, 20, yOffset);
+    addBoldedLabelText('DIRECCIÓN DEL ESTABLECIMIENTO: ', generalInfo.direccion, 20, yOffset);
     yOffset += 8;
 
     doc.setFont(undefined, 'bold');
@@ -467,9 +476,8 @@ async function generarReporte(sectionId) {
     doc.text('DATOS DEL FUNCIONARIO:', 20, yOffset);
     yOffset += 6;
     
-    doc.setFont(undefined, 'normal');
     doc.setFontSize(9);
-    doc.text(`GRADO Y NOMBRE: ${toSafeUpperCase(generalInfo.funcionarioGrado)}`, 20, yOffset);
+    addBoldedLabelText('GRADO Y NOMBRE: ', generalInfo.funcionarioGrado, 20, yOffset);
     yOffset += 5;
     
     // Agregar fecha y hora del reporte
