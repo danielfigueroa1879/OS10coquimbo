@@ -1222,3 +1222,31 @@ body.directiva-funcionamiento {
 body.inicio {
     background: linear-gradient(135deg, #2d5016 0%, #4a7c22 100%);
 }
+/* ESTILOS PARA ESTUDIOS DE SEGURIDAD - AGREGAR AL ARCHIVO style.css */
+
+/* Tarjeta del menú para Estudios de Seguridad - Púrpura */
+.menu-card.estudios-seguridad {
+    background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
+    box-shadow: 0 10px 30px rgba(123, 31, 162, 0.3);
+}
+
+/* Header para Estudios de Seguridad */
+.form-header.estudios-seguridad {
+    background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
+}
+
+/* Números de requisitos para Estudios de Seguridad - Púrpura */
+.estudios-seguridad .requisito-numero {
+    background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
+    box-shadow: 0 2px 6px rgba(123, 31, 162, 0.2);
+}
+
+/* Hover específico para Estudios de Seguridad */
+.estudios-seguridad .requisito-item:hover .requisito-numero {
+    box-shadow: 0 3px 8px rgba(123, 31, 162, 0.3);
+}
+
+/* Fondo de página para Estudios de Seguridad - Púrpura */
+body.estudios-seguridad {
+    background: linear-gradient(135deg, #6a1b99 0%, #7b1fa2 30%, #9c27b0 100%);
+}
