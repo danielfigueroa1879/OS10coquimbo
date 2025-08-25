@@ -51,6 +51,11 @@
                         <p>Verificación de requisitos para planes de seguridad con vigencia de 2 años - Decreto 32 Exento del 2024.</p>
                     </button>
                     
+                    <button class="menu-card estudios-seguridad" onclick="mostrarSeccion('estudios-seguridad')">
+                        <h3>📊 Estudios de Seguridad</h3>
+                        <p>Verificación de requisitos para estudios de seguridad de casa matriz y sus sucursales - Decreto 32 Exento del 2024.</p>
+                    </button>
+                    
                     <button class="menu-card servicentros" onclick="mostrarSeccion('servicentros')">
                         <h3>⛽ Medidas Servicentros</h3>
                         <p>Requisitos de seguridad para establecimientos de venta de combustible al público (3 años de vigencia)</p>
@@ -79,7 +84,7 @@
                 </div>
 
                 <div class="establecimiento-info">
-                    <h3>📍 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
+                    <h3>🏢 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
                             <label for="nombre-empresa-plan">NOMBRE DE LA EMPRESA O ENTIDAD:</label>
@@ -120,7 +125,6 @@
                     <div>Estado</div>
                     <div>Observaciones</div>
                 </div>
-                
 
                 <div id="requisitos-plan-seguridad">
                     <!-- Los requisitos se cargarán aquí dinámicamente -->
@@ -133,6 +137,70 @@
                 </div>
             </div>
 
+            <!-- Sección Estudios de Seguridad -->
+            <div id="estudios-seguridad-section" class="form-section estudios-seguridad">
+                <div class="form-header estudios-seguridad">
+                    <h2>📊 ESTUDIOS DE SEGURIDAD</h2>
+                    <p>Casa Matriz y Sucursales</p>
+                    <p>Decreto Ley 3.607</p>
+                    <p>Vigencia según estudio (2 años)</p>
+                    <p>Decreto Exento N° 32 del 31.01.2024</p>
+                </div>
+
+                <div class="establecimiento-info">
+                    <h3>🏢 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
+                    <div class="establecimiento-grid">
+                        <div class="form-group">
+                            <label for="nombre-empresa-estudios">NOMBRE DE LA EMPRESA O ENTIDAD (CASA MATRIZ):</label>
+                            <input type="text" id="nombre-empresa-estudios" placeholder="Ingrese el nombre de la casa matriz">
+                        </div>
+                        <div class="form-group">
+                            <label for="rut-empresa-estudios">RUT DE LA EMPRESA O ENTIDAD:</label>
+                            <input type="text" id="rut-empresa-estudios" placeholder="Ej: 12.345.678-9">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre-establecimiento-estudios">NOMBRE DEL ESTUDIO:</label>
+                            <input type="text" id="nombre-establecimiento-estudios" placeholder="Ingrese el nombre del estudio de seguridad">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion-estudios">DIRECCIÓN DE LA CASA MATRIZ:</label>
+                            <input type="text" id="direccion-estudios" placeholder="Dirección completa de la casa matriz">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="funcionario-info">
+                    <h3>👮 DATOS DEL FUNCIONARIO</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="funcionario-grado-estudios">GRADO Y NOMBRE DEL FUNCIONARIO:</label>
+                            <input type="text" id="funcionario-grado-estudios" placeholder="Ej: Sgto. 1ro. Daniel Figueroa Chacama">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="print-info">
+                    <p><strong>Nota:</strong> Para imprimir, use el botón "Imprimir" o Ctrl+P. El formato se ajustará automáticamente.</p>
+                </div>
+
+                <div class="header-requisitos-desktop">
+                    <div>N°</div>
+                    <div>Requisito</div>
+                    <div>Estado</div>
+                    <div>Observaciones</div>
+                </div>
+
+                <div id="requisitos-estudios-seguridad">
+                    <!-- Los requisitos se cargarán aquí dinámicamente -->
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
+                    <button class="btn btn-info" onclick="window.print()">🖨️ Imprimir</button>
+                    <button class="btn btn-success" onclick="generarReporte('estudios-seguridad')">📄 Generar PDF</button>
+                </div>
+            </div>
+
             <!-- Sección Medidas Servicentros -->
             <div id="servicentros-section" class="form-section servicentros">
                 <div class="form-header servicentros">
@@ -142,7 +210,7 @@
                 </div>
 
                 <div class="establecimiento-info">
-                    <h3>📍 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
+                    <h3>🏢 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
                             <label for="nombre-empresa-servicentros">NOMBRE DE LA EMPRESA O ENTIDAD:</label>
@@ -183,8 +251,6 @@
                     <div>Estado</div>
                     <div>Observaciones</div>
                 </div>
-                
-                
 
                 <div id="requisitos-servicentros">
                     <!-- Los requisitos se cargarán aquí dinámicamente -->
@@ -206,7 +272,7 @@
                 </div>
 
                 <div class="establecimiento-info">
-                    <h3>📍 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
+                    <h3>🏢 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
                             <label for="nombre-empresa-500uf">NOMBRE DE LA EMPRESA O ENTIDAD:</label>
@@ -247,7 +313,6 @@
                     <div>Estado</div>
                     <div>Observaciones</div>
                 </div>
-                <!--<div class="header-requisitos-mobile">REQUISITOS MEDIDAS SOBRE 500 UF</div>-->
 
                 <div id="requisitos-sobre-500uf">
                     <!-- Los requisitos se cargarán aquí dinámicamente -->
@@ -286,7 +351,7 @@
                 </div>
 
                 <div class="establecimiento-info">
-                    <h3>📍 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
+                    <h3>🏢 Datos de la Empresa o Entidad y Datos del Establecimiento</h3>
                     <div class="establecimiento-grid">
                         <div class="form-group">
                             <label for="nombre-empresa-directiva">NOMBRE DE LA EMPRESA O ENTIDAD:</label>
@@ -327,7 +392,6 @@
                     <div>Estado</div>
                     <div>Observaciones</div>
                 </div>
-            
 
                 <div id="requisitos-directiva-funcionamiento">
                     <!-- Los requisitos se cargarán aquí dinámicamente -->
