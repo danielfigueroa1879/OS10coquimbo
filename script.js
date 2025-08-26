@@ -40,8 +40,7 @@ const requisitosData = {
         { id: 12, text: 'SEGURO DE VIDA DE LOS VIGILANTES PRIVADOS, la que debe considerar el término de "Vida" o "Seguro de Vida.' },
         { id: 13, text: 'OPERADORES CCTV QUE EMPRESA MONITOREA DESDE SANTIAGO ACREDITACIÓN DE LA EMPRESA Y OPERADORES.' },
         { id: 14, text: 'PLAN DE EMERGENCIA Y CROQUIS UBICACIÓN, ELEMENTOS DE EMERGENCIA Y VÍAS DE EVACUACIÓN.' },
-        { id: 15, text: 'Adjunta los Anexos "A,B,C,D,E y F", conforme a lo establecido en el formato del Plan de Seguridad.' },
-        { id: 16, text: 'PRESENTA TODOS LOS PLANES DE CADA SUCURSAL (Cada sucursal debe tener su plan de seguridad individual que forme parte del estudio general de la casa matriz).' }
+        { id: 15, text: 'PRESENTA TODOS LOS PLANES DE CADA SUCURSAL (Cada sucursal debe tener su plan de seguridad individual que forme parte del estudio general de la casa matriz).' }
     ],
     'servicentros': [
         { id: 1, text: 'SOLICITUD SIMPLE (De la empresa)' },
