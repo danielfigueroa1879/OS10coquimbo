@@ -106,19 +106,20 @@ const requisitosData = {
         ],
         'evento-masivo': [
             { id: 1, text: 'SOLICITUD SIMPLE (De la empresa)' },
-            { id: 2, text: 'CUMPLE CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.' },
-            { id: 3, text: 'DECLARACIÓN JURADA DEL EVENTO NOTARIADA' },
-            { id: 4, text: 'LISTADO DE LOS GG.SS.' },
-            { id: 5, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD (Art. 13 número 1. D/S 93)' },
-            { id: 6, text: 'SEGURO DE RESPONSABILIDAD CIVIL DE LA EMPRESA DE RR.HH. (Art. Undécimo numero 3 D/S. 867)' },
-            { id: 7, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS (Art. Séptimo D/S. 867).' },
-            { id: 8, text: 'DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME (conforme el art octavo D/S. N° 867)' },
-            { id: 9, text: 'CONTRATO AMBULANCIA' },
-            { id: 10, text: 'RES. AUTORIZ. AMBULANCIA DE LA SEREMI' },
-            { id: 11, text: 'ACTA DESCRIPTIVA MAS DE 3.000 PERSONAS INT.' },
-            { id: 12, text: 'AUTORIZACIÓN VIGENTE DE LA EMPRESA RR.HH. VIGENTE (Art. 5° D/S 93 y Art. decimo del D/S. 867.' },
-            { id: 13, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA firmado, por un prevencionista de riesgos.' },
-            { id: 14, text: 'CARTA INFORMATIVA A: Carabineros del sector, bomberos, municipalidad del sector y servicio de salud del sector, la que debe venir con timbre de recepción.' }
+            { id: 2, text: 'CUMPLE CON FECHA DE PRESENTACIÓN DEL ESTABLECIMIENTO DE UN SERIVICIO (Decreto 32 Articulo 1ro, Apartado IV)' },
+            { id: 3, text: 'CUMPLE CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.' },
+            { id: 4, text: 'DECLARACIÓN JURADA DEL EVENTO NOTARIADA' },
+            { id: 5, text: 'LISTADO DE LOS GG.SS.' },
+            { id: 6, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD (Art. 13 número 1. D/S 93)' },
+            { id: 7, text: 'SEGURO DE RESPONSABILIDAD CIVIL DE LA EMPRESA DE RR.HH. (Art. Undécimo numero 3 D/S. 867)' },
+            { id: 8, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS (Art. Séptimo D/S. 867).' },
+            { id: 9, text: 'DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME (conforme el art octavo D/S. N° 867)' },
+            { id: 10, text: 'CONTRATO AMBULANCIA' },
+            { id: 11, text: 'RES. AUTORIZ. AMBULANCIA DE LA SEREMI' },
+            { id: 12, text: 'ACTA DESCRIPTIVA MAS DE 3.000 PERSONAS INT.' },
+            { id: 13, text: 'AUTORIZACIÓN VIGENTE DE LA EMPRESA RR.HH. VIGENTE (Art. 5° D/S 93 y Art. decimo del D/S. 867.' },
+            { id: 14, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA firmado, por un prevencionista de riesgos.' },
+            { id: 15, text: 'CARTA INFORMATIVA A: Carabineros del sector, bomberos, municipalidad del sector y servicio de salud del sector, la que debe venir con timbre de recepción.' }
         ]
     }
 };
