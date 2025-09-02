@@ -106,7 +106,7 @@ const requisitosData = {
         ],
         'evento-masivo': [
             { id: 1, text: 'SOLICITUD SIMPLE (De la empresa)' },
-            { id: 2, text: 'CUMPLE CON FECHA DE PRESENTACIÓN DEL ESTABLECIMIENTO DE UN SERIVICIO (Decreto 32 Articulo 1ro, Apartado IV)' },
+            { id: 2, text: 'CUMPLE CON FECHA DE PRESENTACIÓN DEL ESTABLECIMIENTO DE UN SERVICIO. (Decreto 32 Articulo 1ro, Apartado IV)' },
             { id: 3, text: 'CUMPLE CON EL ORDEN ESTABLECIDO DEL MANUAL DE ORGANIZACIÓN.' },
             { id: 4, text: 'DECLARACIÓN JURADA DEL EVENTO NOTARIADA' },
             { id: 5, text: 'LISTADO DE LOS GG.SS.' },
