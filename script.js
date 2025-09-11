@@ -501,10 +501,10 @@ async function generarReporte(sectionId) {
     yOffset += 5;
     addBoldedLabelText('NOMBRE DEL ESTABLECIMIENTO: ', generalInfo.nombreEstablecimiento, 20, yOffset);
     yOffset += 5;
-    addBoldedLabelText('QUIEN PRESENTA LA DOCUMENTACIÓN: ', generalInfo.quienpresenta, 20, yOffset);
-    yOffset += 5;
     addBoldedLabelText('DIRECCIÓN DEL ESTABLECIMIENTO: ', generalInfo.direccion, 20, yOffset);
     yOffset += 8;
+    addBoldedLabelText('QUIEN PRESENTA LA DOCUMENTACIÓN: ', generalInfo.quienpresenta, 20, yOffset);
+    yOffset += 5;
 
     doc.setFont(undefined, 'bold');
     doc.setFontSize(10);
