@@ -386,6 +386,7 @@ async function generarReporte(sectionId) {
         rutEmpresa: getInputValue(rutEmpresaId),
         nombreEstablecimiento: getInputValue(nombreEstablecimientoId),
         direccion: getInputValue(direccionId),
+        quienpresenta: getInputValue(quienpresentaId),
         funcionarioGrado: getInputValue(funcionarioGradoId)
     };
 
@@ -499,6 +500,8 @@ async function generarReporte(sectionId) {
     addBoldedLabelText('RUT DE LA EMPRESA: ', generalInfo.rutEmpresa, 20, yOffset);
     yOffset += 5;
     addBoldedLabelText('NOMBRE DEL ESTABLECIMIENTO: ', generalInfo.nombreEstablecimiento, 20, yOffset);
+    yOffset += 5;
+    addBoldedLabelText('QUIEN PRESENTA LA DOCUMENTACIÓN: ', generalInfo.quienpresenta, 20, yOffset);
     yOffset += 5;
     addBoldedLabelText('DIRECCIÓN DEL ESTABLECIMIENTO: ', generalInfo.direccion, 20, yOffset);
     yOffset += 8;
