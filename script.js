@@ -495,15 +495,15 @@ async function generarReporte(sectionId) {
     yOffset += 6;
     
     doc.setFontSize(9);
-    addBoldedLabelText('NOMBRE DE LA EMPRESA: ', generalInfo.nombreEmpresa, 20, yOffset);
+    addBoldedLabelText('NOMBRE DE LA EMPRESA:  ', generalInfo.nombreEmpresa, 20, yOffset);
     yOffset += 5;
-    addBoldedLabelText('RUT DE LA EMPRESA: ', generalInfo.rutEmpresa, 20, yOffset);
+    addBoldedLabelText('RUT DE LA EMPRESA:  ', generalInfo.rutEmpresa, 20, yOffset);
     yOffset += 5;
-    addBoldedLabelText('NOMBRE DEL ESTABLECIMIENTO: ', generalInfo.nombreEstablecimiento, 20, yOffset);
+    addBoldedLabelText('NOMBRE DEL ESTABLECIMIENTO:  ', generalInfo.nombreEstablecimiento, 20, yOffset);
     yOffset += 5;
-    addBoldedLabelText('DIRECCIÓN DEL ESTABLECIMIENTO: ', generalInfo.direccion, 20, yOffset);
+    addBoldedLabelText('DIRECCIÓN DEL ESTABLECIMIENTO:  ', generalInfo.direccion, 20, yOffset);
     yOffset += 8;
-    addBoldedLabelText('QUIEN PRESENTA LA DOCUMENTACIÓN: ', generalInfo.quienpresenta, 20, yOffset);
+    addBoldedLabelText('DOCUMENTACIÓN PRESENTADA POR:  ', generalInfo.quienpresenta, 20, yOffset);
     yOffset += 5;
 
     doc.setFont(undefined, 'bold');
