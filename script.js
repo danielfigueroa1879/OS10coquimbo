@@ -349,6 +349,7 @@ async function generarReporte(sectionId) {
         rutEmpresaId = 'rut-empresa-plan';
         nombreEstablecimientoId = 'nombre-establecimiento-plan';
         direccionId = 'direccion-plan';
+        quienpresenta = 'quien-presenta';
         funcionarioGradoId = 'funcionario-grado-plan';
     } else if (sectionId === 'estudios-seguridad') {
         nombreEmpresaId = 'nombre-empresa-estudios';
