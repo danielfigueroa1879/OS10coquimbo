@@ -115,7 +115,7 @@ const requisitosData = {
             { id: 8, text: 'DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME (conforme el art octavo D/S. N° 867)' },
             { id: 9, text: 'CONTRATO AMBULANCIA' },
             { id: 10, text: 'RES. AUTORIZ. AMBULANCIA DE LA SEREMI' },
-            { id: 11, text: 'ACTA DESCRIPTIVA MAS DE 3.000 PERSONAS INT.' },
+            { id: 11, text: 'ACTA DESCRIPTIVA MAS DE 3.000 PERSONAS https://www.chileatiende.gob.cl/fichas/3784-solicitar-autorizacion-para-realizar-eventos-masivos' },
             { id: 12, text: 'AUTORIZACIÓN VIGENTE DE LA EMPRESA RR.HH. VIGENTE (Art. 5° D/S 93 y Art. decimo del D/S. 867.' },
             { id: 13, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA firmado, por un prevencionista de riesgos.' },
             { id: 14, text: 'CARTA INFORMATIVA A: Carabineros del sector, bomberos, municipalidad del sector y servicio de salud del sector, la que debe venir con timbre de recepción.' }
