@@ -358,12 +358,13 @@ async function generarReporte(sectionId) {
         direccionId = 'direccion-estudios';
         quienpresentaId = 'quien-presenta';
         funcionarioGradoId = 'funcionario-grado-estudios';
+    // ... (dentro de la función generarReporte)
     } else if (sectionId === 'servicentros') {
         nombreEmpresaId = 'nombre-empresa-servicentros';
         rutEmpresaId = 'rut-empresa-servicentros';
         nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
         direccionId = 'direccion-servicentros';
-        quienpresentaId = 'quien-presenta';
+        quienpresentaId = 'quien-presenta-servicentros';
         funcionarioGradoId = 'funcionario-grado-servicentros';
     } else if (sectionId === 'sobre-500uf') {
         nombreEmpresaId = 'nombre-empresa-500uf';
