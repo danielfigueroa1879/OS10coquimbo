@@ -364,7 +364,7 @@ async function generarReporte(sectionId) {
         rutEmpresaId = 'rut-empresa-servicentros';
         nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
         direccionId = 'direccion-servicentros';
-        quienpresentaId = 'quien-presenta-servicentros';
+        quienpresentaId = 'quien-presenta';
         funcionarioGradoId = 'funcionario-grado-servicentros';
     } else if (sectionId === 'sobre-500uf') {
         nombreEmpresaId = 'nombre-empresa-500uf';
