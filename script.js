@@ -344,43 +344,42 @@ async function generarReporte(sectionId) {
     // Mapear correctamente los IDs según la sección
     let nombreEmpresaId, rutEmpresaId, nombreEstablecimientoId, direccionId, quienpresentaId, funcionarioGradoId;
     
-    if (sectionId === 'plan-seguridad') {
-        nombreEmpresaId = 'nombre-empresa-plan';
-        rutEmpresaId = 'rut-empresa-plan';
-        nombreEstablecimientoId = 'nombre-establecimiento-plan';
-        direccionId = 'direccion-plan';
-        quienpresentaId = 'quien-presenta';
-        funcionarioGradoId = 'funcionario-grado-plan';
-    } else if (sectionId === 'estudios-seguridad') {
-        nombreEmpresaId = 'nombre-empresa-estudios';
-        rutEmpresaId = 'rut-empresa-estudios';
-        nombreEstablecimientoId = 'nombre-establecimiento-estudios';
-        direccionId = 'direccion-estudios';
-        quienpresentaId = 'quien-presenta';
-        funcionarioGradoId = 'funcionario-grado-estudios';
-    // ... (dentro de la función generarReporte)
-    } else if (sectionId === 'servicentros') {
-        nombreEmpresaId = 'nombre-empresa-servicentros';
-        rutEmpresaId = 'rut-empresa-servicentros';
-        nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
-        direccionId = 'direccion-servicentros';
-        quienpresentaId = 'quien-presenta';
-        funcionarioGradoId = 'funcionario-grado-servicentros';
-    } else if (sectionId === 'sobre-500uf') {
-        nombreEmpresaId = 'nombre-empresa-500uf';
-        rutEmpresaId = 'rut-empresa-500uf';
-        nombreEstablecimientoId = 'nombre-establecimiento-500uf';
-        direccionId = 'direccion-500uf';
-        quienpresentaId = 'quien-presenta';
-        funcionarioGradoId = 'funcionario-grado-500uf';
-    } else if (sectionId === 'directiva-funcionamiento') {
-        nombreEmpresaId = 'nombre-empresa-directiva';
-        rutEmpresaId = 'rut-empresa-directiva';
-        nombreEstablecimientoId = 'nombre-establecimiento-directiva';
-        direccionId = 'direccion-directiva';
-        quienpresentaId = 'quien-presenta';
-        funcionarioGradoId = 'funcionario-grado-directiva';
-    }
+   if (sectionId === 'plan-seguridad') {
+    nombreEmpresaId = 'nombre-empresa-plan';
+    rutEmpresaId = 'rut-empresa-plan';
+    nombreEstablecimientoId = 'nombre-establecimiento-plan';
+    direccionId = 'direccion-plan';
+    quienpresentaId = 'quien-presenta-plan';  // ← AGREGAR
+    funcionarioGradoId = 'funcionario-grado-plan';
+} else if (sectionId === 'estudios-seguridad') {
+    nombreEmpresaId = 'nombre-empresa-estudios';
+    rutEmpresaId = 'rut-empresa-estudios';
+    nombreEstablecimientoId = 'nombre-establecimiento-estudios';
+    direccionId = 'direccion-estudios';
+    quienpresentaId = 'quien-presenta-estudios';  // ← AGREGAR
+    funcionarioGradoId = 'funcionario-grado-estudios';
+} else if (sectionId === 'servicentros') {
+    nombreEmpresaId = 'nombre-empresa-servicentros';
+    rutEmpresaId = 'rut-empresa-servicentros';
+    nombreEstablecimientoId = 'nombre-establecimiento-servicentros';
+    direccionId = 'direccion-servicentros';
+    quienpresentaId = 'quien-presenta-servicentros';  // ← AGREGAR
+    funcionarioGradoId = 'funcionario-grado-servicentros';
+} else if (sectionId === 'sobre-500uf') {
+    nombreEmpresaId = 'nombre-empresa-500uf';
+    rutEmpresaId = 'rut-empresa-500uf';
+    nombreEstablecimientoId = 'nombre-establecimiento-500uf';
+    direccionId = 'direccion-500uf';
+    quienpresentaId = 'quien-presenta-500uf';  // ← AGREGAR
+    funcionarioGradoId = 'funcionario-grado-500uf';
+} else if (sectionId === 'directiva-funcionamiento') {
+    nombreEmpresaId = 'nombre-empresa-directiva';
+    rutEmpresaId = 'rut-empresa-directiva';
+    nombreEstablecimientoId = 'nombre-establecimiento-directiva';
+    direccionId = 'direccion-directiva';
+    quienpresentaId = 'quien-presenta-directiva';  // ← AGREGAR
+    funcionarioGradoId = 'funcionario-grado-directiva';
+}
 
     const generalInfo = {
         nombreEmpresa: getInputValue(nombreEmpresaId),
