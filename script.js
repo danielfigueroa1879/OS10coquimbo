@@ -71,55 +71,62 @@ const requisitosData = {
         { id: 11, text: 'CROQUIS UBICACIÓN, ELEMENTOS DE EMERGENCIA Y VÍAS DE EVACUACIÓN.' }
     ],
     'directiva-funcionamiento': {
-        'instalacion': [
-            { id: 1, text: 'SOLICITUD SIMPLE (Del empleador o empresa de RR.HH.)' },
-            { id: 2, text: 'PRESENTACIÓN CON 15 DÍAS DE ANTICIPACIÓN (Art. 92 D.209)' },
-            { id: 3, text: 'LISTADO DE LOS GG.SS. (Que realizan servicios en la instalación con individualización)' },
-            { id: 4, text: 'CREDENCIAL VIGENTE O RESOLUCIÓN DE AUTORIZACIÓN (Art. 91 D.209 - Emitida por Subsecretaría Prevención del Delito)' },
-            { id: 5, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209). Si es entidad obligada a tener sistema vigilancia privada: 250 UF' },
-            { id: 6, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito (Art. 48 N°3 y Art. 52 N°3 D.209 - Entre empresa RR.HH. y empleador)' },
-            { id: 7, text: 'UNIFORME REGLAMENTARIO (Art. 90 D.209 - Negro completo con leyenda "SEGURIDAD PRIVADA")' },
-            { id: 8, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE (Art. 49 y 51 D.209 - Emitida por Subsecretaría)' },
-            { id: 9, text: 'JORNADAS LABORALES: Acuerdo conforme Código del Trabajo o autorización Dirección del Trabajo para jornadas especiales' },
-            { id: 10, text: 'ANÁLISIS DEL ENTORNO: Debilidades y amenazas de la instalación (Art. 92 N°3 D.209)' },
-            { id: 11, text: 'MEDIDAS DE SEGURIDAD: Individualizando supervisor y su responsabilidad (Art. 92 N°4 D.209)' },
-            { id: 12, text: 'COMUNICACIONES: Forma de contacto con Subsecretaría y autoridad fiscalizadora (Art. 92 N°5 D.209)' },
-            { id: 13, text: 'ELEMENTOS DEFENSIVOS: Chaleco anticorte (si aplica) con certificación NIJ 0115.00 y seguro 30 UF' },
-            { id: 14, text: 'ELEMENTOS NO LETALES: Autorización Subsecretaría para bastón, esposas (Art. 93 D.209)' },
-            { id: 15, text: 'CHALECO ANTIBALAS: Solo para vigilantes privados con autorización expresa (No aplica a guardias)' }
-        ],
-        'evento-deportivo': [
-            { id: 1, text: 'SOLICITUD SIMPLE (Del club organizador)' },
-            { id: 2, text: 'PLAN DE SEGURIDAD conforme Ley 19.327 y su reglamento' },
-            { id: 3, text: 'LISTADO DE LOS GG.SS. con individualización completa' },
-            { id: 4, text: 'CREDENCIAL VIGENTE O RESOLUCIÓN DE AUTORIZACIÓN de cada guardia (Art. 91 D.209)' },
-            { id: 5, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209)' },
-            { id: 6, text: 'SEGURO RESPONSABILIDAD CIVIL EMPRESA RR.HH. (Art. 49 N°3 D.209)' },
-            { id: 7, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito entre empresa RR.HH. y club organizador (Art. 52 N°3 D.209)' },
-            { id: 8, text: 'UNIFORME REGLAMENTARIO (Art. 90 D.209)' },
-            { id: 9, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE (Art. 49 y 51 D.209)' },
-            { id: 10, text: 'JEFE DE SEGURIDAD DEL CLUB: Credencial o autorización vigente (Ley 19.327)' },
-            { id: 11, text: 'CONTRATO DEL JEFE DE SEGURIDAD con el club organizador' },
-            { id: 12, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA del estadio' },
-            { id: 13, text: 'SERVICIOS MÉDICOS: Conforme Ley 19.327 y su reglamento' }
-        ],
-        'evento-masivo': [
-            { id: 1, text: 'SOLICITUD ANTE DELEGACIÓN PRESIDENCIAL REGIONAL (Art. 17 D.208)' },
-            { id: 2, text: 'INSCRIPCIÓN EN SUB-REGISTRO DE EVENTOS MASIVOS (Si recinto habitual - Art. 13 D.208)' },
-            { id: 3, text: 'PLAN DE SEGURIDAD DEL EVENTO conforme Art. 18 D.208' },
-            { id: 4, text: 'DESIGNACIÓN RESPONSABLE DE SEGURIDAD inscrito en sub-registro (Art. 14 N°5 D.208)' },
-            { id: 5, text: 'LISTADO DE GUARDIAS DE SEGURIDAD con credenciales vigentes (Art. 91 D.209)' },
-            { id: 6, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209)' },
-            { id: 7, text: 'SEGURO DE RESPONSABILIDAD CIVIL o caución (Art. 14 N°6 D.208 - Daños a asistentes/terceros/bienes)' },
-            { id: 8, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito entre empresa RR.HH. y organizador (Art. 52 N°3 D.209)' },
-            { id: 9, text: 'UNIFORME REGLAMENTARIO guardias (Art. 90 D.209)' },
-            { id: 10, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE (Art. 49 y 51 D.209)' },
-            { id: 11, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA (Art. 18 N°8 D.208)' },
-            { id: 12, text: 'SERVICIOS DE SALUD: Conforme normativa sectorial aplicable' },
-            { id: 13, text: 'AUTORIZACIÓN DELEGACIÓN PRESIDENCIAL REGIONAL (Resolución fundada - Art. 21 D.208)' },
-            { id: 14, text: 'COMUNICACIÓN A ORGANISMOS: Carabineros, Bomberos, Municipalidad, Servicio Salud (informativa)' }
-        ]
-    }
+    'instalacion': [
+        { id: 1, text: 'SOLICITUD SIMPLE ante Subsecretaría de Prevención del Delito (De la entidad empleadora o empresa RR.HH.)' },
+        { id: 2, text: 'PRESENTACIÓN CON 15 DÍAS DE ANTICIPACIÓN al inicio del servicio (Art. 92 inciso 6° D.209)' },
+        { id: 3, text: 'LISTADO DE LOS GG.SS. con individualización completa (Art. 92 N°2 D.209)' },
+        { id: 4, text: 'CREDENCIAL VIGENTE O RESOLUCIÓN DE AUTORIZACIÓN de cada guardia emitida por Subsecretaría (Art. 91 D.209)' },
+        { id: 5, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
+        { id: 6, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF. Si es entidad obligada (riesgo alto): 250 UF (Art. 88 D.209 - Art. 29 Ley 21.659)' },
+        { id: 7, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito entre empresa RR.HH. y empleador (Art. 52 N°3 D.209 - Art. 48 N°3 Ley 21.659)' },
+        { id: 8, text: 'UNIFORME REGLAMENTARIO: Negro completo con leyenda "SEGURIDAD PRIVADA" en espalda (Art. 90 D.209)' },
+        { id: 9, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 10, text: 'JORNADAS LABORALES: Acuerdo conforme Código del Trabajo o autorización Dirección del Trabajo' },
+        { id: 11, text: 'ANÁLISIS DEL ENTORNO: Debilidades y amenazas de la instalación (Art. 92 N°3 D.209)' },
+        { id: 12, text: 'MEDIDAS DE SEGURIDAD: Individualizando persona a cargo de supervisión y su responsabilidad (Art. 92 N°4 D.209)' },
+        { id: 13, text: 'COMUNICACIONES: Forma de contacto con Subsecretaría y autoridad fiscalizadora (Art. 92 N°5 D.209)' },
+        { id: 14, text: 'ELEMENTOS DEFENSIVOS Y DE PROTECCIÓN: Individualización conforme Art. 92 N°2 y Art. 93 D.209' },
+        { id: 15, text: 'CHALECO ANTICORTE (si aplica): Certificación NIJ 0115.00 y seguro adicional 30 UF' },
+        { id: 16, text: 'ELEMENTOS NO LETALES (bastón, esposas): Autorización previa Subsecretaría (Art. 93 D.209)' }
+    ],
+    'evento-deportivo': [
+        { id: 1, text: 'SOLICITUD SIMPLE del club organizador a autoridad competente' },
+        { id: 2, text: 'PLAN DE SEGURIDAD conforme Ley 19.327 (Ley Espectáculos de Fútbol Profesional) y su reglamento' },
+        { id: 3, text: 'DESCRIPCIÓN DE FUNCIONES de guardias de seguridad en el evento' },
+        { id: 4, text: 'LISTADO DE LOS GG.SS. con individualización completa' },
+        { id: 5, text: 'CREDENCIAL VIGENTE O RESOLUCIÓN DE AUTORIZACIÓN de cada guardia (Art. 91 D.209)' },
+        { id: 6, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
+        { id: 7, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209)' },
+        { id: 8, text: 'SEGURO RESPONSABILIDAD CIVIL EMPRESA RR.HH. (Art. 49 N°3 D.209 - Ley 21.659 Art. 29)' },
+        { id: 9, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito entre empresa RR.HH. y club organizador (Art. 52 N°3 D.209)' },
+        { id: 10, text: 'UNIFORME REGLAMENTARIO: Negro completo con "SEGURIDAD PRIVADA" (Art. 90 D.209)' },
+        { id: 11, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 12, text: 'JEFE DE SEGURIDAD DEL CLUB: Credencial o autorización vigente conforme Ley 19.327' },
+        { id: 13, text: 'CONTRATO DEL JEFE DE SEGURIDAD con el club organizador' },
+        { id: 14, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA del estadio' },
+        { id: 15, text: 'SERVICIOS MÉDICOS: Conforme exigencias Ley 19.327 y normativa sectorial aplicable' },
+        { id: 16, text: 'PROPUESTA DEL PARTIDO presentada por el equipo organizador a autoridades' }
+    ],
+    'evento-masivo': [
+        { id: 1, text: 'SOLICITUD FORMAL ante Delegación Presidencial Regional respectiva (Art. 17 D.208)' },
+        { id: 2, text: 'INSCRIPCIÓN EN SUB-REGISTRO DE EVENTOS MASIVOS de la Subsecretaría (si recinto habitual - Art. 13 D.208)' },
+        { id: 3, text: 'PLAN DE SEGURIDAD DEL EVENTO conforme Art. 18 D.208 (incluye análisis riesgos, medidas seguridad, protocolos emergencia)' },
+        { id: 4, text: 'DESIGNACIÓN RESPONSABLE DE SEGURIDAD inscrito en sub-registro (Art. 14 N°5 y Art. 15 D.208)' },
+        { id: 5, text: 'LISTADO DE GUARDIAS DE SEGURIDAD con individualización y credenciales vigentes' },
+        { id: 6, text: 'CREDENCIAL VIGENTE O RESOLUCIÓN DE AUTORIZACIÓN de cada guardia (Art. 91 D.209)' },
+        { id: 7, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
+        { id: 8, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209)' },
+        { id: 9, text: 'SEGURO DE RESPONSABILIDAD CIVIL O CAUCIÓN para daños a asistentes/terceros/bienes (Art. 14 N°6 D.208)' },
+        { id: 10, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito entre empresa RR.HH. y organizador (Art. 52 N°3 D.209)' },
+        { id: 11, text: 'UNIFORME REGLAMENTARIO guardias: Negro completo con "SEGURIDAD PRIVADA" (Art. 90 D.209)' },
+        { id: 12, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 13, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA (Art. 18 N°8 D.208)' },
+        { id: 14, text: 'SERVICIOS DE SALUD Y EMERGENCIAS conforme normativa sectorial aplicable' },
+        { id: 15, text: 'ACCESOS Y SALIDAS adecuados para público estimado, con salidas preferenciales (Art. 14 N°4 D.208)' },
+        { id: 16, text: 'AUTORIZACIÓN DELEGACIÓN PRESIDENCIAL REGIONAL mediante resolución fundada (Art. 21 D.208)' },
+        { id: 17, text: 'COMUNICACIÓN A ORGANISMOS: Carabineros, Bomberos, Municipalidad, Servicio Salud (Art. 21 inciso final D.208)' }
+    ]
+}
 };
 
 let currentSection = 'inicio'; // Variable para controlar la sección actual
