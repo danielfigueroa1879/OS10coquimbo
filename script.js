@@ -77,7 +77,7 @@ const requisitosData = {
         { id: 3, text: 'LISTADO DE LOS GG.SS. con individualización completa (Art. 92 N°2 D.209)' },
         { id: 4, text: 'CREDENCIAL VIGENTE O RESOLUCIÓN DE AUTORIZACIÓN de cada guardia emitida por Subsecretaría (Art. 91 D.209)' },
         { id: 5, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
-        { id: 6, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF. Si es entidad obligada (riesgo alto): 250 UF (Art. 88 D.209 - Art. 29 Ley 21.659)' },
+        { id: 6, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF. VV.PP. 250 UF (Art. 88 D.209 - Art. 29 Ley 21.659)' },
         { id: 7, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito entre empresa RR.HH. y empleador (Art. 52 N°3 D.209 - Art. 48 N°3 Ley 21.659)' },
         { id: 8, text: 'UNIFORME REGLAMENTARIO: Negro completo con leyenda "SEGURIDAD PRIVADA" en espalda (Art. 90 D.209)' },
         { id: 9, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
