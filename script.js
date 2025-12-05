@@ -97,14 +97,13 @@ const requisitosData = {
         { id: 6, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
         { id: 7, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209)' },
         { id: 8, text: 'SEGURO RESPONSABILIDAD CIVIL EMPRESA RR.HH. (Art. 49 N°3 D.209 - Ley 21.659 Art. 29)' },
-        { id: 9, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito entre empresa RR.HH. y club organizador (Art. 52 N°3 D.209)' },
-        { id: 10, text: 'UNIFORME REGLAMENTARIO: Negro completo con "SEGURIDAD PRIVADA" (Art. 90 D.209)' },
-        { id: 11, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
-        { id: 12, text: 'JEFE DE SEGURIDAD DEL CLUB: Credencial o autorización vigente conforme Ley 19.327' },
-        { id: 13, text: 'CONTRATO DEL JEFE DE SEGURIDAD con el club organizador' },
-        { id: 14, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA del estadio' },
-        { id: 15, text: 'SERVICIOS MÉDICOS: Conforme exigencias Ley 19.327 y normativa sectorial aplicable' },
-        { id: 16, text: 'PROPUESTA DEL PARTIDO presentada por el equipo organizador a autoridades' }
+        { id: 9, text: 'UNIFORME REGLAMENTARIO: Negro completo con "SEGURIDAD PRIVADA" (Art. 90 D.209)' },
+        { id: 10, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 11, text: 'JEFE DE SEGURIDAD DEL CLUB: Credencial o autorización vigente conforme Ley 19.327' },
+        { id: 12, text: 'CONTRATO DEL JEFE DE SEGURIDAD con el club organizador' },
+        { id: 13, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA del estadio' },
+        { id: 14, text: 'SERVICIOS MÉDICOS: Conforme exigencias Ley 19.327 y normativa sectorial aplicable' },
+        { id: 15, text: 'PROPUESTA DEL PARTIDO presentada por el equipo organizador a autoridades' }
     ],
     'evento-masivo': [
         { id: 1, text: 'SOLICITUD FORMAL ante Delegación Presidencial Regional respectiva (Art. 17 D.208)' },
@@ -116,14 +115,13 @@ const requisitosData = {
         { id: 7, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
         { id: 8, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209)' },
         { id: 9, text: 'SEGURO DE RESPONSABILIDAD CIVIL O CAUCIÓN para daños a asistentes/terceros/bienes (Art. 14 N°6 D.208)' },
-        { id: 10, text: 'CONTRATO DE PRESTACIÓN DE SERVICIOS por escrito entre empresa RR.HH. y organizador (Art. 52 N°3 D.209)' },
-        { id: 11, text: 'UNIFORME REGLAMENTARIO guardias: Negro completo con "SEGURIDAD PRIVADA" (Art. 90 D.209)' },
-        { id: 12, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
-        { id: 13, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA (Art. 18 N°8 D.208)' },
-        { id: 14, text: 'SERVICIOS DE SALUD Y EMERGENCIAS conforme normativa sectorial aplicable' },
-        { id: 15, text: 'ACCESOS Y SALIDAS adecuados para público estimado, con salidas preferenciales (Art. 14 N°4 D.208)' },
-        { id: 16, text: 'AUTORIZACIÓN DELEGACIÓN PRESIDENCIAL REGIONAL mediante resolución fundada (Art. 21 D.208)' },
-        { id: 17, text: 'COMUNICACIÓN A ORGANISMOS: Carabineros, Bomberos, Municipalidad, Servicio Salud (Art. 21 inciso final D.208)' }
+        { id: 10, text: 'UNIFORME REGLAMENTARIO guardias: Negro completo con "SEGURIDAD PRIVADA" (Art. 90 D.209)' },
+        { id: 11, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 12, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA (Art. 18 N°8 D.208)' },
+        { id: 13, text: 'SERVICIOS DE SALUD Y EMERGENCIAS conforme normativa sectorial aplicable' },
+        { id: 14, text: 'ACCESOS Y SALIDAS adecuados para público estimado, con salidas preferenciales (Art. 14 N°4 D.208)' },
+        { id: 15, text: 'AUTORIZACIÓN DELEGACIÓN PRESIDENCIAL REGIONAL mediante resolución fundada (Art. 21 D.208)' },
+        { id: 16, text: 'COMUNICACIÓN A ORGANISMOS: Carabineros, Bomberos, Municipalidad, Servicio Salud (Art. 21 inciso final D.208)' }
     ]
 }
 };
