@@ -81,12 +81,9 @@ const requisitosData = {
         { id: 7, text: 'UNIFORME REGLAMENTARIO: Negro completo con leyenda "SEGURIDAD PRIVADA" en espalda (Art. 90 D.209)' },
         { id: 8, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
         { id: 9, text: 'JORNADAS LABORALES: Acuerdo conforme Código del Trabajo o autorización Dirección del Trabajo' },
-        { id: 10, text: 'ANÁLISIS DEL ENTORNO: Debilidades y amenazas de la instalación (Art. 92 N°3 D.209)' },
-        { id: 11, text: 'MEDIDAS DE SEGURIDAD: Individualizando persona a cargo de supervisión y su responsabilidad (Art. 92 N°4 D.209)' },
-        { id: 12, text: 'COMUNICACIONES: Forma de contacto con Subsecretaría y autoridad fiscalizadora (Art. 92 N°5 D.209)' },
-        { id: 13, text: 'ELEMENTOS DEFENSIVOS Y DE PROTECCIÓN: Individualización conforme Art. 92 N°2 y Art. 93 D.209' },
-        { id: 14, text: 'CHALECO ANTICORTE (si aplica): Certificación NIJ 0115.00 y seguro adicional 30 UF' },
-        { id: 15, text: 'ELEMENTOS NO LETALES (bastón, esposas): Autorización previa Subsecretaría (Art. 93 D.209)' }
+        { id: 10, text: 'ANÁLISIS DEL ENTORNO: Debilidades y amenazas de la instalación (Art. 92, 93 y 94 N°3 D.209)' },
+        { id: 11, text: 'ELEMENTOS DEFENSIVOS Y DE PROTECCIÓN (bastón, esposas): Individualización conforme Art. 92 N°2 y Art. 93 D.209' },
+        { id: 12, text: 'CHALECO ANTICORTE ((Art. 93, Decreto 209): Certificación NIJ 0115.00 y seguro adicional 30 UF' }
     ],
     'evento-deportivo': [
         { id: 1, text: 'SOLICITUD SIMPLE del club organizador a autoridad competente' },
@@ -107,21 +104,20 @@ const requisitosData = {
     ],
     'evento-masivo': [
         { id: 1, text: 'SOLICITUD FORMAL ante Delegación Presidencial Regional respectiva (Art. 17 D.208)' },
-        { id: 2, text: 'INSCRIPCIÓN EN SUB-REGISTRO DE EVENTOS MASIVOS de la Subsecretaría (si recinto habitual - Art. 13 D.208)' },
+        { id: 2, text: 'ACTA DESCRIPTIVA DEL EVENTO Acta (modelo aprobado por Subsecretaría) con tipo de evento, descripción detallada, fechas de montaje, desarrollo y desmontaje. (Art. 17 N°3, Decreto 208)' },
         { id: 3, text: 'PLAN DE SEGURIDAD DEL EVENTO conforme Art. 18 D.208 (incluye análisis riesgos, medidas seguridad, protocolos emergencia)' },
-        { id: 4, text: 'DESIGNACIÓN RESPONSABLE DE SEGURIDAD inscrito en sub-registro (Art. 14 N°5 y Art. 15 D.208)' },
-        { id: 5, text: 'LISTADO DE GUARDIAS DE SEGURIDAD con individualización y credenciales vigentes' },
-        { id: 6, text: 'CREDENCIAL VIGENTE O RESOLUCIÓN DE AUTORIZACIÓN de cada guardia (Art. 91 D.209)' },
-        { id: 7, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
-        { id: 8, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209)' },
-        { id: 9, text: 'SEGURO DE RESPONSABILIDAD CIVIL O CAUCIÓN para daños a asistentes/terceros/bienes (Art. 14 N°6 D.208)' },
-        { id: 10, text: 'UNIFORME REGLAMENTARIO guardias: Negro completo con "SEGURIDAD PRIVADA" (Art. 90 D.209)' },
-        { id: 11, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
-        { id: 12, text: 'PLAN DE EVACUACIÓN Y EMERGENCIA (Art. 18 N°8 D.208)' },
-        { id: 13, text: 'SERVICIOS DE SALUD Y EMERGENCIAS conforme normativa sectorial aplicable' },
-        { id: 14, text: 'ACCESOS Y SALIDAS adecuados para público estimado, con salidas preferenciales (Art. 14 N°4 D.208)' },
-        { id: 15, text: 'AUTORIZACIÓN DELEGACIÓN PRESIDENCIAL REGIONAL mediante resolución fundada (Art. 21 D.208)' },
-        { id: 16, text: 'COMUNICACIÓN A ORGANISMOS: Carabineros, Bomberos, Municipalidad, Servicio Salud (Art. 21 inciso final D.208)' }
+        { id: 4, text: 'LISTADO DEL PERSONAL DE SEGURIDAD PRIVADA Nómina actualizada del personal de guardias con sus certificados y credenciales vigentes emitidas por la Subsecretaría.' },
+        { id: 5, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF (Art. 88 D.209)' },
+        { id: 6, text: 'SEGURO DE RESPONSABILIDAD CIVIL O CAUCIÓN para daños a asistentes/terceros/bienes (Art. 14 N°6 D.208)' },
+        { id: 7, text: 'DESIGNACIÓN DEL RESPONSABLE DE SEGURIDAD Designación formal del responsable de seguridad del evento, inscrita en el sub-registro de eventos masivos de la Subsecretaría. (Art. 13 N°5, Decreto 208)' },
+        { id: 8, text: 'INFORMACIÓN DE ENTRADAS Y AFORO Forma de venta y cantidad de entradas (no puede superar aforo de seguridad). Número estimado de asistentes. Si hay venta anticipada, informar en entradas que evento está sujeto a autorizaciones. (Art. 17 N°4 y N°5, Decreto 208)' },
+        { id: 9, text: 'PERMISOS Y AUTORIZACIONES ESPECIALES Solicitudes de permisos, patentes y autorizaciones de otros organismos públicos según naturaleza del evento (municipalidad, patentes de alcohol, etc.). (Art. 17 N°8, Decreto 208)' },
+        { id: 10, text: 'MEDIDAS DE MITIGACIÓN DE IMPACTO VECINAL Medidas para mitigar impacto en vecinos y acciones de aseo y ornato del entorno, coordinadas con la municipalidad. (Art. 17 N°10, Decreto 208)' },
+        { id: 11, text: 'AUTORIZACIÓN EMPRESA DE SEGURIDAD VIGENTE Resolución de autorización vigente de la empresa de seguridad privada emitida por la Subsecretaría de Prevención del Delito. (Arts. 49-51, Decreto 209)' },
+        { id: 12, text: 'DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME Descripción detallada y fotografías del uniforme del personal de seguridad privada conforme Arts. 33 y 90 Decreto 209.' },
+        { id: 13, text: 'AUTORIZACIÓN DELEGACIÓN PRESIDENCIAL REGIONAL mediante resolución fundada (Art. 21 D.208)' },
+        { id: 14, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 15, text: 'COMUNICACIÓN A ORGANISMOS: Carabineros, Bomberos, Municipalidad, Servicio Salud (Art. 21 inciso final D.208)' }
     ]
 }
 };
