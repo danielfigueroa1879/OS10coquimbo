@@ -392,7 +392,8 @@ async function generarReporte(sectionId) {
     
     if (sectionId === 'plan-seguridad') {
         sectionTitle = 'PLAN DE SEGURIDAD';
-        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.) <br> Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
+        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.)',
+                            'Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'estudios-seguridad') {
         sectionTitle = 'ESTUDIOS DE SEGURIDAD';
         sectionSubtitle = 'Casa Matriz y Sucursales - (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.)<br> Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
