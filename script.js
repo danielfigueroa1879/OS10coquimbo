@@ -395,13 +395,13 @@ async function generarReporte(sectionId) {
         sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.)\nArt. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'estudios-seguridad') {
         sectionTitle = 'ESTUDIOS DE SEGURIDAD';
-        sectionSubtitle = 'Casa Matriz y Sucursales - (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.)<br> Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
+        sectionSubtitle = 'Casa Matriz y Sucursales - Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.)\nArt. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'servicentros') {
         sectionTitle = 'MEDIDAS DE SEG. SERVICENTROS';
-        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.) <br> Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
+        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.)\nArt. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'sobre-500uf') {
         sectionTitle = 'MEDIDAS SOBRE 500 UF';
-        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.)<br> Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
+        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.)\nArt. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'directiva-funcionamiento') {
         sectionTitle = 'DIRECTIVA DE FUNCIONAMIENTO';
         
