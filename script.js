@@ -392,16 +392,16 @@ async function generarReporte(sectionId) {
     
     if (sectionId === 'plan-seguridad') {
         sectionTitle = 'PLAN DE SEGURIDAD';
-        sectionSubtitle = 'Vigencia según estudio (2 años) - Decreto Exento N° 32 del 31.01.2024';
+        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.) Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'estudios-seguridad') {
         sectionTitle = 'ESTUDIOS DE SEGURIDAD';
-        sectionSubtitle = 'Casa Matriz y Sucursales - Vigencia según estudio (2 años) - Decreto Exento N° 32 del 31.01.2024';
+        sectionSubtitle = 'Casa Matriz y Sucursales - (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.) Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'servicentros') {
         sectionTitle = 'MEDIDAS DE SEG. SERVICENTROS';
-        sectionSubtitle = 'Vigencia 3 años - Ley 19.303 - Decreto Exento N° 32 Exento del 31.01.2024.';
+        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.) Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'sobre-500uf') {
         sectionTitle = 'MEDIDAS SOBRE 500 UF';
-        sectionSubtitle = 'Vigencia 3 años - Supermercados, joyerías, bancos y establecimientos que manejan valores superiores a 500 UF';
+        sectionSubtitle = 'Vigencia (4 años sin sistema de vigilancia o 2 años con sistema de vigilancia privada.) Art. 17 Ley 21.659, Decreto 209, Artículos 15 y 17';
     } else if (sectionId === 'directiva-funcionamiento') {
         sectionTitle = 'DIRECTIVA DE FUNCIONAMIENTO';
         
