@@ -94,7 +94,8 @@ const requisitosData = {
         { id: 15, text: 'PROPUESTA DEL PARTIDO presentada por el equipo organizador a autoridades' }
     ],
     'evento-masivo': [
-        { id: 1, text: 'SOLICITUD FORMAL ante Delegación Presidencial Regional respectiva (Art. 17 D.208)' },
+        { id: 1, text: 'SOLICITUD SIMPLE de la empresa de recursos humanos u organizador' },
+        { id: 1, text: 'SOLICITUD FORMAL Los organizadores o productoras de un evento masivodeberá emitir un pronunciamiento sobre la factibilidad del evento ante Delegación Presidencial Regional respectiva (Art. 16 D.208) Se exceptuarán menos de 3000 personas' },
         { id: 2, text: 'ACTA DESCRIPTIVA DEL EVENTO Acta (modelo aprobado por Subsecretaría) con tipo de evento, descripción detallada, fechas de montaje, desarrollo y desmontaje. (Art. 17 N°3, Decreto 208)' },
         { id: 3, text: 'PLAN DE SEGURIDAD DEL EVENTO conforme Art. 18 D.208 (incluye análisis riesgos, medidas seguridad, protocolos emergencia)' },
         { id: 4, text: 'LISTADO DEL PERSONAL DE SEGURIDAD PRIVADA Nómina actualizada del personal de guardias con sus certificados y credenciales vigentes emitidas por la Subsecretaría.' },
@@ -107,7 +108,7 @@ const requisitosData = {
         { id: 11, text: 'AUTORIZACIÓN EMPRESA DE SEGURIDAD VIGENTE Resolución de autorización vigente de la empresa de seguridad privada emitida por la Subsecretaría de Prevención del Delito. (Arts. 49-51, Decreto 209)' },
         { id: 12, text: 'DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME Descripción detallada y fotografías del uniforme del personal de seguridad privada conforme Arts. 33 y 90 Decreto 209.' },
         { id: 13, text: 'AUTORIZACIÓN DELEGACIÓN PRESIDENCIAL REGIONAL mediante resolución fundada (Art. 21 D.208)' },
-        { id: 14, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 14, text: 'CHALECO ANTICORTE ((Art. 93, Decreto 209): Certificación NIJ 0115.00 y seguro adicional 30 UF' },
         { id: 15, text: 'COMUNICACIÓN A ORGANISMOS: Carabineros, Bomberos, Municipalidad, Servicio Salud (Art. 21 inciso final D.208)' }
     ]
 }
