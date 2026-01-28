@@ -108,7 +108,7 @@ const requisitosData = {
         { id: 11, text: 'AUTORIZACIÓN EMPRESA DE SEGURIDAD VIGENTE Resolución de autorización vigente de la empresa de seguridad privada emitida por la Subsecretaría de Prevención del Delito. (Arts. 49-51, Decreto 209)' },
         { id: 12, text: 'DESCRIPCIÓN Y FOTOGRAFÍA DEL UNIFORME Descripción detallada y fotografías del uniforme del personal de seguridad privada conforme Arts. 33 y 90 Decreto 209.' },
         { id: 13, text: 'AUTORIZACIÓN DELEGACIÓN PRESIDENCIAL REGIONAL mediante resolución fundada (Art. 21 D.208)' },
-        { id: 14, text: 'CHALECO ANTICORTE ((Art. 93, Decreto 209): Certificación NIJ 0115.00 y seguro adicional 30 UF' },
+        { id: 14, text: 'CHALECO ANTICORTE PARA EL GG.SS. (Art. 93, Decreto 209): Certificación NIJ 0115.00 y seguro adicional 30 UF' },
         { id: 15, text: 'COMUNICACIÓN A ORGANISMOS: Carabineros, Bomberos, Municipalidad, Servicio Salud (Art. 21 inciso final D.208)' }
     ]
 }
