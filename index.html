@@ -22,6 +22,9 @@
 <body>
     <button class="btn-volver" onclick="volverAtras()" style="display: none;">← Volver Atrás</button>
 
+    <div id="autosave-indicator" class="autosave-indicator" aria-live="polite"></div>
+    <input type="file" id="importar-json-input" accept="application/json,.json" style="display:none;">
+
     <div class="container">
         <div class="header">
             <div class="header-content">
@@ -72,6 +75,39 @@
                         <p>Requisitos para directivas de instalaciones, eventos deportivos y otros eventos masivos</p>
                         <p>Art. 92 Relamento 209 de la Ley 21659</p>
                     </button>
+
+                    <button class="menu-card historial" onclick="mostrarSeccion('historial')">
+                        <h3>📁 Historial de Reportes</h3>
+                        <p>Retome borradores en curso, vuelva a descargar reportes generados, o exporte/importe respaldos en JSON</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sección Historial de Reportes -->
+            <div id="historial-section" class="form-section historial">
+                <div class="form-header historial">
+                    <h2>📁 HISTORIAL DE REPORTES</h2>
+                    <p>Reportes generados y borradores guardados en este equipo (almacenamiento local del navegador)</p>
+                </div>
+
+                <div class="historial-toolbar">
+                    <button class="btn btn-info" onclick="exportarTodoJSON()">💾 Exportar respaldo (.json)</button>
+                    <button class="btn btn-info" onclick="document.getElementById('importar-json-input').click()">📥 Importar respaldo (.json)</button>
+                    <button class="btn btn-danger" onclick="limpiarHistorial()">🗑️ Vaciar historial</button>
+                </div>
+
+                <h3 class="historial-subtitulo">📄 Reportes generados</h3>
+                <div id="historial-lista" class="historial-lista">
+                    <!-- Se llena dinámicamente -->
+                </div>
+
+                <h3 class="historial-subtitulo">📝 Borradores en curso</h3>
+                <div id="borradores-lista" class="historial-lista">
+                    <!-- Se llena dinámicamente -->
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="mostrarSeccion('inicio')">Volver al Menú</button>
                 </div>
             </div>
 

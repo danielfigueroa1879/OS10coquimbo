@@ -117,6 +117,7 @@ const requisitosData = {
 let currentSection = 'inicio'; // Variable para controlar la sección actual
 let selectedDirectivaType = null; // Para la sección de Directiva de Funcionamiento
 let sectionHistory = []; // Historial de navegación
+let restaurandoEstado = false; // Evita autoguardado mientras se restaura un estado
 
 // Función para mostrar la sección seleccionada y ocultar las demás
 function mostrarSeccion(sectionId) {
@@ -149,10 +150,21 @@ function mostrarSeccion(sectionId) {
             if (btnVolver) btnVolver.style.display = 'block';
         }
         
-        // Cargar requisitos para todas las secciones excepto inicio
-        if (sectionId !== 'inicio') {
+        // Cargar requisitos para todas las secciones excepto inicio e historial
+        if (sectionId !== 'inicio' && sectionId !== 'historial') {
             if (sectionId === 'directiva-funcionamiento') {
-                // Para directiva solo cargar si ya hay un tipo seleccionado
+                // Si no hay tipo seleccionado, intentar restaurar del borrador guardado
+                if (!selectedDirectivaType) {
+                    const tipoGuardado = STORAGE.ultimoTipoDirectivaGuardado();
+                    if (tipoGuardado) {
+                        selectedDirectivaType = tipoGuardado;
+                        const opt = document.querySelector(`.directiva-option[data-type="${tipoGuardado}"]`);
+                        if (opt) {
+                            document.querySelectorAll('.directiva-option').forEach(o => o.classList.remove('active'));
+                            opt.classList.add('active');
+                        }
+                    }
+                }
                 if (selectedDirectivaType) {
                     console.log(`Cargando directiva funcionamiento tipo: ${selectedDirectivaType}`);
                     cargarRequisitos(sectionId, selectedDirectivaType);
@@ -164,6 +176,12 @@ function mostrarSeccion(sectionId) {
                 console.log(`Cargando requisitos para: ${sectionId}`);
                 cargarRequisitos(sectionId);
             }
+        }
+
+        // Renderizar historial cuando entramos a esa sección
+        if (sectionId === 'historial') {
+            renderizarHistorial();
+            renderizarBorradores();
         }
     } else {
         console.error(`No se encontró la sección: ${sectionId}-section`);
@@ -242,8 +260,16 @@ function cargarRequisitos(sectionId, directivaType = null) {
         `;
         requisitosContainer.appendChild(requisitoItem);
     });
-    
+
     console.log(`Requisitos cargados exitosamente para: ${sectionId}`);
+
+    // Restaurar borrador guardado (si existe) para esta sección/tipo
+    const borrador = STORAGE.cargarBorrador(sectionId, directivaType);
+    if (borrador) {
+        restaurandoEstado = true;
+        STORAGE.aplicarEstado(sectionId, borrador);
+        restaurandoEstado = false;
+    }
 }
 
 // Función para marcar el estado de un requisito
@@ -262,6 +288,8 @@ function marcarEstado(button, estado) {
 
     // Añadir clase de estado al requisito-item
     requisitoItem.classList.add(estado);
+
+    if (!restaurandoEstado) autoguardar();
 }
 
 // Función para seleccionar el tipo de directiva
@@ -673,7 +701,30 @@ async function generarReporte(sectionId) {
         
         console.log(`PDF generado exitosamente: ${fileName}`);
         console.log(`Total de páginas: ${totalPages}`);
-        
+
+        // Guardar snapshot del reporte en el historial local
+        try {
+            const snapshot = STORAGE.capturarEstado(sectionId);
+            const cumpleCount = snapshot.requisitos.filter(r => r.estado === 'cumple').length;
+            const noCumpleCount = snapshot.requisitos.filter(r => r.estado === 'no-cumple').length;
+            const pendienteCount = snapshot.requisitos.filter(r => !r.estado).length;
+            STORAGE.guardarEnHistorial({
+                id: STORAGE.generarId(),
+                fecha: new Date().toISOString(),
+                sectionId,
+                titulo: sectionTitle,
+                tipoDirectiva: tipoDirectiva || null,
+                empresa: snapshot.campos.nombreEmpresa,
+                establecimiento: snapshot.campos.nombreEstablecimiento,
+                cumpleCount,
+                noCumpleCount,
+                pendienteCount,
+                snapshot
+            });
+        } catch (e) {
+            console.error('No se pudo guardar en el historial:', e);
+        }
+
     } catch (error) {
         console.error('Error al guardar el PDF:', error);
         alert('Error al generar el PDF. Por favor, intente de nuevo.');
@@ -701,12 +752,462 @@ window.addEventListener('afterprint', function() {
     }
 });
 
+// ============================================
+// SISTEMA DE ALMACENAMIENTO LOCAL
+// Autoguardado de borradores + historial de PDFs + export/import JSON
+// ============================================
+
+const STORAGE = {
+    historialKey: 'os10-historial',
+    ultimoTipoDirectivaKey: 'os10-ultimo-tipo-directiva',
+
+    // Mapeo de sección → sufijo de IDs en el DOM
+    _suffix: {
+        'plan-seguridad': 'plan',
+        'estudios-seguridad': 'estudios',
+        'servicentros': 'servicentros',
+        'sobre-500uf': '500uf',
+        'directiva-funcionamiento': 'directiva'
+    },
+
+    borradorKey(sectionId, directivaType) {
+        if (sectionId === 'directiva-funcionamiento' && directivaType) {
+            return `os10-borrador-${sectionId}-${directivaType}`;
+        }
+        return `os10-borrador-${sectionId}`;
+    },
+
+    getSectionFieldIds(sectionId) {
+        const s = this._suffix[sectionId];
+        if (!s) return null;
+        return {
+            nombreEmpresa: `nombre-empresa-${s}`,
+            rutEmpresa: `rut-empresa-${s}`,
+            nombreEstablecimiento: `nombre-establecimiento-${s}`,
+            direccion: `direccion-${s}`,
+            quienpresenta: `quien-presenta-${s}`,
+            funcionarioGrado: `funcionario-grado-${s}`
+        };
+    },
+
+    capturarEstado(sectionId) {
+        const ids = this.getSectionFieldIds(sectionId);
+        if (!ids) return null;
+        const v = id => (document.getElementById(id)?.value || '').trim();
+        const state = {
+            fecha: new Date().toISOString(),
+            sectionId,
+            directivaType: sectionId === 'directiva-funcionamiento' ? selectedDirectivaType : null,
+            campos: {
+                nombreEmpresa: v(ids.nombreEmpresa),
+                rutEmpresa: v(ids.rutEmpresa),
+                nombreEstablecimiento: v(ids.nombreEstablecimiento),
+                direccion: v(ids.direccion),
+                quienpresenta: v(ids.quienpresenta),
+                funcionarioGrado: v(ids.funcionarioGrado)
+            },
+            requisitos: []
+        };
+
+        const containerSel = sectionId === 'sobre-500uf'
+            ? '#requisitos-sobre-500uf .requisito-item'
+            : `#requisitos-${sectionId} .requisito-item`;
+        document.querySelectorAll(containerSel).forEach(item => {
+            state.requisitos.push({
+                id: item.getAttribute('data-numero'),
+                estado: item.classList.contains('cumple') ? 'cumple'
+                    : item.classList.contains('no-cumple') ? 'no-cumple' : null,
+                observacion: item.querySelector('.observacion-input')?.value || ''
+            });
+        });
+        return state;
+    },
+
+    aplicarEstado(sectionId, state) {
+        if (!state) return;
+        const ids = this.getSectionFieldIds(sectionId);
+        if (!ids) return;
+        const set = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.value = val; };
+        const c = state.campos || {};
+        set(ids.nombreEmpresa, c.nombreEmpresa);
+        set(ids.rutEmpresa, c.rutEmpresa);
+        set(ids.nombreEstablecimiento, c.nombreEstablecimiento);
+        set(ids.direccion, c.direccion);
+        set(ids.quienpresenta, c.quienpresenta);
+        set(ids.funcionarioGrado, c.funcionarioGrado);
+
+        const containerSel = sectionId === 'sobre-500uf'
+            ? '#requisitos-sobre-500uf .requisito-item'
+            : `#requisitos-${sectionId} .requisito-item`;
+        (state.requisitos || []).forEach(rq => {
+            const item = document.querySelector(`${containerSel}[data-numero="${rq.id}"]`);
+            if (!item) return;
+            if (rq.estado === 'cumple') {
+                const btn = item.querySelector('.btn-cumple');
+                if (btn) marcarEstado(btn, 'cumple');
+            } else if (rq.estado === 'no-cumple') {
+                const btn = item.querySelector('.btn-no-cumple');
+                if (btn) marcarEstado(btn, 'no-cumple');
+            }
+            const obs = item.querySelector('.observacion-input');
+            if (obs && rq.observacion != null) obs.value = rq.observacion;
+        });
+    },
+
+    guardarBorrador(sectionId) {
+        if (!sectionId || sectionId === 'inicio' || sectionId === 'historial') return;
+        const directivaType = sectionId === 'directiva-funcionamiento' ? selectedDirectivaType : null;
+        if (sectionId === 'directiva-funcionamiento' && !directivaType) return;
+        const state = this.capturarEstado(sectionId);
+        if (!state) return;
+        try {
+            localStorage.setItem(this.borradorKey(sectionId, directivaType), JSON.stringify(state));
+            if (directivaType) localStorage.setItem(this.ultimoTipoDirectivaKey, directivaType);
+            mostrarIndicadorAutoguardado();
+        } catch (e) {
+            console.error('Error guardando borrador:', e);
+        }
+    },
+
+    cargarBorrador(sectionId, directivaType) {
+        try {
+            const raw = localStorage.getItem(this.borradorKey(sectionId, directivaType));
+            if (!raw) return null;
+            return JSON.parse(raw);
+        } catch { return null; }
+    },
+
+    borrarBorrador(sectionId, directivaType) {
+        localStorage.removeItem(this.borradorKey(sectionId, directivaType));
+    },
+
+    listarBorradores() {
+        const drafts = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (!key || !key.startsWith('os10-borrador-')) continue;
+            try {
+                const state = JSON.parse(localStorage.getItem(key));
+                drafts.push({ key, state });
+            } catch {}
+        }
+        drafts.sort((a, b) => (b.state.fecha || '').localeCompare(a.state.fecha || ''));
+        return drafts;
+    },
+
+    ultimoTipoDirectivaGuardado() {
+        return localStorage.getItem(this.ultimoTipoDirectivaKey);
+    },
+
+    obtenerHistorial() {
+        try {
+            return JSON.parse(localStorage.getItem(this.historialKey) || '[]');
+        } catch { return []; }
+    },
+
+    guardarEnHistorial(entry) {
+        const historial = this.obtenerHistorial();
+        historial.unshift(entry);
+        if (historial.length > 200) historial.length = 200;
+        try {
+            localStorage.setItem(this.historialKey, JSON.stringify(historial));
+        } catch (e) {
+            alert('No hay espacio suficiente en el navegador para guardar más reportes. Elimine reportes antiguos desde el Historial.');
+        }
+    },
+
+    eliminarDeHistorial(id) {
+        const historial = this.obtenerHistorial().filter(h => h.id !== id);
+        localStorage.setItem(this.historialKey, JSON.stringify(historial));
+    },
+
+    obtenerDelHistorial(id) {
+        return this.obtenerHistorial().find(h => h.id === id) || null;
+    },
+
+    vaciarHistorial() {
+        localStorage.removeItem(this.historialKey);
+    },
+
+    generarId() {
+        return 'r-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+    }
+};
+
+// ---------- Autoguardado ----------
+let autoSaveTimer = null;
+function autoguardar() {
+    if (restaurandoEstado) return;
+    if (!currentSection || currentSection === 'inicio' || currentSection === 'historial') return;
+    if (autoSaveTimer) clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(() => STORAGE.guardarBorrador(currentSection), 400);
+}
+
+function mostrarIndicadorAutoguardado() {
+    const el = document.getElementById('autosave-indicator');
+    if (!el) return;
+    el.textContent = '✔ Guardado ' + new Date().toLocaleTimeString('es-CL');
+    el.classList.add('visible');
+    clearTimeout(mostrarIndicadorAutoguardado._t);
+    mostrarIndicadorAutoguardado._t = setTimeout(() => {
+        el.classList.remove('visible');
+    }, 1800);
+}
+
+// ---------- Utilidades UI ----------
+function escapeHTML(str) {
+    if (str == null) return '';
+    return String(str).replace(/[&<>"']/g, s => (
+        { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[s]
+    ));
+}
+
+function nombreLegibleSeccion(sectionId, tipoDirectiva) {
+    const map = {
+        'plan-seguridad': 'Plan de Seguridad',
+        'estudios-seguridad': 'Estudios de Seguridad',
+        'servicentros': 'Servicentros',
+        'sobre-500uf': 'Medidas sobre 500 UF',
+        'directiva-funcionamiento': 'Directiva de Funcionamiento'
+    };
+    const base = map[sectionId] || sectionId;
+    if (sectionId === 'directiva-funcionamiento' && tipoDirectiva) {
+        const t = { 'instalacion': 'Instalación', 'evento-deportivo': 'Evento Deportivo', 'evento-masivo': 'Evento Masivo' };
+        return `${base} — ${t[tipoDirectiva] || tipoDirectiva}`;
+    }
+    return base;
+}
+
+// ---------- Renderizado del historial ----------
+function renderizarHistorial() {
+    const container = document.getElementById('historial-lista');
+    if (!container) return;
+    const historial = STORAGE.obtenerHistorial();
+
+    if (historial.length === 0) {
+        container.innerHTML = '<div class="historial-vacio">Aún no ha generado ningún PDF. Cada vez que genere un reporte, se guardará aquí automáticamente.</div>';
+        return;
+    }
+
+    container.innerHTML = historial.map(h => {
+        const fecha = new Date(h.fecha).toLocaleString('es-CL');
+        const nombreSec = nombreLegibleSeccion(h.sectionId, h.snapshot?.directivaType);
+        return `
+            <div class="historial-item reporte">
+                <div class="historial-info">
+                    <h4>${escapeHTML(nombreSec)}</h4>
+                    <p><strong>Empresa:</strong> ${escapeHTML(h.empresa || '(sin especificar)')}</p>
+                    <p><strong>Establecimiento:</strong> ${escapeHTML(h.establecimiento || '(sin especificar)')}</p>
+                    <p><strong>Generado:</strong> ${escapeHTML(fecha)}</p>
+                    <p>
+                        <span class="historial-metrica cumple">✔ ${h.cumpleCount} cumple</span>
+                        <span class="historial-metrica nocumple">✖ ${h.noCumpleCount} no cumple</span>
+                        <span class="historial-metrica pendiente">• ${h.pendienteCount} pendiente</span>
+                    </p>
+                </div>
+                <div class="historial-acciones">
+                    <button class="btn btn-success" onclick="descargarHistorialPDF('${h.id}')">📄 Regenerar PDF</button>
+                    <button class="btn btn-info" onclick="cargarHistorialEnFormulario('${h.id}')">📝 Abrir en formulario</button>
+                    <button class="btn btn-info" onclick="exportarHistorialItemJSON('${h.id}')">💾 Exportar JSON</button>
+                    <button class="btn btn-danger" onclick="eliminarHistorial('${h.id}')">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderizarBorradores() {
+    const container = document.getElementById('borradores-lista');
+    if (!container) return;
+    const drafts = STORAGE.listarBorradores();
+
+    if (drafts.length === 0) {
+        container.innerHTML = '<div class="historial-vacio">No hay borradores en curso. Al comenzar a llenar un formulario se guardará automáticamente aquí.</div>';
+        return;
+    }
+
+    container.innerHTML = drafts.map(d => {
+        const state = d.state;
+        const fecha = state.fecha ? new Date(state.fecha).toLocaleString('es-CL') : '';
+        const nombreSec = nombreLegibleSeccion(state.sectionId, state.directivaType);
+        const empresa = state.campos?.nombreEmpresa || '(sin especificar)';
+        const establecimiento = state.campos?.nombreEstablecimiento || '(sin especificar)';
+        const cumple = (state.requisitos || []).filter(r => r.estado === 'cumple').length;
+        const nocumple = (state.requisitos || []).filter(r => r.estado === 'no-cumple').length;
+        const pend = (state.requisitos || []).filter(r => !r.estado).length;
+        return `
+            <div class="historial-item borrador">
+                <div class="historial-info">
+                    <h4>${escapeHTML(nombreSec)}</h4>
+                    <p><strong>Empresa:</strong> ${escapeHTML(empresa)}</p>
+                    <p><strong>Establecimiento:</strong> ${escapeHTML(establecimiento)}</p>
+                    <p><strong>Última edición:</strong> ${escapeHTML(fecha)}</p>
+                    <p>
+                        <span class="historial-metrica cumple">✔ ${cumple}</span>
+                        <span class="historial-metrica nocumple">✖ ${nocumple}</span>
+                        <span class="historial-metrica pendiente">• ${pend}</span>
+                    </p>
+                </div>
+                <div class="historial-acciones">
+                    <button class="btn btn-success" onclick="continuarBorrador('${escapeHTML(state.sectionId)}', '${escapeHTML(state.directivaType || '')}')">▶ Continuar edición</button>
+                    <button class="btn btn-danger" onclick="eliminarBorrador('${escapeHTML(d.key)}')">🗑️ Descartar borrador</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ---------- Acciones del historial ----------
+function descargarHistorialPDF(id) {
+    const entry = STORAGE.obtenerDelHistorial(id);
+    if (!entry) return;
+    _abrirEntradaEnFormulario(entry, () => generarReporte(entry.sectionId));
+}
+
+function cargarHistorialEnFormulario(id) {
+    const entry = STORAGE.obtenerDelHistorial(id);
+    if (!entry) return;
+    _abrirEntradaEnFormulario(entry);
+}
+
+function _abrirEntradaEnFormulario(entry, luego) {
+    const { sectionId, snapshot } = entry;
+    if (sectionId === 'directiva-funcionamiento' && snapshot?.directivaType) {
+        selectedDirectivaType = snapshot.directivaType;
+        localStorage.setItem(STORAGE.ultimoTipoDirectivaKey, snapshot.directivaType);
+    }
+    mostrarSeccion(sectionId);
+    // Aplicar snapshot tras el render (mostrarSeccion → cargarRequisitos ya restauró borrador; sobrescribimos)
+    setTimeout(() => {
+        restaurandoEstado = true;
+        STORAGE.aplicarEstado(sectionId, snapshot);
+        restaurandoEstado = false;
+        STORAGE.guardarBorrador(sectionId); // sincronizar borrador con lo cargado
+        if (typeof luego === 'function') setTimeout(luego, 100);
+    }, 60);
+}
+
+function eliminarHistorial(id) {
+    if (!confirm('¿Eliminar este reporte del historial? Esta acción no se puede deshacer.')) return;
+    STORAGE.eliminarDeHistorial(id);
+    renderizarHistorial();
+}
+
+function limpiarHistorial() {
+    if (!confirm('¿Vaciar TODO el historial de reportes generados? Los borradores en curso no se tocarán.')) return;
+    STORAGE.vaciarHistorial();
+    renderizarHistorial();
+}
+
+function continuarBorrador(sectionId, directivaType) {
+    if (sectionId === 'directiva-funcionamiento' && directivaType) {
+        selectedDirectivaType = directivaType;
+        localStorage.setItem(STORAGE.ultimoTipoDirectivaKey, directivaType);
+    } else if (sectionId !== 'directiva-funcionamiento') {
+        selectedDirectivaType = null;
+    }
+    mostrarSeccion(sectionId);
+}
+
+function eliminarBorrador(key) {
+    if (!confirm('¿Descartar este borrador? Se perderán los datos guardados.')) return;
+    localStorage.removeItem(key);
+    renderizarBorradores();
+}
+
+// ---------- Export / Import JSON ----------
+function _descargarJSON(objeto, nombreArchivo) {
+    const blob = new Blob([JSON.stringify(objeto, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nombreArchivo;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function exportarTodoJSON() {
+    const backup = {
+        version: 1,
+        exportadoEn: new Date().toISOString(),
+        historial: STORAGE.obtenerHistorial(),
+        borradores: STORAGE.listarBorradores()
+    };
+    const fecha = new Date().toISOString().split('T')[0];
+    _descargarJSON(backup, `os10-respaldo-${fecha}.json`);
+}
+
+function exportarHistorialItemJSON(id) {
+    const entry = STORAGE.obtenerDelHistorial(id);
+    if (!entry) return;
+    const fecha = new Date(entry.fecha).toISOString().split('T')[0];
+    const empresa = (entry.empresa || 'reporte').replace(/[^\w\-]+/g, '_').slice(0, 40);
+    _descargarJSON(entry, `os10-reporte-${empresa}-${fecha}.json`);
+}
+
+function importarRespaldoDesdeArchivo(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const data = JSON.parse(e.target.result);
+            let importadosH = 0, importadosB = 0;
+
+            // Reporte individual (con id + snapshot)
+            if (data && data.id && data.snapshot) {
+                const existente = STORAGE.obtenerHistorial();
+                if (!existente.some(h => h.id === data.id)) {
+                    STORAGE.guardarEnHistorial(data);
+                    importadosH = 1;
+                }
+            }
+            // Respaldo completo
+            if (data && Array.isArray(data.historial)) {
+                const existente = STORAGE.obtenerHistorial();
+                const ids = new Set(existente.map(h => h.id));
+                const merged = existente.slice();
+                data.historial.forEach(h => {
+                    if (h && h.id && !ids.has(h.id)) {
+                        merged.push(h);
+                        importadosH++;
+                    }
+                });
+                merged.sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''));
+                if (merged.length > 200) merged.length = 200;
+                localStorage.setItem(STORAGE.historialKey, JSON.stringify(merged));
+            }
+            if (data && Array.isArray(data.borradores)) {
+                data.borradores.forEach(d => {
+                    if (d && d.key && d.state) {
+                        localStorage.setItem(d.key, JSON.stringify(d.state));
+                        importadosB++;
+                    }
+                });
+            }
+
+            alert(`Importación completa.\nReportes agregados: ${importadosH}\nBorradores agregados: ${importadosB}`);
+            renderizarHistorial();
+            renderizarBorradores();
+        } catch (err) {
+            console.error(err);
+            alert('El archivo no es un JSON válido de este sistema.');
+        }
+    };
+    reader.readAsText(file);
+}
+
+// ---------- Autoguardado por eventos delegados ----------
+document.addEventListener('input', () => autoguardar());
+document.addEventListener('change', () => autoguardar());
+
 // Cargar los requisitos iniciales cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
     // Establecer clase inicial del body
     document.body.className = 'inicio';
     mostrarSeccion('inicio');
-    
+
     const logoImg = document.querySelector('.logo-imagen');
     if (logoImg) {
         logoImg.onerror = function() {
@@ -718,12 +1219,22 @@ document.addEventListener('DOMContentLoaded', () => {
             fallback.style.color = '#2d5016';
             this.parentNode.appendChild(fallback);
         };
-        
+
         logoImg.onload = function() {
             console.log('Logo cargado exitosamente');
         };
     }
-    
+
+    // Hook del input file para importar respaldo JSON
+    const importInput = document.getElementById('importar-json-input');
+    if (importInput) {
+        importInput.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            importarRespaldoDesdeArchivo(file);
+            e.target.value = '';
+        });
+    }
+
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape' && currentSection !== 'inicio') {
             volverAtras();
