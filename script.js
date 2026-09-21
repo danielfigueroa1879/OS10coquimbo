@@ -66,15 +66,13 @@ const requisitosData = {
         { id: 1, text: 'SOLICITUD SIMPLE ante Subsecretaría de Prevención del Delito (De la entidad empleadora o empresa RR.HH.)' },
         { id: 2, text: 'PRESENTACIÓN CON 15 DÍAS DE ANTICIPACIÓN al inicio del servicio (Art. 92 inciso 6° D.209)' },
         { id: 3, text: 'LISTADO DE LOS GG.SS. con individualización completa (Art. 92 N°2 D.209)' },
-        { id: 4, text: 'CREDENCIAL VIGENTE O RESOLUCIÓN DE AUTORIZACIÓN de cada guardia emitida por Subsecretaría (Art. 91 D.209)' },
-        { id: 5, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
-        { id: 6, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF. VV.PP. 250 UF (Art. 88 D.209 - Art. 29 Ley 21.659)' },
-        { id: 7, text: 'UNIFORME REGLAMENTARIO: Negro completo con leyenda "SEGURIDAD PRIVADA" en espalda (Art. 90 D.209)' },
-        { id: 8, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
-        { id: 9, text: 'JORNADAS LABORALES: Acuerdo conforme Código del Trabajo o autorización Dirección del Trabajo' },
-        { id: 10, text: 'ANÁLISIS DEL ENTORNO: Debilidades y amenazas de la instalación (Art. 92, 93 y 94 N°3 D.209)' },
-        { id: 11, text: 'ELEMENTOS DEFENSIVOS Y DE PROTECCIÓN (bastón, esposas): Individualización conforme Art. 92 N°2 y Art. 93 D.209' },
-        { id: 12, text: 'CHALECO ANTICORTE ((Art. 93, Decreto 209): Certificación NIJ 0115.00 y seguro adicional 30 UF' }
+        { id: 4, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
+        { id: 5, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF. VV.PP. 250 UF (Art. 88 D.209 - Art. 29 Ley 21.659)' },
+        { id: 6, text: 'UNIFORME REGLAMENTARIO: Negro completo con leyenda "SEGURIDAD PRIVADA" en espalda (Art. 90 D.209)' },
+        { id: 7, text: 'AUTORIZACIÓN EMPRESA RR.HH. VIGENTE emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 8, text: 'ANÁLISIS DEL ENTORNO: Debilidades y amenazas de la instalación (Art. 92, 93 y 94 N°3 D.209)' },
+        { id: 9, text: 'ELEMENTOS DEFENSIVOS Y DE PROTECCIÓN (bastón, esposas): Individualización conforme Art. 92 N°2 y Art. 93 D.209' },
+        { id: 10, text: 'CHALECO ANTICORTE ((Art. 93, Decreto 209): Certificación NIJ 0115.00 y seguro adicional 30 UF' }
     ],
     'evento-deportivo': [
         { id: 1, text: 'SOLICITUD SIMPLE del club organizador a autoridad competente' },
