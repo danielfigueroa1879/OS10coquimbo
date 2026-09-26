@@ -65,7 +65,7 @@ const requisitosData = {
     'instalacion': [
         { id: 1, text: 'SOLICITUD SIMPLE ante Subsecretaría de Prevención del Delito (De la entidad empleadora o empresa RR.HH.)' },
         { id: 2, text: 'PRESENTACIÓN CON 15 DÍAS DE ANTICIPACIÓN al inicio del servicio (Art. 92 inciso 6° D.209)' },
-        { id: 3, text: 'LISTADO DE LOS GG.SS. con <br> individualización completa <br> (Art. 50 N°1 y 92 inc 2 D.209)' },
+        { id: 3, text: 'LISTADO DE LOS GG.SS. con individualización completa <br> (Art. 50 N°1 y 92 inc 2 D.209)' },
         { id: 4, text: 'CURSO DE FORMACIÓN: Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
         { id: 5, text: 'SEGURO DE VIDA GUARDIA DE SEGURIDAD: Mínimo 132 UF. VV.PP. 250 UF (Art. 88 D.209 - Art. 29 Ley 21.659)' },
         { id: 6, text: 'UNIFORME REGLAMENTARIO: Negro completo con leyenda "SEGURIDAD PRIVADA" en espalda (Art. 90 D.209)' },
