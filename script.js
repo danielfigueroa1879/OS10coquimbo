@@ -63,7 +63,7 @@ const requisitosData = {
     ],
     'directiva-funcionamiento': {
     'instalacion': [
-        { id: 1, text: '<strong> SOLICITUD SIMPLE: </strong><br> De la entidad empleadora o empresa RR.HH.)' },
+        { id: 1, text: '<strong> SOLICITUD SIMPLE: </strong><br> De la entidad empleadora o empresa RR.HH.' },
         { id: 2, text: '<strong>PRESENTACIÓN CON 15 DÍAS DE ANTICIPACIÓN: </strong><br> Al inicio del servicio (Art. 92 inciso 6° D.209)' },
         { id: 3, text: '<strong>LISTADO DE LOS GG.SS.:</strong> <br> Con individualización completa <br> (Art. 50 N° 1 y 92 inc. 2 D.209)' },
         { id: 4, text: '<strong>CURSO DE FORMACIÓN:</strong> <br> Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
