@@ -63,16 +63,16 @@ const requisitosData = {
     ],
     'directiva-funcionamiento': {
     'instalacion': [
-        { id: 1, text: '<strong> SOLICITUD SIMPLE </strong> ante Subsecretaría de Prevención del Delito (De la entidad empleadora o empresa RR.HH.)' },
-        { id: 2, text: '<strong>PRESENTACIÓN CON 15 DÍAS DE ANTICIPACIÓN</strong> al inicio del servicio (Art. 92 inciso 6° D.209)' },
-        { id: 3, text: '<strong>LISTADO DE LOS GG.SS.</strong> con individualización completa <br> (Art. 50 N° 1 y 92 inc. 2 D.209)' },
-        { id: 4, text: '<strong>CURSO DE FORMACIÓN:</strong> Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
-        { id: 5, text: '<strong>SEGURO DE VIDA GUARDIA DE SEGURIDAD:</strong> Mínimo 132 UF. VV.PP. 250 UF (Art. 88 D.209 - Art. 29 Ley 21.659)' },
-        { id: 6, text: '<strong>UNIFORME REGLAMENTARIO:</strong> Negro completo con leyenda "SEGURIDAD PRIVADA" en espalda (Art. 90 D.209)' },
-        { id: 7, text: '<strong>AUTORIZACIÓN EMPRESA RR.HH. VIGENTE</strong> emitida por Subsecretaría (Art. 49 y 51 D.209)' },
-        { id: 8, text: '<strong>ANÁLISIS DEL ENTORNO:</strong> Debilidades y amenazas de la instalación (Art. 92, 93 y 94 N°3 D.209)' },
-        { id: 9, text: '<strong>ELEMENTOS DEFENSIVOS Y DE PROTECCIÓN (bastón, esposas):</strong> Individualización conforme Art. 92 N°2 y Art. 93 D.209' },
-        { id: 10, text: '<strong>CHALECO ANTICORTE</strong> (Art. 93, Decreto 209): Certificación NIJ 0115.00 y seguro adicional 30 UF' }
+        { id: 1, text: '<strong> SOLICITUD SIMPLE: </strong><br> De la entidad empleadora o empresa RR.HH.)' },
+        { id: 2, text: '<strong>PRESENTACIÓN CON 15 DÍAS DE ANTICIPACIÓN: </strong><br> al inicio del servicio (Art. 92 inciso 6° D.209)' },
+        { id: 3, text: '<strong>LISTADO DE LOS GG.SS.:</strong> <br> Con individualización completa <br> (Art. 50 N° 1 y 92 inc. 2 D.209)' },
+        { id: 4, text: '<strong>CURSO DE FORMACIÓN:</strong> <br> Mínimo 90 horas pedagógicas aprobado (Art. 89 N°1 D.209)' },
+        { id: 5, text: '<strong>SEGURO DE VIDA GUARDIA DE SEGURIDAD:</strong><br> Mínimo 132 UF. VV.PP. 250 UF (Art. 88 D.209 - Art. 29 Ley 21.659)' },
+        { id: 6, text: '<strong>UNIFORME REGLAMENTARIO:</strong><br> Negro completo con leyenda "SEGURIDAD PRIVADA" en espalda (Art. 90 D.209)' },
+        { id: 7, text: '<strong>AUTORIZACIÓN EMPRESA RR.HH. VIGENTE:</strong> <br>emitida por Subsecretaría (Art. 49 y 51 D.209)' },
+        { id: 8, text: '<strong>ANÁLISIS DEL ENTORNO:</strong> <br> Debilidades y amenazas de la instalación (Art. 92, 93 y 94 N°3 D.209)' },
+        { id: 9, text: '<strong>ELEMENTOS DEFENSIVOS Y DE PROTECCIÓN (bastón, esposas):</strong> <br> Individualización conforme Art. 92 N°2 y Art. 93 D.209' },
+        { id: 10, text: '<strong>CHALECO ANTICORTE</strong> (Art. 93, Decreto 209): <br> Certificación NIJ 0115.00 y seguro adicional 30 UF' }
     ],
     'evento-deportivo': [
         { id: 1, text: 'SOLICITUD SIMPLE del club organizador a autoridad competente' },
